@@ -1,0 +1,149 @@
+import React, { useEffect, useState } from 'react';
+import { Button, Table } from 'react-bootstrap';
+import { Translate, getSortState } from 'react-jhipster';
+import { Link, useLocation, useNavigate } from 'react-router';
+
+import { faSort, faSortDown, faSortUp } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import { useAppDispatch, useAppSelector } from 'app/config/store';
+import { overrideSortStateWithQueryParams } from 'app/shared/util/entity-utils';
+import { ASC, DESC } from 'app/shared/util/pagination.constants';
+
+import { getEntities } from './rh.reducer';
+
+export const RH = () => {
+  const dispatch = useAppDispatch();
+
+  const pageLocation = useLocation();
+  const navigate = useNavigate();
+
+  const [sortState, setSortState] = useState(overrideSortStateWithQueryParams(getSortState(pageLocation, 'id'), pageLocation.search));
+
+  const rHList = useAppSelector(state => state.rH.entities);
+  const loading = useAppSelector(state => state.rH.loading);
+
+  const getAllEntities = () => {
+    dispatch(
+      getEntities({
+        sort: `${sortState.sort},${sortState.order}`,
+      }),
+    );
+  };
+
+  const sortEntities = () => {
+    getAllEntities();
+    const endURL = `?sort=${sortState.sort},${sortState.order}`;
+    if (pageLocation.search !== endURL) {
+      navigate(`${pageLocation.pathname}${endURL}`);
+    }
+  };
+
+  useEffect(() => {
+    sortEntities();
+  }, [sortState.order, sortState.sort]);
+
+  const sort = p => () => {
+    setSortState({
+      ...sortState,
+      order: sortState.order === ASC ? DESC : ASC,
+      sort: p,
+    });
+  };
+
+  const handleSyncList = () => {
+    sortEntities();
+  };
+
+  const getSortIconByFieldName = (fieldName: string) => {
+    const sortFieldName = sortState.sort;
+    const order = sortState.order;
+    if (sortFieldName !== fieldName) {
+      return faSort;
+    }
+    return order === ASC ? faSortUp : faSortDown;
+  };
+
+  return (
+    <div>
+      <h2 id="rh-heading" data-cy="RHHeading">
+        <Translate contentKey="checkprofileApp.rH.home.title">RHS</Translate>
+        <div className="d-flex justify-content-end">
+          <Button className="me-2" variant="info" onClick={handleSyncList} disabled={loading}>
+            <FontAwesomeIcon icon="sync" spin={loading} />{' '}
+            <Translate contentKey="checkprofileApp.rH.home.refreshListLabel">Refresh List</Translate>
+          </Button>
+          <Link to="/rh/new" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
+            <FontAwesomeIcon icon="plus" />
+            &nbsp;
+            <Translate contentKey="checkprofileApp.rH.home.createLabel">Create new RH</Translate>
+          </Link>
+        </div>
+      </h2>
+      <div className="table-responsive">
+        {rHList?.length > 0 ? (
+          <Table responsive>
+            <thead>
+              <tr>
+                <th className="hand" onClick={sort('id')}>
+                  <Translate contentKey="checkprofileApp.rH.id">ID</Translate> <FontAwesomeIcon icon={getSortIconByFieldName('id')} />
+                </th>
+                <th>
+                  <Translate contentKey="checkprofileApp.rH.user">User</Translate> <FontAwesomeIcon icon="sort" />
+                </th>
+                <th />
+              </tr>
+            </thead>
+            <tbody>
+              {rHList.map(rH => (
+                <tr key={`entity-${rH.id}`} data-cy="entityTable">
+                  <td>
+                    <Button as={Link as any} to={`/rh/${rH.id}`} variant="link" size="sm">
+                      {rH.id}
+                    </Button>
+                  </td>
+                  <td>{rH.user ? rH.user.login : ''}</td>
+                  <td className="text-end">
+                    <div className="btn-group flex-btn-group-container">
+                      <Button as={Link as any} to={`/rh/${rH.id}`} variant="info" size="sm" data-cy="entityDetailsButton">
+                        <FontAwesomeIcon icon="eye" />{' '}
+                        <span className="d-none d-md-inline">
+                          <Translate contentKey="entity.action.view">View</Translate>
+                        </span>
+                      </Button>
+                      <Button as={Link as any} to={`/rh/${rH.id}/edit`} variant="primary" size="sm" data-cy="entityEditButton">
+                        <FontAwesomeIcon icon="pencil-alt" />{' '}
+                        <span className="d-none d-md-inline">
+                          <Translate contentKey="entity.action.edit">Edit</Translate>
+                        </span>
+                      </Button>
+                      <Button
+                        onClick={() => (window.location.href = `/rh/${rH.id}/delete`)}
+                        variant="danger"
+                        size="sm"
+                        data-cy="entityDeleteButton"
+                      >
+                        <FontAwesomeIcon icon="trash" />{' '}
+                        <span className="d-none d-md-inline">
+                          <Translate contentKey="entity.action.delete">Delete</Translate>
+                        </span>
+                      </Button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        ) : (
+          !loading && (
+            <div className="alert alert-warning">
+              <Translate contentKey="checkprofileApp.rH.home.notFound">No RHS found</Translate>
+            </div>
+          )
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default RH;

@@ -1,0 +1,183 @@
+
+
+enum Difficulte {
+  FACILE,
+  MOYEN,
+  DIFFICILE
+}
+
+enum Niveau {
+  JUNIOR,
+  SENIOR,
+  EXPERT
+}
+
+enum Mention {
+  EXCELLENT,
+  BIEN,
+  ASSEZ_BIEN,
+  PASSABLE,
+  INSUFFISANT
+}
+
+// ==============================
+// ENTITIES
+// ==============================
+
+entity Manager {
+
+}
+
+entity Expert {
+
+}
+
+entity RH {
+
+}
+
+entity Employe {
+  nom String required
+  dateRecrutement Instant required
+
+}
+
+
+
+entity Poste {
+  nom String required
+  niveau Niveau required
+}
+
+entity Competence {
+  nom String required
+
+}
+
+entity CompetenceRequise {
+  obligatoire Boolean required
+}
+
+entity Epreuve {
+  titre String required
+  enonce String required
+  difficulte Difficulte required
+  duree Integer required
+  genereParIA Boolean required
+  nbInt Integer
+  publie Boolean required
+}
+
+entity Question {
+  enonce String required
+  reponseTexte String
+  points Integer required
+  explication String
+}
+
+entity Evaluation {
+  dateDebut Instant required
+  dateFin Instant
+  conforme Boolean
+}
+
+entity SessionTest {
+  scoreObtenu Float
+  dateDebut Instant required
+}
+
+entity Resultat {
+  scoreTotal Float required
+  scoreMax Float required
+  pourcentage Float required
+  mention Mention required
+}
+
+entity ReponseCandidat {
+  estCorrecte Boolean required
+  dateReponse Instant required
+}
+
+// ==============================
+// RELATIONSHIPS WITH JHIPSTER USER
+// ==============================
+
+// Lier chaque profil métier au User JHipster (OneToOne)
+relationship OneToOne {
+  Manager{user(login) required} to User with builtInEntity
+  Expert{user(login) required}  to User with builtInEntity
+  RH{user(login) required}      to User with builtInEntity
+}
+
+// Manager -> Poste
+relationship OneToMany {
+  Manager{postes} to Poste{manager}
+}
+
+// Poste -> Employe
+relationship OneToMany {
+  Poste{employes} to Employe{poste}
+}
+
+// Poste -> CompetenceRequise
+relationship OneToMany {
+  Poste{competencesRequises} to CompetenceRequise{poste}
+}
+
+// CompetenceRequise -> Competence
+relationship ManyToOne {
+  CompetenceRequise{competence} to Competence
+}
+
+// Competence -> Epreuve
+relationship OneToMany {
+  Competence{epreuves} to Epreuve{competence}
+}
+
+// Competence -> Expert
+relationship ManyToMany {
+  Competence{experts} to Expert{competences}
+}
+
+// Epreuve -> Question
+relationship OneToMany {
+  Epreuve{questions} to Question{epreuve}
+}
+
+// Employe -> Evaluation
+relationship OneToMany {
+  Employe{evaluations} to Evaluation{employe}
+}
+
+// Evaluation -> SessionTest
+relationship OneToMany {
+  Evaluation{sessions} to SessionTest{evaluation}
+}
+
+// SessionTest -> Resultat
+relationship OneToOne {
+  SessionTest{resultat} to Resultat{session}
+}
+
+// SessionTest -> ReponseCandidat
+relationship OneToMany {
+  SessionTest{reponses} to ReponseCandidat{session}
+}
+
+// ReponseCandidat -> Question
+relationship ManyToOne {
+  ReponseCandidat{question} to Question
+}
+
+// SessionTest -> Epreuve
+relationship OneToMany {
+  Epreuve{sessionTest} to SessionTest{epreuves}
+}
+
+// ==============================
+// OPTIONS
+// ==============================
+paginate Employe, Evaluation, SessionTest, Resultat, Epreuve, Question with pagination
+dto * with mapstruct
+service * with serviceImpl
+filter Employe, Epreuve, SessionTest, Competence

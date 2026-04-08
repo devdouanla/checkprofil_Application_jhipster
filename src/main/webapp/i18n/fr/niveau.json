@@ -1,0 +1,10 @@
+{
+  "checkprofileApp": {
+    "Niveau": {
+      "null": "",
+      "JUNIOR": "JUNIOR",
+      "SENIOR": "SENIOR",
+      "EXPERT": "EXPERT"
+    }
+  }
+}

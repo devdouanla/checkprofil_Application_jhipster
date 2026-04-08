@@ -1,0 +1,24 @@
+{
+  "checkprofileApp": {
+    "rH": {
+      "home": {
+        "title": "RHS",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau RH",
+        "createOrEditLabel": "Créer ou éditer un RH",
+        "notFound": "Aucun RH trouvé"
+      },
+      "created": "Un nouveau RH a été créé avec l'identifiant {{ param }}",
+      "updated": "Le RH avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le RH avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le RH {{ id }} ?"
+      },
+      "detail": {
+        "title": "RH"
+      },
+      "id": "ID",
+      "user": "User"
+    }
+  }
+}

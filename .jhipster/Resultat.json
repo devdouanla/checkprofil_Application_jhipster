@@ -1,0 +1,43 @@
+{
+  "annotations": {
+    "changelogDate": "20260407175647"
+  },
+  "applications": ["*"],
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "scoreTotal",
+      "fieldType": "Float",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "scoreMax",
+      "fieldType": "Float",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "pourcentage",
+      "fieldType": "Float",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "mention",
+      "fieldType": "Mention",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "EXCELLENT,BIEN,ASSEZ_BIEN,PASSABLE,INSUFFISANT"
+    }
+  ],
+  "name": "Resultat",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "sessionTest",
+      "otherEntityRelationshipName": "resultat",
+      "relationshipName": "session",
+      "relationshipSide": "right",
+      "relationshipType": "one-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

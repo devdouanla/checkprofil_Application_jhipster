@@ -1,0 +1,27 @@
+{
+  "checkprofileApp": {
+    "reponseCandidat": {
+      "home": {
+        "title": "Reponse Candidats",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Reponse Candidat",
+        "createOrEditLabel": "Create or edit a Reponse Candidat",
+        "notFound": "No Reponse Candidats found"
+      },
+      "created": "A new Reponse Candidat is created with identifier {{ param }}",
+      "updated": "A Reponse Candidat is updated with identifier {{ param }}",
+      "deleted": "A Reponse Candidat is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Reponse Candidat {{ id }}?"
+      },
+      "detail": {
+        "title": "Reponse Candidat"
+      },
+      "id": "ID",
+      "estCorrecte": "Est Correcte",
+      "dateReponse": "Date Reponse",
+      "question": "Question",
+      "session": "Session"
+    }
+  }
+}

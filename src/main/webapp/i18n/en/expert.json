@@ -1,0 +1,25 @@
+{
+  "checkprofileApp": {
+    "expert": {
+      "home": {
+        "title": "Experts",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Expert",
+        "createOrEditLabel": "Create or edit a Expert",
+        "notFound": "No Experts found"
+      },
+      "created": "A new Expert is created with identifier {{ param }}",
+      "updated": "A Expert is updated with identifier {{ param }}",
+      "deleted": "A Expert is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Expert {{ id }}?"
+      },
+      "detail": {
+        "title": "Expert"
+      },
+      "id": "ID",
+      "user": "User",
+      "competences": "Competences"
+    }
+  }
+}

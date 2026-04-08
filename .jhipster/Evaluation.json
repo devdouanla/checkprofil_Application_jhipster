@@ -1,0 +1,42 @@
+{
+  "annotations": {
+    "changelogDate": "20260407175645"
+  },
+  "applications": ["*"],
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "dateDebut",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "dateFin",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "conforme",
+      "fieldType": "Boolean"
+    }
+  ],
+  "name": "Evaluation",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "sessionTest",
+      "otherEntityRelationshipName": "evaluation",
+      "relationshipName": "sessions",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "employe",
+      "otherEntityRelationshipName": "evaluations",
+      "relationshipName": "employe",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

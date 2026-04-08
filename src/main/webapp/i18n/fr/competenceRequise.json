@@ -1,0 +1,26 @@
+{
+  "checkprofileApp": {
+    "competenceRequise": {
+      "home": {
+        "title": "CompetenceRequises",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Competence Requise",
+        "createOrEditLabel": "Créer ou éditer un Competence Requise",
+        "notFound": "Aucun Competence Requise trouvé"
+      },
+      "created": "Un nouveau Competence Requise a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Competence Requise avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Competence Requise avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Competence Requise {{ id }} ?"
+      },
+      "detail": {
+        "title": "Competence Requise"
+      },
+      "id": "ID",
+      "obligatoire": "Obligatoire",
+      "competence": "Competence",
+      "poste": "Poste"
+    }
+  }
+}

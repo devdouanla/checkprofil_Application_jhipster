@@ -1,0 +1,53 @@
+{
+  "annotations": {
+    "changelogDate": "20260407175646"
+  },
+  "applications": ["*"],
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "scoreObtenu",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "dateDebut",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "SessionTest",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "resultat",
+      "otherEntityRelationshipName": "session",
+      "relationshipName": "resultat",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "reponseCandidat",
+      "otherEntityRelationshipName": "session",
+      "relationshipName": "reponses",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "evaluation",
+      "otherEntityRelationshipName": "sessions",
+      "relationshipName": "evaluation",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "epreuve",
+      "otherEntityRelationshipName": "sessionTest",
+      "relationshipName": "epreuves",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

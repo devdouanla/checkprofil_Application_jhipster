@@ -1,0 +1,40 @@
+{
+  "annotations": {
+    "changelogDate": "20260407175644"
+  },
+  "applications": ["*"],
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "enonce",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "reponseTexte",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "points",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "explication",
+      "fieldType": "String"
+    }
+  ],
+  "name": "Question",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "epreuve",
+      "otherEntityRelationshipName": "questions",
+      "relationshipName": "epreuve",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

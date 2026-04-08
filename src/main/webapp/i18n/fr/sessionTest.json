@@ -1,0 +1,29 @@
+{
+  "checkprofileApp": {
+    "sessionTest": {
+      "home": {
+        "title": "SessionTests",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Session Test",
+        "createOrEditLabel": "Créer ou éditer un Session Test",
+        "notFound": "Aucun Session Test trouvé"
+      },
+      "created": "Un nouveau Session Test a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Session Test avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Session Test avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Session Test {{ id }} ?"
+      },
+      "detail": {
+        "title": "Session Test"
+      },
+      "id": "ID",
+      "scoreObtenu": "Score Obtenu",
+      "dateDebut": "Date Debut",
+      "resultat": "Resultat",
+      "reponses": "Reponses",
+      "evaluation": "Evaluation",
+      "epreuves": "Epreuves"
+    }
+  }
+}

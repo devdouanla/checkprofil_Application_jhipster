@@ -1,0 +1,27 @@
+{
+  "checkprofileApp": {
+    "reponseCandidat": {
+      "home": {
+        "title": "ReponseCandidats",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Reponse Candidat",
+        "createOrEditLabel": "Créer ou éditer un Reponse Candidat",
+        "notFound": "Aucun Reponse Candidat trouvé"
+      },
+      "created": "Un nouveau Reponse Candidat a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Reponse Candidat avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Reponse Candidat avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Reponse Candidat {{ id }} ?"
+      },
+      "detail": {
+        "title": "Reponse Candidat"
+      },
+      "id": "ID",
+      "estCorrecte": "Est Correcte",
+      "dateReponse": "Date Reponse",
+      "question": "Question",
+      "session": "Session"
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "checkprofileApp": {
+    "epreuve": {
+      "home": {
+        "title": "Epreuves",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Epreuve",
+        "createOrEditLabel": "Créer ou éditer un Epreuve",
+        "notFound": "Aucun Epreuve trouvé"
+      },
+      "created": "Un nouveau Epreuve a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Epreuve avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Epreuve avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Epreuve {{ id }} ?"
+      },
+      "detail": {
+        "title": "Epreuve"
+      },
+      "id": "ID",
+      "titre": "Titre",
+      "enonce": "Enonce",
+      "difficulte": "Difficulte",
+      "duree": "Duree",
+      "genereParIA": "Genere Par IA",
+      "nbInt": "Nb Int",
+      "publie": "Publie",
+      "questions": "Questions",
+      "sessionTest": "Session Test",
+      "competence": "Competence"
+    }
+  }
+}

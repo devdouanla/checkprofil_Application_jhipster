@@ -1,0 +1,11 @@
+export enum Mention {
+  EXCELLENT = 'EXCELLENT',
+
+  BIEN = 'BIEN',
+
+  ASSEZ_BIEN = 'ASSEZ_BIEN',
+
+  PASSABLE = 'PASSABLE',
+
+  INSUFFISANT = 'INSUFFISANT',
+}

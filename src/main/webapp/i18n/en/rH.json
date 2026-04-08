@@ -1,0 +1,24 @@
+{
+  "checkprofileApp": {
+    "rH": {
+      "home": {
+        "title": "RHS",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new RH",
+        "createOrEditLabel": "Create or edit a RH",
+        "notFound": "No RHS found"
+      },
+      "created": "A new RH is created with identifier {{ param }}",
+      "updated": "A RH is updated with identifier {{ param }}",
+      "deleted": "A RH is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete RH {{ id }}?"
+      },
+      "detail": {
+        "title": "RH"
+      },
+      "id": "ID",
+      "user": "User"
+    }
+  }
+}

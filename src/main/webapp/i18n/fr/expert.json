@@ -1,0 +1,25 @@
+{
+  "checkprofileApp": {
+    "expert": {
+      "home": {
+        "title": "Experts",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Expert",
+        "createOrEditLabel": "Créer ou éditer un Expert",
+        "notFound": "Aucun Expert trouvé"
+      },
+      "created": "Un nouveau Expert a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Expert avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Expert avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Expert {{ id }} ?"
+      },
+      "detail": {
+        "title": "Expert"
+      },
+      "id": "ID",
+      "user": "User",
+      "competences": "Competences"
+    }
+  }
+}

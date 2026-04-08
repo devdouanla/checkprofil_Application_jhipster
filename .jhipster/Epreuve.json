@@ -1,0 +1,72 @@
+{
+  "annotations": {
+    "changelogDate": "20260407175643"
+  },
+  "applications": ["*"],
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "titre",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "enonce",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "difficulte",
+      "fieldType": "Difficulte",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "FACILE,MOYEN,DIFFICILE"
+    },
+    {
+      "fieldName": "duree",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "genereParIA",
+      "fieldType": "Boolean",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "nbInt",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "publie",
+      "fieldType": "Boolean",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "Epreuve",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "question",
+      "otherEntityRelationshipName": "epreuve",
+      "relationshipName": "questions",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "sessionTest",
+      "otherEntityRelationshipName": "epreuves",
+      "relationshipName": "sessionTest",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "competence",
+      "otherEntityRelationshipName": "epreuves",
+      "relationshipName": "competence",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

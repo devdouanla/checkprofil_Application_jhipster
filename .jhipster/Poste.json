@@ -1,0 +1,46 @@
+{
+  "annotations": {
+    "changelogDate": "20260407175640"
+  },
+  "applications": ["*"],
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "nom",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "niveau",
+      "fieldType": "Niveau",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "JUNIOR,SENIOR,EXPERT"
+    }
+  ],
+  "name": "Poste",
+  "relationships": [
+    {
+      "otherEntityName": "employe",
+      "otherEntityRelationshipName": "poste",
+      "relationshipName": "employes",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "competenceRequise",
+      "otherEntityRelationshipName": "poste",
+      "relationshipName": "competencesRequises",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "manager",
+      "otherEntityRelationshipName": "postes",
+      "relationshipName": "manager",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

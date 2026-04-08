@@ -1,0 +1,33 @@
+{
+  "checkprofileApp": {
+    "epreuve": {
+      "home": {
+        "title": "Epreuves",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Epreuve",
+        "createOrEditLabel": "Create or edit a Epreuve",
+        "notFound": "No Epreuves found"
+      },
+      "created": "A new Epreuve is created with identifier {{ param }}",
+      "updated": "A Epreuve is updated with identifier {{ param }}",
+      "deleted": "A Epreuve is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Epreuve {{ id }}?"
+      },
+      "detail": {
+        "title": "Epreuve"
+      },
+      "id": "ID",
+      "titre": "Titre",
+      "enonce": "Enonce",
+      "difficulte": "Difficulte",
+      "duree": "Duree",
+      "genereParIA": "Genere Par IA",
+      "nbInt": "Nb Int",
+      "publie": "Publie",
+      "questions": "Questions",
+      "sessionTest": "Session Test",
+      "competence": "Competence"
+    }
+  }
+}

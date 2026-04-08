@@ -1,0 +1,10 @@
+{
+  "checkprofileApp": {
+    "Difficulte": {
+      "null": "",
+      "FACILE": "FACILE",
+      "MOYEN": "MOYEN",
+      "DIFFICILE": "DIFFICILE"
+    }
+  }
+}

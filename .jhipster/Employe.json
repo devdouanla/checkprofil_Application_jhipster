@@ -1,0 +1,40 @@
+{
+  "annotations": {
+    "changelogDate": "20260407175639"
+  },
+  "applications": ["*"],
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "nom",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "dateRecrutement",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "Employe",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "evaluation",
+      "otherEntityRelationshipName": "employe",
+      "relationshipName": "evaluations",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "poste",
+      "otherEntityRelationshipName": "employes",
+      "relationshipName": "poste",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}
