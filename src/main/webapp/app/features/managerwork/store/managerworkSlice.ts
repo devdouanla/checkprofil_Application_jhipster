@@ -196,7 +196,7 @@ export const finalizeManagerworkEvaluation = createAsyncThunk(
       conforme: payload.conforme,
     });
 
-    thunkAPI.dispatch(fetchManagerworkConduite(payload.evaluationId));
+    thunkAPI.dispatch(fetchManagerworkConduite(currentEvaluation.id));
 
     if (state.managerwork.managerId) {
       thunkAPI.dispatch(fetchManagerworkBootstrap(state.managerwork.managerId));

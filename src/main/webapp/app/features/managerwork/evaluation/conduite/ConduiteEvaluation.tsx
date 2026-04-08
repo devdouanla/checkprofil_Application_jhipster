@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Alert, Button, Card, Col, Nav, ProgressBar, Row, Spinner } from 'react-bootstrap';
-import { Link, useParams } from 'react-router';
+import { Link, useNavigate, useParams } from 'react-router';
 
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
@@ -18,6 +18,7 @@ import { ManagerworkSessionTab } from './SessionTab';
 export const ManagerworkConduiteEvaluation = () => {
   const dispatch = useAppDispatch();
   const { evaluationId } = useParams();
+  const navigate = useNavigate();
   const parsedEvaluationId = Number(evaluationId);
   const [activeSessionId, setActiveSessionId] = useState<number | undefined>(undefined);
   const [answersBySession, setAnswersBySession] = useState<Record<number, ManagerworkQuestionAnswerMap>>({});
@@ -74,11 +75,11 @@ export const ManagerworkConduiteEvaluation = () => {
   const average = managerworkComputeAverageScore(sessionTests);
 
   const completedSessionCount = sessionTests.reduce((count, session) => {
-    if (!session.id || !session.epreuve?.id) {
+    if (!session.id || !session.epreuves?.id) {
       return count;
     }
 
-    const sessionQuestions = questionsByEpreuve[session.epreuve.id] ?? [];
+    const sessionQuestions = questionsByEpreuve[session.epreuves.id] ?? [];
     if (!sessionQuestions.length) {
       return count;
     }
@@ -117,6 +118,12 @@ export const ManagerworkConduiteEvaluation = () => {
 
     await dispatch(finalizeManagerworkEvaluation({ evaluationId: currentEvaluation.id, conforme }));
   };
+
+  useEffect(() => {
+    if (successMessage === 'Evaluation finalisee.' && currentEvaluation?.id) {
+      navigate(buildManagerworkRoute('dashboard'), { replace: true });
+    }
+  }, [successMessage, currentEvaluation?.id, navigate]);
 
   const summaryCards = useMemo(
     () => [

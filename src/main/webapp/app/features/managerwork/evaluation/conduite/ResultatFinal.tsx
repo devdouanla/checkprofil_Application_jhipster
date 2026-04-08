@@ -54,11 +54,11 @@ export const ManagerworkResultatFinal = ({
         </div>
 
         <div className="d-flex gap-2 flex-wrap">
-          <Button variant="success" onClick={() => onFinalize(true)} disabled={!allComplete || loading}>
-            Valider conforme
+          <Button variant="success" onClick={() => onFinalize(true)} disabled={!allComplete || loading} className="me-2">
+            ✓ Valider conforme
           </Button>
           <Button variant="warning" onClick={() => onFinalize(false)} disabled={!allComplete || loading}>
-            Cloturer non conforme
+            ✗ Clôturer non conforme
           </Button>
         </div>
       </Card.Body>
