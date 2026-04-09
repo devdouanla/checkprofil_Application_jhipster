@@ -7,6 +7,7 @@ import com.devdouanla.service.criteria.SessionTestCriteria;
 import com.devdouanla.service.dto.SessionTestDTO;
 import com.devdouanla.web.rest.errors.BadRequestAlertException;
 import jakarta.validation.Valid;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -194,12 +195,49 @@ public class SessionTestResource {
      * @param id the id of the sessionTestDTO to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
-    @DeleteMapping("/{id}")
+@DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteSessionTest(@PathVariable("id") Long id) {
         LOG.debug("REST request to delete SessionTest : {}", id);
         sessionTestService.delete(id);
         return ResponseEntity.noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    /**
+     * {@code POST  /session-tests/generate} : Generate a SessionTest with random questions based on epreuve criteria.
+     *
+     * @param request the evaluationId and epreuveId.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and body the generated SessionTestDTO.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
+     */
+    public static class GenerateRequest {
+        private Long evaluationId;
+        private Long epreuveId;
+
+        public Long getEvaluationId() {
+            return evaluationId;
+        }
+
+        public void setEvaluationId(Long evaluationId) {
+            this.evaluationId = evaluationId;
+        }
+
+        public Long getEpreuveId() {
+            return epreuveId;
+        }
+
+        public void setEpreuveId(Long epreuveId) {
+            this.epreuveId = epreuveId;
+        }
+    }
+
+    @PostMapping("/generate")
+    public ResponseEntity<SessionTestDTO> generateSessionTest(@Valid @RequestBody GenerateRequest request) throws URISyntaxException {
+        LOG.debug("REST request to generate SessionTest for evaluation {} epreuve {}", request.getEvaluationId(), request.getEpreuveId());
+        SessionTestDTO sessionTestDTO = sessionTestService.generateSessionTest(request.getEvaluationId(), request.getEpreuveId());
+        return ResponseEntity.created(new URI("/api/session-tests/" + sessionTestDTO.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, sessionTestDTO.getId().toString()))
+            .body(sessionTestDTO);
     }
 }

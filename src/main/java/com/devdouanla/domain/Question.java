@@ -1,5 +1,6 @@
 package com.devdouanla.domain;
 
+import com.devdouanla.domain.enumeration.Difficulte;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -7,7 +8,8 @@ import java.io.Serial;
 import java.io.Serializable;
 
 /**
- * A Question.
+ * Question appartient au pool d'une Compétence.
+ * Sa propre difficulte permet le filtrage lors du tirage.
  */
 @Entity
 @Table(name = "question")
@@ -27,7 +29,8 @@ public class Question implements Serializable {
     @Column(name = "enonce", nullable = false)
     private String enonce;
 
-    @Column(name = "reponse_texte")
+    @NotNull
+    @Column(name = "reponse_texte", nullable = false)
     private String reponseTexte;
 
     @NotNull
@@ -37,9 +40,14 @@ public class Question implements Serializable {
     @Column(name = "explication")
     private String explication;
 
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "difficulte", nullable = false)
+    private Difficulte difficulte;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = { "questionses", "sessionTests", "competence" }, allowSetters = true)
-    private Epreuve epreuve;
+    @JsonIgnoreProperties(value = { "questionses", "expertses", "epreuveses" }, allowSetters = true)
+    private Competence competence;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -108,16 +116,29 @@ public class Question implements Serializable {
         this.explication = explication;
     }
 
-    public Epreuve getEpreuve() {
-        return this.epreuve;
+    public Difficulte getDifficulte() {
+        return this.difficulte;
     }
 
-    public void setEpreuve(Epreuve epreuve) {
-        this.epreuve = epreuve;
+    public Question difficulte(Difficulte difficulte) {
+        this.setDifficulte(difficulte);
+        return this;
     }
 
-    public Question epreuve(Epreuve epreuve) {
-        this.setEpreuve(epreuve);
+    public void setDifficulte(Difficulte difficulte) {
+        this.difficulte = difficulte;
+    }
+
+    public Competence getCompetence() {
+        return this.competence;
+    }
+
+    public void setCompetence(Competence competence) {
+        this.competence = competence;
+    }
+
+    public Question competence(Competence competence) {
+        this.setCompetence(competence);
         return this;
     }
 
@@ -149,6 +170,7 @@ public class Question implements Serializable {
             ", reponseTexte='" + getReponseTexte() + "'" +
             ", points=" + getPoints() +
             ", explication='" + getExplication() + "'" +
+            ", difficulte='" + getDifficulte() + "'" +
             "}";
     }
 }

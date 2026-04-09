@@ -1,6 +1,7 @@
 package com.devdouanla.service.dto;
 
 import com.devdouanla.domain.enumeration.Difficulte;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -8,6 +9,9 @@ import java.util.Objects;
 /**
  * A DTO for the {@link com.devdouanla.domain.Epreuve} entity.
  */
+@Schema(
+    description = "Une Epreuve définit les CRITÈRES de tirage aléatoire :\n- competence  → le domaine du pool de questions\n- difficulte  → le niveau de difficulté à piocher\n- nbQuestions → combien de questions tirer aléatoirement\nElle ne possède PLUS de collection de questions fixées."
+)
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class EpreuveDTO implements Serializable {
 
@@ -26,13 +30,15 @@ public class EpreuveDTO implements Serializable {
     private Integer duree;
 
     @NotNull
-    private Boolean genereParIA;
+    private Integer nbQuestions;
 
-    private Integer nbInt;
+    @NotNull
+    private Boolean genereParIA;
 
     @NotNull
     private Boolean publie;
 
+    @NotNull
     private CompetenceDTO competence;
 
     public Long getId() {
@@ -75,20 +81,20 @@ public class EpreuveDTO implements Serializable {
         this.duree = duree;
     }
 
+    public Integer getNbQuestions() {
+        return nbQuestions;
+    }
+
+    public void setNbQuestions(Integer nbQuestions) {
+        this.nbQuestions = nbQuestions;
+    }
+
     public Boolean getGenereParIA() {
         return genereParIA;
     }
 
     public void setGenereParIA(Boolean genereParIA) {
         this.genereParIA = genereParIA;
-    }
-
-    public Integer getNbInt() {
-        return nbInt;
-    }
-
-    public void setNbInt(Integer nbInt) {
-        this.nbInt = nbInt;
     }
 
     public Boolean getPublie() {
@@ -137,8 +143,8 @@ public class EpreuveDTO implements Serializable {
             ", enonce='" + getEnonce() + "'" +
             ", difficulte='" + getDifficulte() + "'" +
             ", duree=" + getDuree() +
+            ", nbQuestions=" + getNbQuestions() +
             ", genereParIA='" + getGenereParIA() + "'" +
-            ", nbInt=" + getNbInt() +
             ", publie='" + getPublie() + "'" +
             ", competence=" + getCompetence() +
             "}";

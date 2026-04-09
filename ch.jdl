@@ -1,177 +1,154 @@
-
-
-enum Difficulte {
-  FACILE,
-  MOYEN,
-  DIFFICILE
-}
-
-enum Niveau {
-  JUNIOR,
-  SENIOR,
-  EXPERT
-}
-
-enum Mention {
-  EXCELLENT,
-  BIEN,
-  ASSEZ_BIEN,
-  PASSABLE,
-  INSUFFISANT
-}
+enum Difficulte { FACILE, MOYEN, DIFFICILE }
+enum Niveau     { JUNIOR, SENIOR, EXPERT }
+enum Mention    { EXCELLENT, BIEN, ASSEZ_BIEN, PASSABLE, INSUFFISANT }
 
 // ==============================
 // ENTITIES
 // ==============================
-
-entity Manager {
-
-}
-
-entity Expert {
-
-}
-
-entity RH {
-
-}
+entity Manager {}
+entity Expert {}
+entity RH {}
 
 entity Employe {
-  nom String required
-  dateRecrutement Instant required
-
+  nom              String  required
+  dateRecrutement  Instant required
 }
-
-
-
 entity Poste {
-  nom String required
+  nom    String required
   niveau Niveau required
 }
-
 entity Competence {
   nom String required
-
 }
-
 entity CompetenceRequise {
   obligatoire Boolean required
 }
 
+/**
+ * Une Epreuve définit les CRITÈRES de tirage aléatoire :
+ *  - competence  → le domaine du pool de questions
+ *  - difficulte  → le niveau de difficulté à piocher
+ *  - nbQuestions → combien de questions tirer aléatoirement
+ * Elle ne possède PLUS de collection de questions fixées.
+ */
 entity Epreuve {
-  titre String required
-  enonce String required
-  difficulte Difficulte required
-  duree Integer required
-  genereParIA Boolean required
-  nbInt Integer
-  publie Boolean required
+  titre        String     required
+  enonce       String     required
+  difficulte   Difficulte required  // critère de filtrage du pool
+  duree        Integer    required
+  nbQuestions  Integer    required  // nb de questions à tirer aléatoirement
+  genereParIA  Boolean    required
+  publie       Boolean    required
 }
 
+/**
+ * Question appartient au pool d'une Compétence.
+ * Sa propre difficulte permet le filtrage lors du tirage.
+ */
 entity Question {
-  enonce String required
-  reponseTexte String
-  points Integer required
-  explication String
+  enonce       String     required
+  reponseTexte String     required
+  points       Integer    required
+  explication  String
+  difficulte   Difficulte required  // ← AJOUT clé pour le tirage aléatoire
 }
 
 entity Evaluation {
   dateDebut Instant required
-  dateFin Instant
-  conforme Boolean
+  dateFin   Instant
+  conforme  Boolean
+}
+
+/**
+ * QuestionAsk = une question tirée aléatoirement pour une SessionTest.
+ * C'est la matérialisation du tirage : SessionTest → QuestionAsk → Question.
+ */
+entity QuestionAsk {
+  ordre Integer  // position dans la session
 }
 
 entity SessionTest {
   scoreObtenu Float
-  dateDebut Instant required
+  dateDebut   Instant required
+  dateFin     Instant
 }
-
 entity Resultat {
-  scoreTotal Float required
-  scoreMax Float required
-  pourcentage Float required
-  mention Mention required
+  scoreTotal  Float   required
+  scoreMax    Float   required
+  pourcentage Float   required
+  mention     Mention required
 }
 
+/**
+ * ReponseCandidat pointe vers QuestionAsk (la question tirée)
+ * et non plus directement vers Question.
+ */
 entity ReponseCandidat {
-  estCorrecte Boolean required
-  dateReponse Instant required
+  estCorrecte  Boolean required
+  dateReponse  Instant required
 }
 
 // ==============================
-// RELATIONSHIPS WITH JHIPSTER USER
+// RELATIONSHIPS
 // ==============================
 
-// Lier chaque profil métier au User JHipster (OneToOne)
+// Profils → User JHipster
 relationship OneToOne {
   Manager{user(login) required} to User with builtInEntity
   Expert{user(login) required}  to User with builtInEntity
   RH{user(login) required}      to User with builtInEntity
+  // Une SessionTest produit exactement un Resultat
+  SessionTest{resultat} to Resultat{session}
 }
 
-// Manager -> Poste
+// Hiérarchie organisationnelle
 relationship OneToMany {
-  Manager{postes} to Poste{manager}
+  Manager{postes}              to Poste{manager}
+  Poste{employes}              to Employe{poste}
+  Poste{competencesRequises}   to CompetenceRequise{poste}
 }
 
-// Poste -> Employe
+// Compétence → pool de questions (filtrage par difficulte au moment du tirage)
 relationship OneToMany {
-  Poste{employes} to Employe{poste}
+  Competence{questions} to Question{competence}
 }
 
-// Poste -> CompetenceRequise
-relationship OneToMany {
-  Poste{competencesRequises} to CompetenceRequise{poste}
+// Compétence → Epreuves (une épreuve évalue UNE compétence)
+relationship ManyToOne {
+  Epreuve{competence required} to Competence{epreuves}
 }
 
-// CompetenceRequise -> Competence
+// CompetenceRequise → Competence
 relationship ManyToOne {
   CompetenceRequise{competence} to Competence
 }
 
-// Competence -> Epreuve
-relationship OneToMany {
-  Competence{epreuves} to Epreuve{competence}
-}
-
-// Competence -> Expert
+// Compétence ↔ Expert (validation des questions par les experts)
 relationship ManyToMany {
   Competence{experts} to Expert{competences}
 }
 
-// Epreuve -> Question
+// Parcours d'évaluation
 relationship OneToMany {
-  Epreuve{questions} to Question{epreuve}
+  Employe{evaluations}   to Evaluation{employe}
+  Evaluation{sessions}   to SessionTest{evaluation}
+  Epreuve{sessions}      to SessionTest{epreuve}
 }
 
-// Employe -> Evaluation
+// SessionTest → questions tirées + réponses
 relationship OneToMany {
-  Employe{evaluations} to Evaluation{employe}
+  SessionTest{questionsAsk} to QuestionAsk{session}
+  SessionTest{reponses}     to ReponseCandidat{session}
 }
 
-// Evaluation -> SessionTest
-relationship OneToMany {
-  Evaluation{sessions} to SessionTest{evaluation}
-}
-
-// SessionTest -> Resultat
-relationship OneToOne {
-  SessionTest{resultat} to Resultat{session}
-}
-
-// SessionTest -> ReponseCandidat
-relationship OneToMany {
-  SessionTest{reponses} to ReponseCandidat{session}
-}
-
-// ReponseCandidat -> Question
+// QuestionAsk → Question du pool (la question physiquement tirée)
 relationship ManyToOne {
-  ReponseCandidat{question} to Question
+  QuestionAsk{question} to Question
 }
 
-// SessionTest -> Epreuve
-relationship OneToMany {
-  Epreuve{sessionTest} to SessionTest{epreuves}
+// ReponseCandidat → QuestionAsk (pas Question directement !)
+relationship ManyToOne {
+  ReponseCandidat{questionAsk} to QuestionAsk
 }
 
 // ==============================
@@ -180,4 +157,4 @@ relationship OneToMany {
 paginate Employe, Evaluation, SessionTest, Resultat, Epreuve, Question with pagination
 dto * with mapstruct
 service * with serviceImpl
-filter Employe, Epreuve, SessionTest, Competence
+filter Employe, Epreuve, SessionTest, Competence, Question

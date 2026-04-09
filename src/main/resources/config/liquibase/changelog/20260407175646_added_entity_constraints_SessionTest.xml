@@ -24,9 +24,9 @@
                                  referencedTableName="evaluation"
                                  />
 
-        <addForeignKeyConstraint baseColumnNames="epreuves_id"
+        <addForeignKeyConstraint baseColumnNames="epreuve_id"
                                  baseTableName="session_test"
-                                 constraintName="fk_session_test__epreuves_id"
+                                 constraintName="fk_session_test__epreuve_id"
                                  referencedColumnNames="id"
                                  referencedTableName="epreuve"
                                  />

@@ -3,6 +3,7 @@
     "changelogDate": "20260407175643"
   },
   "applications": ["*"],
+  "documentation": "Une Epreuve définit les CRITÈRES de tirage aléatoire :\\n- competence  → le domaine du pool de questions\\n- difficulte  → le niveau de difficulté à piocher\\n- nbQuestions → combien de questions tirer aléatoirement\\nElle ne possède PLUS de collection de questions fixées.",
   "dto": "mapstruct",
   "fields": [
     {
@@ -27,13 +28,14 @@
       "fieldValidateRules": ["required"]
     },
     {
-      "fieldName": "genereParIA",
-      "fieldType": "Boolean",
+      "fieldName": "nbQuestions",
+      "fieldType": "Integer",
       "fieldValidateRules": ["required"]
     },
     {
-      "fieldName": "nbInt",
-      "fieldType": "Integer"
+      "fieldName": "genereParIA",
+      "fieldType": "Boolean",
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "publie",
@@ -46,16 +48,9 @@
   "pagination": "pagination",
   "relationships": [
     {
-      "otherEntityName": "question",
-      "otherEntityRelationshipName": "epreuve",
-      "relationshipName": "questions",
-      "relationshipSide": "left",
-      "relationshipType": "one-to-many"
-    },
-    {
       "otherEntityName": "sessionTest",
-      "otherEntityRelationshipName": "epreuves",
-      "relationshipName": "sessionTest",
+      "otherEntityRelationshipName": "epreuve",
+      "relationshipName": "sessions",
       "relationshipSide": "left",
       "relationshipType": "one-to-many"
     },
@@ -63,8 +58,9 @@
       "otherEntityName": "competence",
       "otherEntityRelationshipName": "epreuves",
       "relationshipName": "competence",
-      "relationshipSide": "right",
-      "relationshipType": "many-to-one"
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
     }
   ],
   "searchEngine": "no",

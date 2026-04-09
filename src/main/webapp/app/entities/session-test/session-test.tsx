@@ -124,6 +124,10 @@ export const SessionTest = () => {
                   <Translate contentKey="checkprofileApp.sessionTest.dateDebut">Date Debut</Translate>{' '}
                   <FontAwesomeIcon icon={getSortIconByFieldName('dateDebut')} />
                 </th>
+                <th className="hand" onClick={sort('dateFin')}>
+                  <Translate contentKey="checkprofileApp.sessionTest.dateFin">Date Fin</Translate>{' '}
+                  <FontAwesomeIcon icon={getSortIconByFieldName('dateFin')} />
+                </th>
                 <th>
                   <Translate contentKey="checkprofileApp.sessionTest.resultat">Resultat</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
@@ -131,7 +135,7 @@ export const SessionTest = () => {
                   <Translate contentKey="checkprofileApp.sessionTest.evaluation">Evaluation</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
                 <th>
-                  <Translate contentKey="checkprofileApp.sessionTest.epreuves">Epreuves</Translate> <FontAwesomeIcon icon="sort" />
+                  <Translate contentKey="checkprofileApp.sessionTest.epreuve">Epreuve</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
                 <th />
               </tr>
@@ -148,11 +152,12 @@ export const SessionTest = () => {
                   <td>
                     {sessionTest.dateDebut ? <TextFormat type="date" value={sessionTest.dateDebut} format={APP_DATE_FORMAT} /> : null}
                   </td>
+                  <td>{sessionTest.dateFin ? <TextFormat type="date" value={sessionTest.dateFin} format={APP_DATE_FORMAT} /> : null}</td>
                   <td>{sessionTest.resultat ? <Link to={`/resultat/${sessionTest.resultat.id}`}>{sessionTest.resultat.id}</Link> : ''}</td>
                   <td>
                     {sessionTest.evaluation ? <Link to={`/evaluation/${sessionTest.evaluation.id}`}>{sessionTest.evaluation.id}</Link> : ''}
                   </td>
-                  <td>{sessionTest.epreuves ? <Link to={`/epreuve/${sessionTest.epreuves.id}`}>{sessionTest.epreuves.id}</Link> : ''}</td>
+                  <td>{sessionTest.epreuve ? <Link to={`/epreuve/${sessionTest.epreuve.id}`}>{sessionTest.epreuve.id}</Link> : ''}</td>
                   <td className="text-end">
                     <div className="btn-group flex-btn-group-container">
                       <Button

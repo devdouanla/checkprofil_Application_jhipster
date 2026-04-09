@@ -3,6 +3,7 @@
     "changelogDate": "20260407175644"
   },
   "applications": ["*"],
+  "documentation": "Question appartient au pool d'une Compétence.\\nSa propre difficulte permet le filtrage lors du tirage.",
   "dto": "mapstruct",
   "fields": [
     {
@@ -12,7 +13,8 @@
     },
     {
       "fieldName": "reponseTexte",
-      "fieldType": "String"
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "points",
@@ -22,15 +24,22 @@
     {
       "fieldName": "explication",
       "fieldType": "String"
+    },
+    {
+      "fieldName": "difficulte",
+      "fieldType": "Difficulte",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "FACILE,MOYEN,DIFFICILE"
     }
   ],
+  "jpaMetamodelFiltering": true,
   "name": "Question",
   "pagination": "pagination",
   "relationships": [
     {
-      "otherEntityName": "epreuve",
+      "otherEntityName": "competence",
       "otherEntityRelationshipName": "questions",
-      "relationshipName": "epreuve",
+      "relationshipName": "competence",
       "relationshipSide": "right",
       "relationshipType": "many-to-one"
     }

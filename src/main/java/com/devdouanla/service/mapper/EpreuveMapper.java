@@ -17,6 +17,6 @@ public interface EpreuveMapper extends EntityMapper<EpreuveDTO, Epreuve> {
     @Named("competenceId")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
-    @Mapping(target = "nom", source = "nom")
+    @Mapping(target = "nom", source = "nom") // Ignore questions to prevent circular reference
     CompetenceDTO toDtoCompetenceId(Competence competence);
 }

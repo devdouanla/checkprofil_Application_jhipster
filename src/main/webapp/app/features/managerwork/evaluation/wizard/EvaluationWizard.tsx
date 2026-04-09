@@ -21,6 +21,7 @@ import {
   toggleManagerworkCompetence,
   toggleManagerworkEpreuve,
 } from '../../store';
+import { generateManagerworkSessionTest } from '../../api/session-test.api';
 import { buildManagerworkRoute } from '../../managerwork.config';
 
 export const ManagerworkEvaluationWizard = () => {
@@ -107,12 +108,26 @@ export const ManagerworkEvaluationWizard = () => {
       return;
     }
 
-    await dispatch(
+    // First create evaluation
+    const evaluationResult = await dispatch(
       createManagerworkEvaluationFlow({
         employeId: selectedEmployeId,
         epreuveIds: selectedEpreuveIds,
       }),
     );
+
+    if (evaluationResult.payload && (evaluationResult.payload as any).id) {
+      const evaluationId = (evaluationResult.payload as any).id;
+
+      // Generate SessionTests for each selected epreuve
+      for (const epreuveId of selectedEpreuveIds) {
+        try {
+          await generateManagerworkSessionTest(evaluationId, epreuveId);
+        } catch (error) {
+          console.error('Failed to generate session test for epreuve', epreuveId, error);
+        }
+      }
+    }
   };
 
   return (

@@ -8,9 +8,10 @@ export interface ISessionTest {
   id?: number;
   scoreObtenu?: number | null;
   dateDebut?: dayjs.Dayjs;
+  dateFin?: dayjs.Dayjs | null;
   resultat?: IResultat | null;
   evaluation?: IEvaluation | null;
-  epreuves?: IEpreuve | null;
+  epreuve?: IEpreuve | null;
 }
 
 export const defaultValue: Readonly<ISessionTest> = {};

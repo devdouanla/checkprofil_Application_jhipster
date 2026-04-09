@@ -60,7 +60,7 @@ public class ReponseCandidatAsserts {
     public static void assertReponseCandidatUpdatableRelationshipsEquals(ReponseCandidat expected, ReponseCandidat actual) {
         assertThat(actual)
             .as("Verify ReponseCandidat relationships")
-            .satisfies(a -> assertThat(a.getQuestion()).as("check question").isEqualTo(expected.getQuestion()))
+            .satisfies(a -> assertThat(a.getQuestionAsk()).as("check questionAsk").isEqualTo(expected.getQuestionAsk()))
             .satisfies(a -> assertThat(a.getSession()).as("check session").isEqualTo(expected.getSession()));
     }
 }

@@ -73,8 +73,9 @@ public class CompetenceQueryService extends QueryService<Competence> {
                 Boolean.TRUE.equals(criteria.getDistinct()) ? distinct(criteria.getDistinct()) : Specification.unrestricted(),
                 buildRangeSpecification(criteria.getId(), Competence_.id),
                 buildStringSpecification(criteria.getNom(), Competence_.nom),
-                buildSpecification(criteria.getEpreuvesId(), root -> root.join(Competence_.epreuveses, JoinType.LEFT).get(Epreuve_.id)),
-                buildSpecification(criteria.getExpertsId(), root -> root.join(Competence_.expertses, JoinType.LEFT).get(Expert_.id))
+                buildSpecification(criteria.getQuestionsId(), root -> root.join(Competence_.questionses, JoinType.LEFT).get(Question_.id)),
+                buildSpecification(criteria.getExpertsId(), root -> root.join(Competence_.expertses, JoinType.LEFT).get(Expert_.id)),
+                buildSpecification(criteria.getEpreuvesId(), root -> root.join(Competence_.epreuveses, JoinType.LEFT).get(Epreuve_.id))
             );
         }
         return specification;

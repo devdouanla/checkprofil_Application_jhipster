@@ -76,14 +76,18 @@ public class SessionTestQueryService extends QueryService<SessionTest> {
                 buildRangeSpecification(criteria.getId(), SessionTest_.id),
                 buildRangeSpecification(criteria.getScoreObtenu(), SessionTest_.scoreObtenu),
                 buildRangeSpecification(criteria.getDateDebut(), SessionTest_.dateDebut),
+                buildRangeSpecification(criteria.getDateFin(), SessionTest_.dateFin),
                 buildSpecification(criteria.getResultatId(), root -> root.join(SessionTest_.resultat, JoinType.LEFT).get(Resultat_.id)),
+                buildSpecification(criteria.getQuestionsAskId(), root ->
+                    root.join(SessionTest_.questionsAsks, JoinType.LEFT).get(QuestionAsk_.id)
+                ),
                 buildSpecification(criteria.getReponsesId(), root ->
                     root.join(SessionTest_.reponseses, JoinType.LEFT).get(ReponseCandidat_.id)
                 ),
                 buildSpecification(criteria.getEvaluationId(), root ->
                     root.join(SessionTest_.evaluation, JoinType.LEFT).get(Evaluation_.id)
                 ),
-                buildSpecification(criteria.getEpreuvesId(), root -> root.join(SessionTest_.epreuves, JoinType.LEFT).get(Epreuve_.id))
+                buildSpecification(criteria.getEpreuveId(), root -> root.join(SessionTest_.epreuve, JoinType.LEFT).get(Epreuve_.id))
             );
         }
         return specification;

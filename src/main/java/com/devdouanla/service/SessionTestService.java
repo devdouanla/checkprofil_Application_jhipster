@@ -44,5 +44,14 @@ public interface SessionTestService {
      *
      * @param id the id of the entity.
      */
+    /**
+     * Generate a new SessionTest with random questions filtered by epreuve criteria.
+     *
+     * @param evaluationId the evaluation ID.
+     * @param epreuveId the epreuve ID (defines competence, difficulty, nbQuestions).
+     * @return the generated SessionTestDTO with populated questionsAsks.
+     */
+    SessionTestDTO generateSessionTest(Long evaluationId, Long epreuveId);
+
     void delete(Long id);
 }

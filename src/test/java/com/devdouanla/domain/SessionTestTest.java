@@ -2,6 +2,7 @@ package com.devdouanla.domain;
 
 import static com.devdouanla.domain.EpreuveTestSamples.*;
 import static com.devdouanla.domain.EvaluationTestSamples.*;
+import static com.devdouanla.domain.QuestionAskTestSamples.*;
 import static com.devdouanla.domain.ReponseCandidatTestSamples.*;
 import static com.devdouanla.domain.ResultatTestSamples.*;
 import static com.devdouanla.domain.SessionTestTestSamples.*;
@@ -41,6 +42,28 @@ class SessionTestTest {
     }
 
     @Test
+    void questionsAskTest() {
+        SessionTest sessionTest = getSessionTestRandomSampleGenerator();
+        QuestionAsk questionAskBack = getQuestionAskRandomSampleGenerator();
+
+        sessionTest.addQuestionsAsk(questionAskBack);
+        assertThat(sessionTest.getQuestionsAsks()).containsOnly(questionAskBack);
+        assertThat(questionAskBack.getSession()).isEqualTo(sessionTest);
+
+        sessionTest.removeQuestionsAsk(questionAskBack);
+        assertThat(sessionTest.getQuestionsAsks()).doesNotContain(questionAskBack);
+        assertThat(questionAskBack.getSession()).isNull();
+
+        sessionTest.questionsAsks(new HashSet<>(Set.of(questionAskBack)));
+        assertThat(sessionTest.getQuestionsAsks()).containsOnly(questionAskBack);
+        assertThat(questionAskBack.getSession()).isEqualTo(sessionTest);
+
+        sessionTest.setQuestionsAsks(new HashSet<>());
+        assertThat(sessionTest.getQuestionsAsks()).doesNotContain(questionAskBack);
+        assertThat(questionAskBack.getSession()).isNull();
+    }
+
+    @Test
     void reponsesTest() {
         SessionTest sessionTest = getSessionTestRandomSampleGenerator();
         ReponseCandidat reponseCandidatBack = getReponseCandidatRandomSampleGenerator();
@@ -75,14 +98,14 @@ class SessionTestTest {
     }
 
     @Test
-    void epreuvesTest() {
+    void epreuveTest() {
         SessionTest sessionTest = getSessionTestRandomSampleGenerator();
         Epreuve epreuveBack = getEpreuveRandomSampleGenerator();
 
-        sessionTest.setEpreuves(epreuveBack);
-        assertThat(sessionTest.getEpreuves()).isEqualTo(epreuveBack);
+        sessionTest.setEpreuve(epreuveBack);
+        assertThat(sessionTest.getEpreuve()).isEqualTo(epreuveBack);
 
-        sessionTest.epreuves(null);
-        assertThat(sessionTest.getEpreuves()).isNull();
+        sessionTest.epreuve(null);
+        assertThat(sessionTest.getEpreuve()).isNull();
     }
 }

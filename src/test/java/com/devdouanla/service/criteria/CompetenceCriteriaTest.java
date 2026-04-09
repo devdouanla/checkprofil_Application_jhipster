@@ -77,8 +77,9 @@ class CompetenceCriteriaTest {
     private static void setAllFilters(CompetenceCriteria competenceCriteria) {
         competenceCriteria.id();
         competenceCriteria.nom();
-        competenceCriteria.epreuvesId();
+        competenceCriteria.questionsId();
         competenceCriteria.expertsId();
+        competenceCriteria.epreuvesId();
         competenceCriteria.distinct();
     }
 
@@ -87,8 +88,9 @@ class CompetenceCriteriaTest {
             criteria ->
                 condition.apply(criteria.getId()) &&
                 condition.apply(criteria.getNom()) &&
-                condition.apply(criteria.getEpreuvesId()) &&
+                condition.apply(criteria.getQuestionsId()) &&
                 condition.apply(criteria.getExpertsId()) &&
+                condition.apply(criteria.getEpreuvesId()) &&
                 condition.apply(criteria.getDistinct()),
             "every filter matches"
         );
@@ -99,8 +101,9 @@ class CompetenceCriteriaTest {
             criteria ->
                 condition.apply(criteria.getId(), copy.getId()) &&
                 condition.apply(criteria.getNom(), copy.getNom()) &&
-                condition.apply(criteria.getEpreuvesId(), copy.getEpreuvesId()) &&
+                condition.apply(criteria.getQuestionsId(), copy.getQuestionsId()) &&
                 condition.apply(criteria.getExpertsId(), copy.getExpertsId()) &&
+                condition.apply(criteria.getEpreuvesId(), copy.getEpreuvesId()) &&
                 condition.apply(criteria.getDistinct(), copy.getDistinct()),
             "every filter matches"
         );

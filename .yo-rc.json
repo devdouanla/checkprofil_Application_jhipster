@@ -27,13 +27,14 @@
       "Evaluation",
       "SessionTest",
       "Resultat",
-      "ReponseCandidat"
+      "ReponseCandidat",
+      "QuestionAsk"
     ],
     "feignClient": null,
     "jhipsterVersion": "9.0.0",
     "jwtSecretKey": "N2VlZWQ2ODEyYzk3MDI0ZjMxMTJiNTY2MGZjZGNkM2Y0NTZiYzEzNzZmNDE1Mjk0MTc3NzVhMTBmYWQ4YzM1NGQ0ZWMyM2Q3Y2U2MWM4ZGJiZjhkZjRkZmNlZDRjMjNmZDc2MjU1Zjk1Y2EzYTI5OTg3YzNjNDNiMGFhMTE5YmQ=",
     "languages": ["fr", "en"],
-    "lastLiquibaseTimestamp": 1775584608000,
+    "lastLiquibaseTimestamp": 1775663695000,
     "microfrontend": null,
     "microfrontends": [],
     "monorepository": true,

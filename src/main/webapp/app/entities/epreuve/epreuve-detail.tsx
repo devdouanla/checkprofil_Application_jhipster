@@ -57,17 +57,17 @@ export const EpreuveDetail = () => {
           </dt>
           <dd>{epreuveEntity.duree}</dd>
           <dt>
+            <span id="nbQuestions">
+              <Translate contentKey="checkprofileApp.epreuve.nbQuestions">Nb Questions</Translate>
+            </span>
+          </dt>
+          <dd>{epreuveEntity.nbQuestions}</dd>
+          <dt>
             <span id="genereParIA">
               <Translate contentKey="checkprofileApp.epreuve.genereParIA">Genere Par IA</Translate>
             </span>
           </dt>
           <dd>{epreuveEntity.genereParIA ? 'true' : 'false'}</dd>
-          <dt>
-            <span id="nbInt">
-              <Translate contentKey="checkprofileApp.epreuve.nbInt">Nb Int</Translate>
-            </span>
-          </dt>
-          <dd>{epreuveEntity.nbInt}</dd>
           <dt>
             <span id="publie">
               <Translate contentKey="checkprofileApp.epreuve.publie">Publie</Translate>

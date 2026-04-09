@@ -1,5 +1,7 @@
 package com.devdouanla.service.dto;
 
+import com.devdouanla.domain.enumeration.Difficulte;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -7,6 +9,7 @@ import java.util.Objects;
 /**
  * A DTO for the {@link com.devdouanla.domain.Question} entity.
  */
+@Schema(description = "Question appartient au pool d'une Compétence.\nSa propre difficulte permet le filtrage lors du tirage.")
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class QuestionDTO implements Serializable {
 
@@ -15,6 +18,7 @@ public class QuestionDTO implements Serializable {
     @NotNull
     private String enonce;
 
+    @NotNull
     private String reponseTexte;
 
     @NotNull
@@ -22,7 +26,10 @@ public class QuestionDTO implements Serializable {
 
     private String explication;
 
-    private EpreuveDTO epreuve;
+    @NotNull
+    private Difficulte difficulte;
+
+    private CompetenceDTO competence;
 
     public Long getId() {
         return id;
@@ -64,12 +71,20 @@ public class QuestionDTO implements Serializable {
         this.explication = explication;
     }
 
-    public EpreuveDTO getEpreuve() {
-        return epreuve;
+    public Difficulte getDifficulte() {
+        return difficulte;
     }
 
-    public void setEpreuve(EpreuveDTO epreuve) {
-        this.epreuve = epreuve;
+    public void setDifficulte(Difficulte difficulte) {
+        this.difficulte = difficulte;
+    }
+
+    public CompetenceDTO getCompetence() {
+        return competence;
+    }
+
+    public void setCompetence(CompetenceDTO competence) {
+        this.competence = competence;
     }
 
     @Override
@@ -102,7 +117,8 @@ public class QuestionDTO implements Serializable {
             ", reponseTexte='" + getReponseTexte() + "'" +
             ", points=" + getPoints() +
             ", explication='" + getExplication() + "'" +
-            ", epreuve=" + getEpreuve() +
+            ", difficulte='" + getDifficulte() + "'" +
+            ", competence=" + getCompetence() +
             "}";
     }
 }

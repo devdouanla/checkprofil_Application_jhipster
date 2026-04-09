@@ -80,11 +80,10 @@ class EpreuveCriteriaTest {
         epreuveCriteria.enonce();
         epreuveCriteria.difficulte();
         epreuveCriteria.duree();
+        epreuveCriteria.nbQuestions();
         epreuveCriteria.genereParIA();
-        epreuveCriteria.nbInt();
         epreuveCriteria.publie();
-        epreuveCriteria.questionsId();
-        epreuveCriteria.sessionTestId();
+        epreuveCriteria.sessionsId();
         epreuveCriteria.competenceId();
         epreuveCriteria.distinct();
     }
@@ -97,11 +96,10 @@ class EpreuveCriteriaTest {
                 condition.apply(criteria.getEnonce()) &&
                 condition.apply(criteria.getDifficulte()) &&
                 condition.apply(criteria.getDuree()) &&
+                condition.apply(criteria.getNbQuestions()) &&
                 condition.apply(criteria.getGenereParIA()) &&
-                condition.apply(criteria.getNbInt()) &&
                 condition.apply(criteria.getPublie()) &&
-                condition.apply(criteria.getQuestionsId()) &&
-                condition.apply(criteria.getSessionTestId()) &&
+                condition.apply(criteria.getSessionsId()) &&
                 condition.apply(criteria.getCompetenceId()) &&
                 condition.apply(criteria.getDistinct()),
             "every filter matches"
@@ -116,11 +114,10 @@ class EpreuveCriteriaTest {
                 condition.apply(criteria.getEnonce(), copy.getEnonce()) &&
                 condition.apply(criteria.getDifficulte(), copy.getDifficulte()) &&
                 condition.apply(criteria.getDuree(), copy.getDuree()) &&
+                condition.apply(criteria.getNbQuestions(), copy.getNbQuestions()) &&
                 condition.apply(criteria.getGenereParIA(), copy.getGenereParIA()) &&
-                condition.apply(criteria.getNbInt(), copy.getNbInt()) &&
                 condition.apply(criteria.getPublie(), copy.getPublie()) &&
-                condition.apply(criteria.getQuestionsId(), copy.getQuestionsId()) &&
-                condition.apply(criteria.getSessionTestId(), copy.getSessionTestId()) &&
+                condition.apply(criteria.getSessionsId(), copy.getSessionsId()) &&
                 condition.apply(criteria.getCompetenceId(), copy.getCompetenceId()) &&
                 condition.apply(criteria.getDistinct(), copy.getDistinct()),
             "every filter matches"

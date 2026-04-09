@@ -212,6 +212,21 @@ export const ManagerworkStep3Epreuves = ({ epreuves, selectedEpreuveIds, onToggl
                     </svg>
                     {epreuve.duree ?? 0} min
                   </span>
+                  <span className="mw-meta-pill">
+                    <svg
+                      width="11"
+                      height="11"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="#94a3b8"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M20 6L9 17l-5-5" />
+                    </svg>
+                    {epreuve.nbQuestions ?? 0} Qs
+                  </span>
                 </div>
               </div>
             </div>

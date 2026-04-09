@@ -50,9 +50,9 @@ export const ReponseCandidatDetail = () => {
             ) : null}
           </dd>
           <dt>
-            <Translate contentKey="checkprofileApp.reponseCandidat.question">Question</Translate>
+            <Translate contentKey="checkprofileApp.reponseCandidat.questionAsk">Question Ask</Translate>
           </dt>
-          <dd>{reponseCandidatEntity.question ? reponseCandidatEntity.question.id : ''}</dd>
+          <dd>{reponseCandidatEntity.questionAsk ? reponseCandidatEntity.questionAsk.id : ''}</dd>
           <dt>
             <Translate contentKey="checkprofileApp.reponseCandidat.session">Session</Translate>
           </dt>

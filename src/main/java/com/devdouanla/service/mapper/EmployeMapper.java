@@ -17,7 +17,6 @@ public interface EmployeMapper extends EntityMapper<EmployeDTO, Employe> {
     @Named("posteId")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
-    @Mapping(target = "nom", source = "nom")
-    @Mapping(target = "niveau", source = "niveau")
+    @Mapping(target = "nom", source = "nom") // Ignore questions to prevent circular reference
     PosteDTO toDtoPosteId(Poste poste);
 }

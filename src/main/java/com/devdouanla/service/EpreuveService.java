@@ -1,6 +1,5 @@
 package com.devdouanla.service;
 
-import com.devdouanla.service.dto.CompetenceRequiseDTO;
 import com.devdouanla.service.dto.EpreuveDTO;
 
 import java.util.List;
@@ -41,8 +40,6 @@ public interface EpreuveService {
      * @return the entity.
      */
     Optional<EpreuveDTO> findOne(Long id);
-       List<EpreuveDTO> findByCompetenceId( Long CompetenceId   );
-
 
     /**
      * Delete the "id" epreuve.
@@ -50,4 +47,5 @@ public interface EpreuveService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+           List<EpreuveDTO> findByCompetenceId( Long CompetenceId   );
 }

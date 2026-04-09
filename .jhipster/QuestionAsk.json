@@ -1,0 +1,32 @@
+{
+  "annotations": {
+    "changelogDate": "20260408155455"
+  },
+  "applications": ["*"],
+  "documentation": "QuestionAsk = une question tirée aléatoirement pour une SessionTest.\\nC'est la matérialisation du tirage : SessionTest → QuestionAsk → Question.",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "ordre",
+      "fieldType": "Integer"
+    }
+  ],
+  "name": "QuestionAsk",
+  "relationships": [
+    {
+      "otherEntityName": "question",
+      "relationshipName": "question",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "sessionTest",
+      "otherEntityRelationshipName": "questionsAsk",
+      "relationshipName": "session",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

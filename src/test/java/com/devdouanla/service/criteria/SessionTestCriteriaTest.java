@@ -78,10 +78,12 @@ class SessionTestCriteriaTest {
         sessionTestCriteria.id();
         sessionTestCriteria.scoreObtenu();
         sessionTestCriteria.dateDebut();
+        sessionTestCriteria.dateFin();
         sessionTestCriteria.resultatId();
+        sessionTestCriteria.questionsAskId();
         sessionTestCriteria.reponsesId();
         sessionTestCriteria.evaluationId();
-        sessionTestCriteria.epreuvesId();
+        sessionTestCriteria.epreuveId();
         sessionTestCriteria.distinct();
     }
 
@@ -91,10 +93,12 @@ class SessionTestCriteriaTest {
                 condition.apply(criteria.getId()) &&
                 condition.apply(criteria.getScoreObtenu()) &&
                 condition.apply(criteria.getDateDebut()) &&
+                condition.apply(criteria.getDateFin()) &&
                 condition.apply(criteria.getResultatId()) &&
+                condition.apply(criteria.getQuestionsAskId()) &&
                 condition.apply(criteria.getReponsesId()) &&
                 condition.apply(criteria.getEvaluationId()) &&
-                condition.apply(criteria.getEpreuvesId()) &&
+                condition.apply(criteria.getEpreuveId()) &&
                 condition.apply(criteria.getDistinct()),
             "every filter matches"
         );
@@ -106,10 +110,12 @@ class SessionTestCriteriaTest {
                 condition.apply(criteria.getId(), copy.getId()) &&
                 condition.apply(criteria.getScoreObtenu(), copy.getScoreObtenu()) &&
                 condition.apply(criteria.getDateDebut(), copy.getDateDebut()) &&
+                condition.apply(criteria.getDateFin(), copy.getDateFin()) &&
                 condition.apply(criteria.getResultatId(), copy.getResultatId()) &&
+                condition.apply(criteria.getQuestionsAskId(), copy.getQuestionsAskId()) &&
                 condition.apply(criteria.getReponsesId(), copy.getReponsesId()) &&
                 condition.apply(criteria.getEvaluationId(), copy.getEvaluationId()) &&
-                condition.apply(criteria.getEpreuvesId(), copy.getEpreuvesId()) &&
+                condition.apply(criteria.getEpreuveId(), copy.getEpreuveId()) &&
                 condition.apply(criteria.getDistinct(), copy.getDistinct()),
             "every filter matches"
         );

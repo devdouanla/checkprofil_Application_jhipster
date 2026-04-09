@@ -7,6 +7,7 @@ import expert from 'app/entities/expert/expert.reducer';
 import manager from 'app/entities/manager/manager.reducer';
 import poste from 'app/entities/poste/poste.reducer';
 import question from 'app/entities/question/question.reducer';
+import questionAsk from 'app/entities/question-ask/question-ask.reducer';
 import reponseCandidat from 'app/entities/reponse-candidat/reponse-candidat.reducer';
 import resultat from 'app/entities/resultat/resultat.reducer';
 import rH from 'app/entities/rh/rh.reducer';
@@ -29,6 +30,7 @@ const entitiesReducers = {
   resultat,
   reponseCandidat,
   managerwork,
+  questionAsk,
   /* jhipster-needle-add-reducer-combine - JHipster will add reducer here */
 };
 

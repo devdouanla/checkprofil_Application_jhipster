@@ -3,6 +3,7 @@
     "changelogDate": "20260407175648"
   },
   "applications": ["*"],
+  "documentation": "ReponseCandidat pointe vers QuestionAsk (la question tirée)\\net non plus directement vers Question.",
   "dto": "mapstruct",
   "fields": [
     {
@@ -19,8 +20,8 @@
   "name": "ReponseCandidat",
   "relationships": [
     {
-      "otherEntityName": "question",
-      "relationshipName": "question",
+      "otherEntityName": "questionAsk",
+      "relationshipName": "questionAsk",
       "relationshipSide": "left",
       "relationshipType": "many-to-one"
     },

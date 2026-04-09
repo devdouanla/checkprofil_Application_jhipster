@@ -30,13 +30,17 @@ public class SessionTestCriteria implements Serializable, Criteria {
 
     private InstantFilter dateDebut;
 
+    private InstantFilter dateFin;
+
     private LongFilter resultatId;
+
+    private LongFilter questionsAskId;
 
     private LongFilter reponsesId;
 
     private LongFilter evaluationId;
 
-    private LongFilter epreuvesId;
+    private LongFilter epreuveId;
 
     private Boolean distinct;
 
@@ -46,10 +50,12 @@ public class SessionTestCriteria implements Serializable, Criteria {
         this.id = other.optionalId().map(LongFilter::copy).orElse(null);
         this.scoreObtenu = other.optionalScoreObtenu().map(FloatFilter::copy).orElse(null);
         this.dateDebut = other.optionalDateDebut().map(InstantFilter::copy).orElse(null);
+        this.dateFin = other.optionalDateFin().map(InstantFilter::copy).orElse(null);
         this.resultatId = other.optionalResultatId().map(LongFilter::copy).orElse(null);
+        this.questionsAskId = other.optionalQuestionsAskId().map(LongFilter::copy).orElse(null);
         this.reponsesId = other.optionalReponsesId().map(LongFilter::copy).orElse(null);
         this.evaluationId = other.optionalEvaluationId().map(LongFilter::copy).orElse(null);
-        this.epreuvesId = other.optionalEpreuvesId().map(LongFilter::copy).orElse(null);
+        this.epreuveId = other.optionalEpreuveId().map(LongFilter::copy).orElse(null);
         this.distinct = other.distinct;
     }
 
@@ -115,6 +121,25 @@ public class SessionTestCriteria implements Serializable, Criteria {
         this.dateDebut = dateDebut;
     }
 
+    public InstantFilter getDateFin() {
+        return dateFin;
+    }
+
+    public Optional<InstantFilter> optionalDateFin() {
+        return Optional.ofNullable(dateFin);
+    }
+
+    public InstantFilter dateFin() {
+        if (dateFin == null) {
+            setDateFin(new InstantFilter());
+        }
+        return dateFin;
+    }
+
+    public void setDateFin(InstantFilter dateFin) {
+        this.dateFin = dateFin;
+    }
+
     public LongFilter getResultatId() {
         return resultatId;
     }
@@ -132,6 +157,25 @@ public class SessionTestCriteria implements Serializable, Criteria {
 
     public void setResultatId(LongFilter resultatId) {
         this.resultatId = resultatId;
+    }
+
+    public LongFilter getQuestionsAskId() {
+        return questionsAskId;
+    }
+
+    public Optional<LongFilter> optionalQuestionsAskId() {
+        return Optional.ofNullable(questionsAskId);
+    }
+
+    public LongFilter questionsAskId() {
+        if (questionsAskId == null) {
+            setQuestionsAskId(new LongFilter());
+        }
+        return questionsAskId;
+    }
+
+    public void setQuestionsAskId(LongFilter questionsAskId) {
+        this.questionsAskId = questionsAskId;
     }
 
     public LongFilter getReponsesId() {
@@ -172,23 +216,23 @@ public class SessionTestCriteria implements Serializable, Criteria {
         this.evaluationId = evaluationId;
     }
 
-    public LongFilter getEpreuvesId() {
-        return epreuvesId;
+    public LongFilter getEpreuveId() {
+        return epreuveId;
     }
 
-    public Optional<LongFilter> optionalEpreuvesId() {
-        return Optional.ofNullable(epreuvesId);
+    public Optional<LongFilter> optionalEpreuveId() {
+        return Optional.ofNullable(epreuveId);
     }
 
-    public LongFilter epreuvesId() {
-        if (epreuvesId == null) {
-            setEpreuvesId(new LongFilter());
+    public LongFilter epreuveId() {
+        if (epreuveId == null) {
+            setEpreuveId(new LongFilter());
         }
-        return epreuvesId;
+        return epreuveId;
     }
 
-    public void setEpreuvesId(LongFilter epreuvesId) {
-        this.epreuvesId = epreuvesId;
+    public void setEpreuveId(LongFilter epreuveId) {
+        this.epreuveId = epreuveId;
     }
 
     public Boolean getDistinct() {
@@ -223,17 +267,19 @@ public class SessionTestCriteria implements Serializable, Criteria {
             Objects.equals(id, that.id) &&
             Objects.equals(scoreObtenu, that.scoreObtenu) &&
             Objects.equals(dateDebut, that.dateDebut) &&
+            Objects.equals(dateFin, that.dateFin) &&
             Objects.equals(resultatId, that.resultatId) &&
+            Objects.equals(questionsAskId, that.questionsAskId) &&
             Objects.equals(reponsesId, that.reponsesId) &&
             Objects.equals(evaluationId, that.evaluationId) &&
-            Objects.equals(epreuvesId, that.epreuvesId) &&
+            Objects.equals(epreuveId, that.epreuveId) &&
             Objects.equals(distinct, that.distinct)
         );
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, scoreObtenu, dateDebut, resultatId, reponsesId, evaluationId, epreuvesId, distinct);
+        return Objects.hash(id, scoreObtenu, dateDebut, dateFin, resultatId, questionsAskId, reponsesId, evaluationId, epreuveId, distinct);
     }
 
     // prettier-ignore
@@ -243,10 +289,12 @@ public class SessionTestCriteria implements Serializable, Criteria {
             optionalId().map(f -> "id=" + f + ", ").orElse("") +
             optionalScoreObtenu().map(f -> "scoreObtenu=" + f + ", ").orElse("") +
             optionalDateDebut().map(f -> "dateDebut=" + f + ", ").orElse("") +
+            optionalDateFin().map(f -> "dateFin=" + f + ", ").orElse("") +
             optionalResultatId().map(f -> "resultatId=" + f + ", ").orElse("") +
+            optionalQuestionsAskId().map(f -> "questionsAskId=" + f + ", ").orElse("") +
             optionalReponsesId().map(f -> "reponsesId=" + f + ", ").orElse("") +
             optionalEvaluationId().map(f -> "evaluationId=" + f + ", ").orElse("") +
-            optionalEpreuvesId().map(f -> "epreuvesId=" + f + ", ").orElse("") +
+            optionalEpreuveId().map(f -> "epreuveId=" + f + ", ").orElse("") +
             optionalDistinct().map(f -> "distinct=" + f + ", ").orElse("") +
         "}";
     }

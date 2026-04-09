@@ -1,6 +1,5 @@
 package com.devdouanla.repository;
 
-import com.devdouanla.domain.Epreuve;
 import com.devdouanla.domain.Question;
 
 import java.util.List;
@@ -13,8 +12,6 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface QuestionRepository extends JpaRepository<Question, Long> {
-
-      List<Question> findByEpreuveId(Long epreuveId);
-
+public interface QuestionRepository extends JpaRepository<Question, Long>, JpaSpecificationExecutor<Question> {
+        List<Question> findByDifficulteAndCompetenceId(String difficulte, Long competenceId);
 }

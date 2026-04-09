@@ -10,11 +10,11 @@
     -->
     <changeSet id="20260407175648-2" author="jhipster">
 
-        <addForeignKeyConstraint baseColumnNames="question_id"
+        <addForeignKeyConstraint baseColumnNames="question_ask_id"
                                  baseTableName="reponse_candidat"
-                                 constraintName="fk_reponse_candidat__question_id"
+                                 constraintName="fk_reponse_candidat__question_ask_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="question"
+                                 referencedTableName="question_ask"
                                  />
 
         <addForeignKeyConstraint baseColumnNames="session_id"

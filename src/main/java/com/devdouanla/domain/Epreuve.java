@@ -10,7 +10,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * A Epreuve.
+ * Une Epreuve définit les CRITÈRES de tirage aléatoire :
+ * - competence  → le domaine du pool de questions
+ * - difficulte  → le niveau de difficulté à piocher
+ * - nbQuestions → combien de questions tirer aléatoirement
+ * Elle ne possède PLUS de collection de questions fixées.
  */
 @Entity
 @Table(name = "epreuve")
@@ -44,26 +48,24 @@ public class Epreuve implements Serializable {
     private Integer duree;
 
     @NotNull
+    @Column(name = "nb_questions", nullable = false)
+    private Integer nbQuestions;
+
+    @NotNull
     @Column(name = "genere_par_ia", nullable = false)
     private Boolean genereParIA;
-
-    @Column(name = "nb_int")
-    private Integer nbInt;
 
     @NotNull
     @Column(name = "publie", nullable = false)
     private Boolean publie;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "epreuve")
-    @JsonIgnoreProperties(value = { "epreuve" }, allowSetters = true)
-    private Set<Question> questionses = new HashSet<>();
+    @JsonIgnoreProperties(value = { "resultat", "questionsAsks", "reponseses", "evaluation", "epreuve" }, allowSetters = true)
+    private Set<SessionTest> sessionses = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "epreuves")
-    @JsonIgnoreProperties(value = { "resultat", "reponseses", "evaluation", "epreuves" }, allowSetters = true)
-    private Set<SessionTest> sessionTests = new HashSet<>();
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = { "epreuveses", "expertses" }, allowSetters = true)
+    @ManyToOne(optional = false)
+    @NotNull
+    @JsonIgnoreProperties(value = { "questionses", "expertses", "epreuveses" }, allowSetters = true)
     private Competence competence;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -133,6 +135,19 @@ public class Epreuve implements Serializable {
         this.duree = duree;
     }
 
+    public Integer getNbQuestions() {
+        return this.nbQuestions;
+    }
+
+    public Epreuve nbQuestions(Integer nbQuestions) {
+        this.setNbQuestions(nbQuestions);
+        return this;
+    }
+
+    public void setNbQuestions(Integer nbQuestions) {
+        this.nbQuestions = nbQuestions;
+    }
+
     public Boolean getGenereParIA() {
         return this.genereParIA;
     }
@@ -144,19 +159,6 @@ public class Epreuve implements Serializable {
 
     public void setGenereParIA(Boolean genereParIA) {
         this.genereParIA = genereParIA;
-    }
-
-    public Integer getNbInt() {
-        return this.nbInt;
-    }
-
-    public Epreuve nbInt(Integer nbInt) {
-        this.setNbInt(nbInt);
-        return this;
-    }
-
-    public void setNbInt(Integer nbInt) {
-        this.nbInt = nbInt;
     }
 
     public Boolean getPublie() {
@@ -172,65 +174,34 @@ public class Epreuve implements Serializable {
         this.publie = publie;
     }
 
-    public Set<Question> getQuestionses() {
-        return this.questionses;
+    public Set<SessionTest> getSessionses() {
+        return this.sessionses;
     }
 
-    public void setQuestionses(Set<Question> questions) {
-        if (this.questionses != null) {
-            this.questionses.forEach(i -> i.setEpreuve(null));
-        }
-        if (questions != null) {
-            questions.forEach(i -> i.setEpreuve(this));
-        }
-        this.questionses = questions;
-    }
-
-    public Epreuve questionses(Set<Question> questions) {
-        this.setQuestionses(questions);
-        return this;
-    }
-
-    public Epreuve addQuestions(Question question) {
-        this.questionses.add(question);
-        question.setEpreuve(this);
-        return this;
-    }
-
-    public Epreuve removeQuestions(Question question) {
-        this.questionses.remove(question);
-        question.setEpreuve(null);
-        return this;
-    }
-
-    public Set<SessionTest> getSessionTests() {
-        return this.sessionTests;
-    }
-
-    public void setSessionTests(Set<SessionTest> sessionTests) {
-        if (this.sessionTests != null) {
-            this.sessionTests.forEach(i -> i.setEpreuves(null));
+    public void setSessionses(Set<SessionTest> sessionTests) {
+        if (this.sessionses != null) {
+            this.sessionses.forEach(i -> i.setEpreuve(null));
         }
         if (sessionTests != null) {
-            sessionTests.forEach(i -> i.setEpreuves(this));
+            sessionTests.forEach(i -> i.setEpreuve(this));
         }
-        this.sessionTests = sessionTests;
+        this.sessionses = sessionTests;
     }
 
-    public Epreuve sessionTests(Set<SessionTest> sessionTests) {
-        this.setSessionTests(sessionTests);
+    public Epreuve sessionses(Set<SessionTest> sessionTests) {
+        this.setSessionses(sessionTests);
         return this;
     }
 
-    public Epreuve addSessionTest(SessionTest sessionTest) {
-        this.sessionTests.add(sessionTest);
-        sessionTest.setEpreuves(this);
+    public Epreuve addSessions(SessionTest sessionTest) {
+        this.sessionses.add(sessionTest);
+        sessionTest.setEpreuve(this);
         return this;
     }
 
-    public Epreuve removeSessionTest(SessionTest sessionTest) {
-        this.sessionTests.remove(sessionTest);
-        sessionTest.setEpreuves(null);
+    public Epreuve removeSessions(SessionTest sessionTest) {
+        this.sessionses.remove(sessionTest);
+        sessionTest.setEpreuve(null);
         return this;
     }
 
@@ -275,8 +246,8 @@ public class Epreuve implements Serializable {
             ", enonce='" + getEnonce() + "'" +
             ", difficulte='" + getDifficulte() + "'" +
             ", duree=" + getDuree() +
+            ", nbQuestions=" + getNbQuestions() +
             ", genereParIA='" + getGenereParIA() + "'" +
-            ", nbInt=" + getNbInt() +
             ", publie='" + getPublie() + "'" +
             "}";
     }

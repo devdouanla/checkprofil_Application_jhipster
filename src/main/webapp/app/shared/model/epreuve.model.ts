@@ -7,10 +7,10 @@ export interface IEpreuve {
   enonce?: string;
   difficulte?: keyof typeof Difficulte;
   duree?: number;
+  nbQuestions?: number;
   genereParIA?: boolean;
-  nbInt?: number | null;
   publie?: boolean;
-  competence?: ICompetence | null;
+  competence?: ICompetence;
 }
 
 export const defaultValue: Readonly<IEpreuve> = {

@@ -32,7 +32,11 @@ module.exports = async options =>
             'style-loader',
             {
               loader: 'css-loader',
-              options: { url: false },
+              options: {
+                url: false,
+                esModule: false,
+                importLoaders: 1,
+              },
             },
             {
               loader: 'postcss-loader',

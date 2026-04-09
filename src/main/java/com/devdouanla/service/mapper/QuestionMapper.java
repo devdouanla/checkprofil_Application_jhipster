@@ -1,8 +1,8 @@
 package com.devdouanla.service.mapper;
 
-import com.devdouanla.domain.Epreuve;
+import com.devdouanla.domain.Competence;
 import com.devdouanla.domain.Question;
-import com.devdouanla.service.dto.EpreuveDTO;
+import com.devdouanla.service.dto.CompetenceDTO;
 import com.devdouanla.service.dto.QuestionDTO;
 import org.mapstruct.*;
 
@@ -11,11 +11,11 @@ import org.mapstruct.*;
  */
 @Mapper(componentModel = "spring")
 public interface QuestionMapper extends EntityMapper<QuestionDTO, Question> {
-    @Mapping(target = "epreuve", source = "epreuve", qualifiedByName = "epreuveId")
+    @Mapping(target = "competence", source = "competence", qualifiedByName = "competenceId")
     QuestionDTO toDto(Question s);
 
-    @Named("epreuveId")
+    @Named("competenceId")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
-    EpreuveDTO toDtoEpreuveId(Epreuve epreuve);
+    CompetenceDTO toDtoCompetenceId(Competence competence);
 }

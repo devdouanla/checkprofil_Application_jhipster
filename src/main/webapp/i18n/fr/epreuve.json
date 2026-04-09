@@ -22,11 +22,10 @@
       "enonce": "Enonce",
       "difficulte": "Difficulte",
       "duree": "Duree",
+      "nbQuestions": "Nb Questions",
       "genereParIA": "Genere Par IA",
-      "nbInt": "Nb Int",
       "publie": "Publie",
-      "questions": "Questions",
-      "sessionTest": "Session Test",
+      "sessions": "Sessions",
       "competence": "Competence"
     }
   }

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Alert, Badge, Card, ProgressBar } from 'react-bootstrap';
 
 import { IQuestion } from 'app/shared/model/question.model';
@@ -10,6 +10,7 @@ import { ManagerworkQuestionCard } from './QuestionCard';
 interface ManagerworkSessionTabProps {
   sessionTest: ISessionTest;
   questions: IQuestion[];
+  drawnData?: { drawnCount: number; poolSize: number };
   answers: ManagerworkQuestionAnswerMap;
   onAnswerChange: (questionId: number, value: number) => void;
   saving: boolean;
@@ -19,18 +20,12 @@ interface ManagerworkSessionTabProps {
 export const ManagerworkSessionTab = ({
   sessionTest,
   questions,
+  drawnData,
   answers,
   onAnswerChange,
   saving,
   progressAnimating,
 }: ManagerworkSessionTabProps) => {
-  // TEMP DEBUG (remove after testing)
-  useEffect(() => {
-    console.warn('SessionTab DEBUG - Session:', sessionTest.epreuves?.titre, 'Epreuve ID:', sessionTest.epreuves?.id);
-    console.warn('SessionTab DEBUG - Questions length:', questions.length, 'Questions:', questions);
-    console.warn('SessionTab DEBUG - questionsByEpreuve expected for epreuve', sessionTest.epreuves?.id);
-  }, [questions, sessionTest]);
-
   const maxScore = questions.reduce((sum, question) => sum + (question.points ?? 20), 0);
   const currentScore = questions.reduce((sum, question) => sum + (question.id ? (answers[question.id] ?? 0) : 0), 0);
   const answeredCount = questions.filter(question => question.id !== undefined && answers[question.id] !== undefined).length;
@@ -44,8 +39,13 @@ export const ManagerworkSessionTab = ({
       <Card.Body className="p-4">
         <div className="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
           <div>
-            <h2 className="h5 fw-semibold mb-1">{sessionTest.epreuves?.titre ?? 'Session'}</h2>
-            <div className="text-muted small">{sessionTest.epreuves?.competence?.nom ?? 'Competence non renseignee'}</div>
+            <h2 className="h5 fw-semibold mb-1">{sessionTest.epreuve?.titre ?? 'Session'}</h2>
+            <div className="text-muted small">{sessionTest.epreuve?.competence?.nom ?? 'Competence non renseignee'}</div>
+            {drawnData && (
+              <div className="text-muted small mt-1">
+                Questions tirées aléatoirement: {drawnData.drawnCount}/{drawnData.poolSize}
+              </div>
+            )}
           </div>
           <Badge
             bg={sessionTest.scoreObtenu !== null && sessionTest.scoreObtenu !== undefined ? 'success' : 'warning'}
@@ -74,10 +74,11 @@ export const ManagerworkSessionTab = ({
           <Alert variant="warning" className="mb-3">
             <div className="fw-semibold mb-2">Aucune question trouvée</div>
             <div className="mb-2">
-              Épreuve: <strong>{sessionTest.epreuves?.titre ?? 'Inconnue'}</strong> (ID: {sessionTest.epreuves?.id ?? 'N/A'})
+              Épreuve: <strong>{sessionTest.epreuve?.titre ?? 'Inconnue'}</strong> (ID: {sessionTest.epreuve?.id ?? 'N/A'})
             </div>
             <div>
-              Vérifiez questionsByEpreuve[{sessionTest.epreuves?.id}] et l&apos;API /api/questions/epreuve/{sessionTest.epreuves?.id}
+              Vérifiez questionsByCompetenceAndDifficulty[] et l&apos;API /api/questions/epreuve/
+              {sessionTest.epreuve?.id}
             </div>
           </Alert>
         ) : (

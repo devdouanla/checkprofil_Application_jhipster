@@ -44,6 +44,13 @@ export interface ManagerworkSessionScorePayload {
   scoreObtenu: number;
 }
 
+export interface RandomDrawnQuestions {
+  sessionId: number;
+  questions: IQuestion[];
+  drawnCount: number;
+  poolSize: number;
+}
+
 export interface ManagerworkState {
   managerId?: number;
   employes: IEmploye[];
@@ -52,7 +59,8 @@ export interface ManagerworkState {
   sessionTests: ISessionTest[];
   competences: ICompetenceRequise[];
   epreuves: IEpreuve[];
-  questionsByEpreuve: Record<number, IQuestion[]>;
+  questionsByCompetenceAndDifficulty: Record<number, IQuestion[]>;
+  randomQuestionsBySession: Record<number, RandomDrawnQuestions>;
   wizardStep: ManagerworkWizardStep;
   selectedEmployeId?: number;
   selectedCompetenceIds: number[];

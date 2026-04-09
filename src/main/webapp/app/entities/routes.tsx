@@ -1,6 +1,8 @@
 import React from 'react';
-    import { Route } from 'react-router'; // eslint-disable-line
+import { Route } from 'react-router';
 
+import { ManagerworkModuleRoutes } from 'app/features/managerwork/ManagerworkModule';
+import { getManagerworkRoutePath } from 'app/features/managerwork/managerwork.config';
 import ErrorBoundaryRoutes from 'app/shared/error/error-boundary-routes';
 
 import Competence from './competence';
@@ -12,12 +14,12 @@ import Expert from './expert';
 import Manager from './manager';
 import Poste from './poste';
 import Question from './question';
+import QuestionAsk from './question-ask';
 import ReponseCandidat from './reponse-candidat';
 import Resultat from './resultat';
 import RH from './rh';
 import SessionTest from './session-test';
-import { ManagerworkModuleRoutes } from 'app/features/managerwork/ManagerworkModule';
-import { getManagerworkRoutePath } from 'app/features/managerwork/managerwork.config';
+
 /* jhipster-needle-add-route-import - JHipster will add routes here */
 
 export default () => {
@@ -39,6 +41,7 @@ export default () => {
         <Route path="/session-test/*" element={<SessionTest />} />
         <Route path="/resultat/*" element={<Resultat />} />
         <Route path="/reponse-candidat/*" element={<ReponseCandidat />} />
+        <Route path="/question-ask/*" element={<QuestionAsk />} />
         {/* jhipster-needle-add-route-path - JHipster will add routes here */}
       </ErrorBoundaryRoutes>
     </div>

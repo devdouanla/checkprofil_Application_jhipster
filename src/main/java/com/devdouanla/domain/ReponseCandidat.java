@@ -8,7 +8,8 @@ import java.io.Serializable;
 import java.time.Instant;
 
 /**
- * A ReponseCandidat.
+ * ReponseCandidat pointe vers QuestionAsk (la question tirée)
+ * et non plus directement vers Question.
  */
 @Entity
 @Table(name = "reponse_candidat")
@@ -33,11 +34,11 @@ public class ReponseCandidat implements Serializable {
     private Instant dateReponse;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = { "epreuve" }, allowSetters = true)
-    private Question question;
+    @JsonIgnoreProperties(value = { "question", "session" }, allowSetters = true)
+    private QuestionAsk questionAsk;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = { "resultat", "reponseses", "evaluation", "epreuves" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "resultat", "questionsAsks", "reponseses", "evaluation", "epreuve" }, allowSetters = true)
     private SessionTest session;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -81,16 +82,16 @@ public class ReponseCandidat implements Serializable {
         this.dateReponse = dateReponse;
     }
 
-    public Question getQuestion() {
-        return this.question;
+    public QuestionAsk getQuestionAsk() {
+        return this.questionAsk;
     }
 
-    public void setQuestion(Question question) {
-        this.question = question;
+    public void setQuestionAsk(QuestionAsk questionAsk) {
+        this.questionAsk = questionAsk;
     }
 
-    public ReponseCandidat question(Question question) {
-        this.setQuestion(question);
+    public ReponseCandidat questionAsk(QuestionAsk questionAsk) {
+        this.setQuestionAsk(questionAsk);
         return this;
     }
 

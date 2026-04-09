@@ -1,6 +1,5 @@
 package com.devdouanla.repository;
 
-import com.devdouanla.domain.CompetenceRequise;
 import com.devdouanla.domain.Epreuve;
 
 import java.util.List;
@@ -14,8 +13,5 @@ import org.springframework.stereotype.Repository;
 @SuppressWarnings("unused")
 @Repository
 public interface EpreuveRepository extends JpaRepository<Epreuve, Long>, JpaSpecificationExecutor<Epreuve> {
-
-  List<Epreuve> findByCompetenceId(Long competenceId);
-  
-
+      List<Epreuve> findByCompetenceId(Long competenceId);
 }

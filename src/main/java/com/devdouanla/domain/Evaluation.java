@@ -37,7 +37,7 @@ public class Evaluation implements Serializable {
     private Boolean conforme;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "evaluation")
-    @JsonIgnoreProperties(value = { "resultat", "reponseses", "evaluation", "epreuves" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "resultat", "questionsAsks", "reponseses", "evaluation", "epreuve" }, allowSetters = true)
     private Set<SessionTest> sessionses = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)

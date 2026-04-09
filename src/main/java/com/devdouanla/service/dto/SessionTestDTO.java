@@ -18,11 +18,13 @@ public class SessionTestDTO implements Serializable {
     @NotNull
     private Instant dateDebut;
 
+    private Instant dateFin;
+
     private ResultatDTO resultat;
 
     private EvaluationDTO evaluation;
 
-    private EpreuveDTO epreuves;
+    private EpreuveDTO epreuve;
 
     public Long getId() {
         return id;
@@ -48,6 +50,14 @@ public class SessionTestDTO implements Serializable {
         this.dateDebut = dateDebut;
     }
 
+    public Instant getDateFin() {
+        return dateFin;
+    }
+
+    public void setDateFin(Instant dateFin) {
+        this.dateFin = dateFin;
+    }
+
     public ResultatDTO getResultat() {
         return resultat;
     }
@@ -64,12 +74,12 @@ public class SessionTestDTO implements Serializable {
         this.evaluation = evaluation;
     }
 
-    public EpreuveDTO getEpreuves() {
-        return epreuves;
+    public EpreuveDTO getEpreuve() {
+        return epreuve;
     }
 
-    public void setEpreuves(EpreuveDTO epreuves) {
-        this.epreuves = epreuves;
+    public void setEpreuve(EpreuveDTO epreuve) {
+        this.epreuve = epreuve;
     }
 
     @Override
@@ -100,9 +110,10 @@ public class SessionTestDTO implements Serializable {
             "id=" + getId() +
             ", scoreObtenu=" + getScoreObtenu() +
             ", dateDebut='" + getDateDebut() + "'" +
+            ", dateFin='" + getDateFin() + "'" +
             ", resultat=" + getResultat() +
             ", evaluation=" + getEvaluation() +
-            ", epreuves=" + getEpreuves() +
+            ", epreuve=" + getEpreuve() +
             "}";
     }
 }

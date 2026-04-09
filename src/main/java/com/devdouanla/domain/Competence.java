@@ -30,8 +30,8 @@ public class Competence implements Serializable {
     private String nom;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "competence")
-    @JsonIgnoreProperties(value = { "questionses", "sessionTests", "competence" }, allowSetters = true)
-    private Set<Epreuve> epreuveses = new HashSet<>();
+    @JsonIgnoreProperties(value = { "competence" }, allowSetters = true)
+    private Set<Question> questionses = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -41,6 +41,10 @@ public class Competence implements Serializable {
     )
     @JsonIgnoreProperties(value = { "user", "competenceses" }, allowSetters = true)
     private Set<Expert> expertses = new HashSet<>();
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "competence")
+    @JsonIgnoreProperties(value = { "sessionses", "competence" }, allowSetters = true)
+    private Set<Epreuve> epreuveses = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -68,6 +72,60 @@ public class Competence implements Serializable {
 
     public void setNom(String nom) {
         this.nom = nom;
+    }
+
+    public Set<Question> getQuestionses() {
+        return this.questionses;
+    }
+
+    public void setQuestionses(Set<Question> questions) {
+        if (this.questionses != null) {
+            this.questionses.forEach(i -> i.setCompetence(null));
+        }
+        if (questions != null) {
+            questions.forEach(i -> i.setCompetence(this));
+        }
+        this.questionses = questions;
+    }
+
+    public Competence questionses(Set<Question> questions) {
+        this.setQuestionses(questions);
+        return this;
+    }
+
+    public Competence addQuestions(Question question) {
+        this.questionses.add(question);
+        question.setCompetence(this);
+        return this;
+    }
+
+    public Competence removeQuestions(Question question) {
+        this.questionses.remove(question);
+        question.setCompetence(null);
+        return this;
+    }
+
+    public Set<Expert> getExpertses() {
+        return this.expertses;
+    }
+
+    public void setExpertses(Set<Expert> experts) {
+        this.expertses = experts;
+    }
+
+    public Competence expertses(Set<Expert> experts) {
+        this.setExpertses(experts);
+        return this;
+    }
+
+    public Competence addExperts(Expert expert) {
+        this.expertses.add(expert);
+        return this;
+    }
+
+    public Competence removeExperts(Expert expert) {
+        this.expertses.remove(expert);
+        return this;
     }
 
     public Set<Epreuve> getEpreuveses() {
@@ -98,29 +156,6 @@ public class Competence implements Serializable {
     public Competence removeEpreuves(Epreuve epreuve) {
         this.epreuveses.remove(epreuve);
         epreuve.setCompetence(null);
-        return this;
-    }
-
-    public Set<Expert> getExpertses() {
-        return this.expertses;
-    }
-
-    public void setExpertses(Set<Expert> experts) {
-        this.expertses = experts;
-    }
-
-    public Competence expertses(Set<Expert> experts) {
-        this.setExpertses(experts);
-        return this;
-    }
-
-    public Competence addExperts(Expert expert) {
-        this.expertses.add(expert);
-        return this;
-    }
-
-    public Competence removeExperts(Expert expert) {
-        this.expertses.remove(expert);
         return this;
     }
 

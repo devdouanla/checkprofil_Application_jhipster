@@ -50,7 +50,8 @@ public class QuestionAsserts {
             .satisfies(a -> assertThat(a.getEnonce()).as("check enonce").isEqualTo(expected.getEnonce()))
             .satisfies(a -> assertThat(a.getReponseTexte()).as("check reponseTexte").isEqualTo(expected.getReponseTexte()))
             .satisfies(a -> assertThat(a.getPoints()).as("check points").isEqualTo(expected.getPoints()))
-            .satisfies(a -> assertThat(a.getExplication()).as("check explication").isEqualTo(expected.getExplication()));
+            .satisfies(a -> assertThat(a.getExplication()).as("check explication").isEqualTo(expected.getExplication()))
+            .satisfies(a -> assertThat(a.getDifficulte()).as("check difficulte").isEqualTo(expected.getDifficulte()));
     }
 
     /**
@@ -62,6 +63,6 @@ public class QuestionAsserts {
     public static void assertQuestionUpdatableRelationshipsEquals(Question expected, Question actual) {
         assertThat(actual)
             .as("Verify Question relationships")
-            .satisfies(a -> assertThat(a.getEpreuve()).as("check epreuve").isEqualTo(expected.getEpreuve()));
+            .satisfies(a -> assertThat(a.getCompetence()).as("check competence").isEqualTo(expected.getCompetence()));
     }
 }

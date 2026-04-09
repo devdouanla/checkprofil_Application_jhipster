@@ -171,34 +171,6 @@ public class EpreuveResource {
         return ResponseEntity.ok().body(epreuveQueryService.countByCriteria(criteria));
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     /**
      * {@code GET  /epreuves/:id} : get the "id" epreuve.
      *
@@ -227,12 +199,9 @@ public class EpreuveResource {
             .build();
     }
 
-    
-     @GetMapping("/competence/{id}")
-    public List<EpreuveDTO> getEpreuveByCompetenceId(@PathVariable("id") Long id) {
-        LOG.debug("REST request to get Epreuve by competence id : {}", id);
+        @GetMapping("/competence/{id}")
+    public List<EpreuveDTO> getALLEpreuveByCompetenceId(@PathVariable("id") Long id) {
+        LOG.debug("REST request to get all Epreuves by competence id : {}", id);
         return epreuveService.findByCompetenceId(id);
-     }
-
-
+}
 }

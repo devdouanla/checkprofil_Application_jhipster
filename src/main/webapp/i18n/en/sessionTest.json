@@ -20,10 +20,12 @@
       "id": "ID",
       "scoreObtenu": "Score Obtenu",
       "dateDebut": "Date Debut",
+      "dateFin": "Date Fin",
       "resultat": "Resultat",
+      "questionsAsk": "Questions Ask",
       "reponses": "Reponses",
       "evaluation": "Evaluation",
-      "epreuves": "Epreuves"
+      "epreuve": "Epreuve"
     }
   }
 }

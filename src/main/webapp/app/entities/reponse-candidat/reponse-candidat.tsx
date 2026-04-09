@@ -99,7 +99,8 @@ export const ReponseCandidat = () => {
                   <FontAwesomeIcon icon={getSortIconByFieldName('dateReponse')} />
                 </th>
                 <th>
-                  <Translate contentKey="checkprofileApp.reponseCandidat.question">Question</Translate> <FontAwesomeIcon icon="sort" />
+                  <Translate contentKey="checkprofileApp.reponseCandidat.questionAsk">Question Ask</Translate>{' '}
+                  <FontAwesomeIcon icon="sort" />
                 </th>
                 <th>
                   <Translate contentKey="checkprofileApp.reponseCandidat.session">Session</Translate> <FontAwesomeIcon icon="sort" />
@@ -122,8 +123,8 @@ export const ReponseCandidat = () => {
                     ) : null}
                   </td>
                   <td>
-                    {reponseCandidat.question ? (
-                      <Link to={`/question/${reponseCandidat.question.id}`}>{reponseCandidat.question.id}</Link>
+                    {reponseCandidat.questionAsk ? (
+                      <Link to={`/question-ask/${reponseCandidat.questionAsk.id}`}>{reponseCandidat.questionAsk.id}</Link>
                     ) : (
                       ''
                     )}

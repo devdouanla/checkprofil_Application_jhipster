@@ -1,11 +1,11 @@
-id;titre;enonce;difficulte;duree;genere_par_ia;nb_int;publie
-1;communiquer alors que;séculaire;DIFFICILE;21591;true;2917;false
-2;incalculable large secours;pff regretter à condition que;MOYEN;3838;false;12880;false
-3;drôlement;gigantesque membre à vie ha ha;MOYEN;27603;true;12240;false
-4;d'avec camarade;paf au cas où de la part de;MOYEN;20776;false;1188;true
-5;inventer barrer;saluer parlementaire;MOYEN;867;true;26995;false
-6;de manière à ce que smack au lieu de;miam;FACILE;6560;false;19513;false
-7;sauf à;après que hebdomadaire pour;MOYEN;19727;true;14808;false
-8;vroum après direction;émérite bè boum;DIFFICILE;19077;true;24775;false
-9;sympathique;dynamique broum;MOYEN;9181;true;22974;false
-10;déclarer;exprimer trop coin-coin;DIFFICILE;7984;false;9860;false
+id;titre;enonce;difficulte;duree;nb_questions;genere_par_ia;publie;competence_id
+1;communiquer alors que;séculaire;DIFFICILE;21591;10199;true;false;1
+2;incalculable large secours;pff regretter à condition que;MOYEN;3838;24202;true;false;2
+3;drôlement;gigantesque membre à vie ha ha;MOYEN;27603;3289;true;false;3
+4;d'avec camarade;paf au cas où de la part de;MOYEN;20776;25210;true;true;4
+5;inventer barrer;saluer parlementaire;MOYEN;867;9482;false;false;5
+6;de manière à ce que smack au lieu de;miam;FACILE;6560;21016;false;false;6
+7;sauf à;après que hebdomadaire pour;MOYEN;19727;13468;true;false;7
+8;vroum après direction;émérite bè boum;DIFFICILE;19077;4348;false;false;8
+9;sympathique;dynamique broum;MOYEN;9181;659;false;false;9
+10;déclarer;exprimer trop coin-coin;DIFFICILE;7984;22666;true;false;10

@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import { IRootState } from 'app/config/store';
-import { IQuestion } from 'app/shared/model/question.model';
 import { serializeAxiosError } from 'app/shared/reducers/reducer.utils';
 import { ISessionTest } from 'app/shared/model/session-test.model';
 
@@ -15,7 +14,7 @@ import {
   updateManagerworkEvaluation,
 } from '../api/evaluation.api';
 import { fetchManagerworkEpreuvesByCompetence } from '../api/epreuve.api';
-import { fetchManagerworkQuestionsByEpreuve } from '../api/question.api';
+import { fetchManagerworkquestionsByCompetenceAndDifficulty, fetchRandomquestionsByCompetenceAndDifficulty } from '../api/question.api';
 import {
   createManagerworkSessionTest,
   fetchManagerworkSessionTestsByEvaluation,
@@ -26,6 +25,7 @@ import {
   ManagerworkFinalizePayload,
   ManagerworkSessionScorePayload,
   ManagerworkState,
+  RandomDrawnQuestions,
 } from '../types/managerwork.types';
 
 const initialState: ManagerworkState = {
@@ -34,7 +34,8 @@ const initialState: ManagerworkState = {
   sessionTests: [],
   competences: [],
   epreuves: [],
-  questionsByEpreuve: {},
+  questionsByCompetenceAndDifficulty: {},
+  randomQuestionsBySession: {},
   wizardStep: 1,
   selectedCompetenceIds: [],
   selectedEpreuveIds: [],
@@ -105,22 +106,60 @@ export const fetchManagerworkConduite = createAsyncThunk(
       fetchManagerworkSessionTestsByEvaluation(evaluationId),
     ]);
 
-    const questionResponses = await Promise.all(
-      sessionResult.data
-        .map(session => session.epreuves?.id)
-        .filter((id): id is number => Boolean(id))
-        .map(async epreuveId => ({ epreuveId, result: await fetchManagerworkQuestionsByEpreuve(epreuveId) })),
-    );
-
+    /** const randomQuestionsBySession: Record<number, RandomDrawnQuestions> = {};
+    const promises = sessionResult.data.map(async (session): Promise<void> => {
+      const epreuveId = session.epreuve?.id;
+      const epreuve = session.epreuve;
+      if (!epreuveId || !epreuve || !epreuve.nbQuestions) return;
     const questionsByEpreuve = questionResponses.reduce<Record<number, IQuestion[]>>((accumulator, item) => {
       accumulator[item.epreuveId] = item.result.data;
       return accumulator;
     }, {});
+      const poolSize = (await fetchManagerworkQuestionsByEpreuve(epreuveId)).data.length;
+      const drawnQuestions = await fetchRandomQuestionsByEpreuve(epreuveId, epreuve.nbQuestions, session.id);
+      randomQuestionsBySession[session.id!] = {
+        sessionId: session.id!,
+        questions: drawnQuestions,
+        drawnCount: epreuve.nbQuestions,
+        poolSize,
+      };
+    }); */
+
+    const randomQuestionsBySession: Record<number, RandomDrawnQuestions> = {};
+    const promises = sessionResult.data.map(async (session): Promise<void> => {
+      const epreuveId = session.epreuve?.id;
+      const epreuve = session.epreuve;
+
+      if (!epreuveId || !epreuve || !epreuve.nbQuestions) {
+        console.warn(`Session ${session.id} has invalid epreuve data, skipping random question fetch.`);
+        return;
+      }
+
+      // ⚠️ poolSize récupéré mais peu utile si non exploité ailleurs
+      const poolSize = (await fetchManagerworkquestionsByCompetenceAndDifficulty(epreuveId)).data.length;
+      /** competenceId?: number,
+  difficulte?: string,
+  nbQuestions: number = 5,
+  seed?: number, */
+
+      const drawnQuestions = await fetchRandomquestionsByCompetenceAndDifficulty(
+        epreuve.competence.id,
+        epreuve.difficulte,
+        epreuve.nbQuestions,
+      );
+      randomQuestionsBySession[session.id] = {
+        sessionId: session.id,
+        questions: drawnQuestions,
+        drawnCount: epreuve.nbQuestions,
+        poolSize,
+      };
+    });
+    await Promise.all(promises);
 
     return {
       evaluation: evaluationResult.data,
       sessionTests: sessionResult.data,
-      questionsByEpreuve,
+      randomQuestionsBySession,
     };
   },
   { serializeError: serializeAxiosError },
@@ -148,7 +187,7 @@ export const createManagerworkEvaluationFlow = createAsyncThunk(
       createdEvaluationId: evaluation.id,
       evaluation: conduite.evaluation,
       sessionTests: conduite.sessionTests,
-      questionsByEpreuve: conduite.questionsByEpreuve,
+      randomQuestionsBySession: conduite.randomQuestionsBySession,
     };
   },
   { serializeError: serializeAxiosError },
@@ -298,7 +337,7 @@ const managerworkSlice = createSlice({
         state.progressAnimating = false;
         state.currentEvaluation = action.payload.evaluation;
         state.sessionTests = action.payload.sessionTests;
-        state.questionsByEpreuve = action.payload.questionsByEpreuve;
+        state.randomQuestionsBySession = action.payload.randomQuestionsBySession;
         state.successMessage = 'Evaluation creee et sessions initialisees avec succes.';
       })
       .addCase(createManagerworkEvaluationFlow.rejected, (state, action) => {
@@ -314,7 +353,7 @@ const managerworkSlice = createSlice({
         state.conduiteLoading = false;
         state.currentEvaluation = action.payload.evaluation;
         state.sessionTests = action.payload.sessionTests;
-        state.questionsByEpreuve = action.payload.questionsByEpreuve;
+        state.randomQuestionsBySession = action.payload.randomQuestionsBySession;
       })
       .addCase(fetchManagerworkConduite.rejected, (state, action) => {
         state.conduiteLoading = false;

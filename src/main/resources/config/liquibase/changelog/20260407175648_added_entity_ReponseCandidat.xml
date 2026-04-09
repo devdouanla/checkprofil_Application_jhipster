@@ -10,7 +10,7 @@
         Added the entity ReponseCandidat.
     -->
     <changeSet id="20260407175648-1" author="jhipster">
-        <createTable tableName="reponse_candidat">
+        <createTable tableName="reponse_candidat" remarks="ReponseCandidat pointe vers QuestionAsk (la question tirée)\net non plus directement vers Question.">
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -20,7 +20,7 @@
             <column name="date_reponse" type="${datetimeType}">
                 <constraints nullable="false" />
             </column>
-            <column name="question_id" type="bigint">
+            <column name="question_ask_id" type="bigint">
                 <constraints nullable="true" />
             </column>
             <column name="session_id" type="bigint">

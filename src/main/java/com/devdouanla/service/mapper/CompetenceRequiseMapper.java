@@ -20,13 +20,12 @@ public interface CompetenceRequiseMapper extends EntityMapper<CompetenceRequiseD
     @Named("competenceId")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
-    @Mapping(target = "nom", source = "nom")
+    @Mapping(target = "nom", source = "nom") // Ignore questions to prevent circular reference
     CompetenceDTO toDtoCompetenceId(Competence competence);
 
     @Named("posteId")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
-    @Mapping(target = "nom", source = "nom")
-    @Mapping(target = "niveau", source = "niveau")
+    @Mapping(target = "nom", source = "nom") // Ignore questions to prevent circular reference
     PosteDTO toDtoPosteId(Poste poste);
 }

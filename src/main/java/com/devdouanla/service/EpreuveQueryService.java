@@ -78,13 +78,10 @@ public class EpreuveQueryService extends QueryService<Epreuve> {
                 buildStringSpecification(criteria.getEnonce(), Epreuve_.enonce),
                 buildSpecification(criteria.getDifficulte(), Epreuve_.difficulte),
                 buildRangeSpecification(criteria.getDuree(), Epreuve_.duree),
+                buildRangeSpecification(criteria.getNbQuestions(), Epreuve_.nbQuestions),
                 buildSpecification(criteria.getGenereParIA(), Epreuve_.genereParIA),
-                buildRangeSpecification(criteria.getNbInt(), Epreuve_.nbInt),
                 buildSpecification(criteria.getPublie(), Epreuve_.publie),
-                buildSpecification(criteria.getQuestionsId(), root -> root.join(Epreuve_.questionses, JoinType.LEFT).get(Question_.id)),
-                buildSpecification(criteria.getSessionTestId(), root ->
-                    root.join(Epreuve_.sessionTests, JoinType.LEFT).get(SessionTest_.id)
-                ),
+                buildSpecification(criteria.getSessionsId(), root -> root.join(Epreuve_.sessionses, JoinType.LEFT).get(SessionTest_.id)),
                 buildSpecification(criteria.getCompetenceId(), root -> root.join(Epreuve_.competence, JoinType.LEFT).get(Competence_.id))
             );
         }

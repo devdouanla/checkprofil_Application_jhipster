@@ -41,7 +41,7 @@ public class Resultat implements Serializable {
     @Column(name = "mention", nullable = false)
     private Mention mention;
 
-    @JsonIgnoreProperties(value = { "resultat", "reponseses", "evaluation", "epreuves" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "resultat", "questionsAsks", "reponseses", "evaluation", "epreuve" }, allowSetters = true)
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "resultat")
     private SessionTest session;
 

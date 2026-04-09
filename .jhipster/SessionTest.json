@@ -13,6 +13,10 @@
       "fieldName": "dateDebut",
       "fieldType": "Instant",
       "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "dateFin",
+      "fieldType": "Instant"
     }
   ],
   "jpaMetamodelFiltering": true,
@@ -25,6 +29,13 @@
       "relationshipName": "resultat",
       "relationshipSide": "left",
       "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "questionAsk",
+      "otherEntityRelationshipName": "session",
+      "relationshipName": "questionsAsk",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
     },
     {
       "otherEntityName": "reponseCandidat",
@@ -42,8 +53,8 @@
     },
     {
       "otherEntityName": "epreuve",
-      "otherEntityRelationshipName": "sessionTest",
-      "relationshipName": "epreuves",
+      "otherEntityRelationshipName": "sessions",
+      "relationshipName": "epreuve",
       "relationshipSide": "right",
       "relationshipType": "many-to-one"
     }

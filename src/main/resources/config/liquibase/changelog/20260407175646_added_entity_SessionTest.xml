@@ -20,18 +20,22 @@
             <column name="date_debut" type="${datetimeType}">
                 <constraints nullable="false" />
             </column>
+            <column name="date_fin" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
             <column name="resultat_id" type="bigint">
                 <constraints nullable="true" unique="true" uniqueConstraintName="ux_session_test__resultat_id" />
             </column>
             <column name="evaluation_id" type="bigint">
                 <constraints nullable="true" />
             </column>
-            <column name="epreuves_id" type="bigint">
+            <column name="epreuve_id" type="bigint">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
         <dropDefaultValue tableName="session_test" columnName="date_debut" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="session_test" columnName="date_fin" columnDataType="${datetimeType}"/>
     </changeSet>
 
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
@@ -53,6 +57,7 @@
             <column name="id" type="numeric"/>
             <column name="score_obtenu" type="numeric"/>
             <column name="date_debut" type="date"/>
+            <column name="date_fin" type="date"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

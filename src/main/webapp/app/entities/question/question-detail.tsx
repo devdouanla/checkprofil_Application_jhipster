@@ -57,9 +57,15 @@ export const QuestionDetail = () => {
           </dt>
           <dd>{questionEntity.explication}</dd>
           <dt>
-            <Translate contentKey="checkprofileApp.question.epreuve">Epreuve</Translate>
+            <span id="difficulte">
+              <Translate contentKey="checkprofileApp.question.difficulte">Difficulte</Translate>
+            </span>
           </dt>
-          <dd>{questionEntity.epreuve ? questionEntity.epreuve.id : ''}</dd>
+          <dd>{questionEntity.difficulte}</dd>
+          <dt>
+            <Translate contentKey="checkprofileApp.question.competence">Competence</Translate>
+          </dt>
+          <dd>{questionEntity.competence ? questionEntity.competence.id : ''}</dd>
         </dl>
         <Button as={Link as any} to="/question" replace variant="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}

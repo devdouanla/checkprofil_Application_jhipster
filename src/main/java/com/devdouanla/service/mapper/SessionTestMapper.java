@@ -4,6 +4,7 @@ import com.devdouanla.domain.Epreuve;
 import com.devdouanla.domain.Evaluation;
 import com.devdouanla.domain.Resultat;
 import com.devdouanla.domain.SessionTest;
+import com.devdouanla.domain.enumeration.Difficulte;
 import com.devdouanla.service.dto.EpreuveDTO;
 import com.devdouanla.service.dto.EvaluationDTO;
 import com.devdouanla.service.dto.ResultatDTO;
@@ -17,7 +18,7 @@ import org.mapstruct.*;
 public interface SessionTestMapper extends EntityMapper<SessionTestDTO, SessionTest> {
     @Mapping(target = "resultat", source = "resultat", qualifiedByName = "resultatId")
     @Mapping(target = "evaluation", source = "evaluation", qualifiedByName = "evaluationId")
-    @Mapping(target = "epreuves", source = "epreuves", qualifiedByName = "epreuveId")
+    @Mapping(target = "epreuve", source = "epreuve", qualifiedByName = "epreuveId")
     SessionTestDTO toDto(SessionTest s);
 
     @Named("resultatId")
@@ -33,5 +34,9 @@ public interface SessionTestMapper extends EntityMapper<SessionTestDTO, SessionT
     @Named("epreuveId")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
+    @Mapping(target = "nbQuestions", source = "nbQuestions") // Ignore questions to prevent circular reference
+    @Mapping(target = "difficulte", source = "difficulte") // Ignore questions to prevent circular reference
+    @Mapping(target = "competence", source = "competence") // Ignore questions to prevent circular reference    
+  
     EpreuveDTO toDtoEpreuveId(Epreuve epreuve);
 }

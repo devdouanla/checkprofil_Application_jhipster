@@ -22,7 +22,7 @@ export const createManagerworkSessionTest = (
     BASE,
     {
       evaluation: { id: evaluationId },
-      epreuves: { id: epreuveId },
+      epreuve: { id: epreuveId },
       dateDebut: dayjs(),
     },
     { signal },
@@ -30,3 +30,15 @@ export const createManagerworkSessionTest = (
 
 export const updateManagerworkSessionTest = (sessionTest: ISessionTest, signal?: AbortSignal): Promise<ApiResult<ISessionTest>> =>
   apiPut<ISessionTest, ISessionTest>(`${BASE}/${sessionTest.id}`, sessionTest, { signal });
+
+interface GenerateSessionTestRequest {
+  evaluationId: number;
+  epreuveId: number;
+}
+
+export const generateManagerworkSessionTest = (
+  evaluationId: number,
+  epreuveId: number,
+  signal?: AbortSignal,
+): Promise<ApiResult<ISessionTest>> =>
+  apiPost<ISessionTest, GenerateSessionTestRequest>(`${BASE}/generate`, { evaluationId, epreuveId }, { signal });

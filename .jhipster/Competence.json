@@ -15,9 +15,9 @@
   "name": "Competence",
   "relationships": [
     {
-      "otherEntityName": "epreuve",
+      "otherEntityName": "question",
       "otherEntityRelationshipName": "competence",
-      "relationshipName": "epreuves",
+      "relationshipName": "questions",
       "relationshipSide": "left",
       "relationshipType": "one-to-many"
     },
@@ -27,6 +27,13 @@
       "relationshipName": "experts",
       "relationshipSide": "left",
       "relationshipType": "many-to-many"
+    },
+    {
+      "otherEntityName": "epreuve",
+      "otherEntityRelationshipName": "competence",
+      "relationshipName": "epreuves",
+      "relationshipSide": "right",
+      "relationshipType": "one-to-many"
     }
   ],
   "searchEngine": "no",

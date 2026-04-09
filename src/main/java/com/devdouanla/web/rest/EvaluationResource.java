@@ -2,6 +2,7 @@ package com.devdouanla.web.rest;
 
 import com.devdouanla.repository.EvaluationRepository;
 import com.devdouanla.service.EvaluationService;
+import com.devdouanla.service.dto.EmployeDTO;
 import com.devdouanla.service.dto.EvaluationDTO;
 import com.devdouanla.web.rest.errors.BadRequestAlertException;
 import jakarta.validation.Valid;
@@ -23,6 +24,11 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
+import java.util.stream.Collectors;
+import java.util.Objects;
+import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 
 /**
  * REST controller for managing {@link com.devdouanla.domain.Evaluation}.
@@ -54,9 +60,35 @@ public class EvaluationResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new evaluationDTO, or with status {@code 400 (Bad Request)} if the evaluation has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
+    /**
+     * {@code POST  /evaluations} : Create a new evaluation.
+     */
     @PostMapping("")
     public ResponseEntity<EvaluationDTO> createEvaluation(@Valid @RequestBody EvaluationDTO evaluationDTO) throws URISyntaxException {
         LOG.debug("REST request to save Evaluation : {}", evaluationDTO);
+        if (evaluationDTO.getId() != null) {
+            throw new BadRequestAlertException("A new evaluation cannot already have an ID", ENTITY_NAME, "idexists");
+        }
+        evaluationDTO = evaluationService.save(evaluationDTO);
+        return ResponseEntity.created(new URI("/api/evaluations/" + evaluationDTO.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, evaluationDTO.getId().toString()))
+            .body(evaluationDTO);
+    }
+
+    /**
+     * {@code POST  /evaluations/employe/:employeId} : Create new evaluation for employe.
+     */
+    @PostMapping("/employe/{employeId}")
+    public ResponseEntity<EvaluationDTO> createEvaluationForEmploye(
+        @PathVariable Long employeId,
+        @Valid @RequestBody EvaluationDTO evaluationDTO
+    ) throws URISyntaxException {
+        LOG.debug("REST request to save Evaluation for employe: {}", employeId);
+        EmployeDTO employe = new EmployeDTO();
+        employe.setId(employeId);
+        evaluationDTO.setEmploye(employe);
+        evaluationDTO.setDateDebut(java.time.Instant.now());
+        evaluationDTO.setConforme(false);
         if (evaluationDTO.getId() != null) {
             throw new BadRequestAlertException("A new evaluation cannot already have an ID", ENTITY_NAME, "idexists");
         }
@@ -141,10 +173,31 @@ public class EvaluationResource {
      * @param pageable the pagination information.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of Evaluations in body.
      */
-    @GetMapping("")
+@GetMapping("")
     public ResponseEntity<List<EvaluationDTO>> getAllEvaluations(@org.springdoc.core.annotations.ParameterObject Pageable pageable) {
         LOG.debug("REST request to get a page of Evaluations");
         Page<EvaluationDTO> page = evaluationService.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /evaluations/byManager/:managerId} : get evaluations by manager via employe.poste.manager.
+     */
+    @GetMapping("/byManager/{managerId}")
+    public ResponseEntity<List<EvaluationDTO>> getEvaluationsByManager(
+        @PathVariable Long managerId,
+        @org.springdoc.core.annotations.ParameterObject Pageable pageable
+    ) {
+        LOG.debug("REST request to get Evaluations by managerId: {}", managerId);
+        // Placeholder - since no QueryService, filter via service.findAll
+        List<EvaluationDTO> all = evaluationService.findAll(Pageable.unpaged()).getContent();
+        List<EvaluationDTO> filtered = all.stream()
+            .filter(e -> e.getEmploye() != null && e.getEmploye().getPoste() != null && 
+                e.getEmploye().getPoste().getManager() != null && 
+                Objects.equals(e.getEmploye().getPoste().getManager().getId(), managerId))
+            .collect(Collectors.toList());
+        Page<EvaluationDTO> page = new PageImpl<>(filtered, pageable, filtered.size());
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

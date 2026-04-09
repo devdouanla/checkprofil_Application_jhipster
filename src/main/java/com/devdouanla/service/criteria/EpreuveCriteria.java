@@ -52,15 +52,13 @@ public class EpreuveCriteria implements Serializable, Criteria {
 
     private IntegerFilter duree;
 
-    private BooleanFilter genereParIA;
+    private IntegerFilter nbQuestions;
 
-    private IntegerFilter nbInt;
+    private BooleanFilter genereParIA;
 
     private BooleanFilter publie;
 
-    private LongFilter questionsId;
-
-    private LongFilter sessionTestId;
+    private LongFilter sessionsId;
 
     private LongFilter competenceId;
 
@@ -74,11 +72,10 @@ public class EpreuveCriteria implements Serializable, Criteria {
         this.enonce = other.optionalEnonce().map(StringFilter::copy).orElse(null);
         this.difficulte = other.optionalDifficulte().map(DifficulteFilter::copy).orElse(null);
         this.duree = other.optionalDuree().map(IntegerFilter::copy).orElse(null);
+        this.nbQuestions = other.optionalNbQuestions().map(IntegerFilter::copy).orElse(null);
         this.genereParIA = other.optionalGenereParIA().map(BooleanFilter::copy).orElse(null);
-        this.nbInt = other.optionalNbInt().map(IntegerFilter::copy).orElse(null);
         this.publie = other.optionalPublie().map(BooleanFilter::copy).orElse(null);
-        this.questionsId = other.optionalQuestionsId().map(LongFilter::copy).orElse(null);
-        this.sessionTestId = other.optionalSessionTestId().map(LongFilter::copy).orElse(null);
+        this.sessionsId = other.optionalSessionsId().map(LongFilter::copy).orElse(null);
         this.competenceId = other.optionalCompetenceId().map(LongFilter::copy).orElse(null);
         this.distinct = other.distinct;
     }
@@ -183,6 +180,25 @@ public class EpreuveCriteria implements Serializable, Criteria {
         this.duree = duree;
     }
 
+    public IntegerFilter getNbQuestions() {
+        return nbQuestions;
+    }
+
+    public Optional<IntegerFilter> optionalNbQuestions() {
+        return Optional.ofNullable(nbQuestions);
+    }
+
+    public IntegerFilter nbQuestions() {
+        if (nbQuestions == null) {
+            setNbQuestions(new IntegerFilter());
+        }
+        return nbQuestions;
+    }
+
+    public void setNbQuestions(IntegerFilter nbQuestions) {
+        this.nbQuestions = nbQuestions;
+    }
+
     public BooleanFilter getGenereParIA() {
         return genereParIA;
     }
@@ -200,25 +216,6 @@ public class EpreuveCriteria implements Serializable, Criteria {
 
     public void setGenereParIA(BooleanFilter genereParIA) {
         this.genereParIA = genereParIA;
-    }
-
-    public IntegerFilter getNbInt() {
-        return nbInt;
-    }
-
-    public Optional<IntegerFilter> optionalNbInt() {
-        return Optional.ofNullable(nbInt);
-    }
-
-    public IntegerFilter nbInt() {
-        if (nbInt == null) {
-            setNbInt(new IntegerFilter());
-        }
-        return nbInt;
-    }
-
-    public void setNbInt(IntegerFilter nbInt) {
-        this.nbInt = nbInt;
     }
 
     public BooleanFilter getPublie() {
@@ -240,42 +237,23 @@ public class EpreuveCriteria implements Serializable, Criteria {
         this.publie = publie;
     }
 
-    public LongFilter getQuestionsId() {
-        return questionsId;
+    public LongFilter getSessionsId() {
+        return sessionsId;
     }
 
-    public Optional<LongFilter> optionalQuestionsId() {
-        return Optional.ofNullable(questionsId);
+    public Optional<LongFilter> optionalSessionsId() {
+        return Optional.ofNullable(sessionsId);
     }
 
-    public LongFilter questionsId() {
-        if (questionsId == null) {
-            setQuestionsId(new LongFilter());
+    public LongFilter sessionsId() {
+        if (sessionsId == null) {
+            setSessionsId(new LongFilter());
         }
-        return questionsId;
+        return sessionsId;
     }
 
-    public void setQuestionsId(LongFilter questionsId) {
-        this.questionsId = questionsId;
-    }
-
-    public LongFilter getSessionTestId() {
-        return sessionTestId;
-    }
-
-    public Optional<LongFilter> optionalSessionTestId() {
-        return Optional.ofNullable(sessionTestId);
-    }
-
-    public LongFilter sessionTestId() {
-        if (sessionTestId == null) {
-            setSessionTestId(new LongFilter());
-        }
-        return sessionTestId;
-    }
-
-    public void setSessionTestId(LongFilter sessionTestId) {
-        this.sessionTestId = sessionTestId;
+    public void setSessionsId(LongFilter sessionsId) {
+        this.sessionsId = sessionsId;
     }
 
     public LongFilter getCompetenceId() {
@@ -331,11 +309,10 @@ public class EpreuveCriteria implements Serializable, Criteria {
             Objects.equals(enonce, that.enonce) &&
             Objects.equals(difficulte, that.difficulte) &&
             Objects.equals(duree, that.duree) &&
+            Objects.equals(nbQuestions, that.nbQuestions) &&
             Objects.equals(genereParIA, that.genereParIA) &&
-            Objects.equals(nbInt, that.nbInt) &&
             Objects.equals(publie, that.publie) &&
-            Objects.equals(questionsId, that.questionsId) &&
-            Objects.equals(sessionTestId, that.sessionTestId) &&
+            Objects.equals(sessionsId, that.sessionsId) &&
             Objects.equals(competenceId, that.competenceId) &&
             Objects.equals(distinct, that.distinct)
         );
@@ -343,20 +320,7 @@ public class EpreuveCriteria implements Serializable, Criteria {
 
     @Override
     public int hashCode() {
-        return Objects.hash(
-            id,
-            titre,
-            enonce,
-            difficulte,
-            duree,
-            genereParIA,
-            nbInt,
-            publie,
-            questionsId,
-            sessionTestId,
-            competenceId,
-            distinct
-        );
+        return Objects.hash(id, titre, enonce, difficulte, duree, nbQuestions, genereParIA, publie, sessionsId, competenceId, distinct);
     }
 
     // prettier-ignore
@@ -368,11 +332,10 @@ public class EpreuveCriteria implements Serializable, Criteria {
             optionalEnonce().map(f -> "enonce=" + f + ", ").orElse("") +
             optionalDifficulte().map(f -> "difficulte=" + f + ", ").orElse("") +
             optionalDuree().map(f -> "duree=" + f + ", ").orElse("") +
+            optionalNbQuestions().map(f -> "nbQuestions=" + f + ", ").orElse("") +
             optionalGenereParIA().map(f -> "genereParIA=" + f + ", ").orElse("") +
-            optionalNbInt().map(f -> "nbInt=" + f + ", ").orElse("") +
             optionalPublie().map(f -> "publie=" + f + ", ").orElse("") +
-            optionalQuestionsId().map(f -> "questionsId=" + f + ", ").orElse("") +
-            optionalSessionTestId().map(f -> "sessionTestId=" + f + ", ").orElse("") +
+            optionalSessionsId().map(f -> "sessionsId=" + f + ", ").orElse("") +
             optionalCompetenceId().map(f -> "competenceId=" + f + ", ").orElse("") +
             optionalDistinct().map(f -> "distinct=" + f + ", ").orElse("") +
         "}";

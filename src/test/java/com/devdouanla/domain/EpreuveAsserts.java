@@ -51,8 +51,8 @@ public class EpreuveAsserts {
             .satisfies(a -> assertThat(a.getEnonce()).as("check enonce").isEqualTo(expected.getEnonce()))
             .satisfies(a -> assertThat(a.getDifficulte()).as("check difficulte").isEqualTo(expected.getDifficulte()))
             .satisfies(a -> assertThat(a.getDuree()).as("check duree").isEqualTo(expected.getDuree()))
+            .satisfies(a -> assertThat(a.getNbQuestions()).as("check nbQuestions").isEqualTo(expected.getNbQuestions()))
             .satisfies(a -> assertThat(a.getGenereParIA()).as("check genereParIA").isEqualTo(expected.getGenereParIA()))
-            .satisfies(a -> assertThat(a.getNbInt()).as("check nbInt").isEqualTo(expected.getNbInt()))
             .satisfies(a -> assertThat(a.getPublie()).as("check publie").isEqualTo(expected.getPublie()));
     }
 

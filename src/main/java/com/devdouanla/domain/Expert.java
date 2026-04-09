@@ -31,7 +31,7 @@ public class Expert implements Serializable {
     private User user;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "expertses")
-    @JsonIgnoreProperties(value = { "epreuveses", "expertses" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "questionses", "expertses", "epreuveses" }, allowSetters = true)
     private Set<Competence> competenceses = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

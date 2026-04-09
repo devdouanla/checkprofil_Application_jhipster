@@ -130,13 +130,13 @@ export const Epreuve = () => {
                   <Translate contentKey="checkprofileApp.epreuve.duree">Duree</Translate>{' '}
                   <FontAwesomeIcon icon={getSortIconByFieldName('duree')} />
                 </th>
+                <th className="hand" onClick={sort('nbQuestions')}>
+                  <Translate contentKey="checkprofileApp.epreuve.nbQuestions">Nb Questions</Translate>{' '}
+                  <FontAwesomeIcon icon={getSortIconByFieldName('nbQuestions')} />
+                </th>
                 <th className="hand" onClick={sort('genereParIA')}>
                   <Translate contentKey="checkprofileApp.epreuve.genereParIA">Genere Par IA</Translate>{' '}
                   <FontAwesomeIcon icon={getSortIconByFieldName('genereParIA')} />
-                </th>
-                <th className="hand" onClick={sort('nbInt')}>
-                  <Translate contentKey="checkprofileApp.epreuve.nbInt">Nb Int</Translate>{' '}
-                  <FontAwesomeIcon icon={getSortIconByFieldName('nbInt')} />
                 </th>
                 <th className="hand" onClick={sort('publie')}>
                   <Translate contentKey="checkprofileApp.epreuve.publie">Publie</Translate>{' '}
@@ -162,8 +162,8 @@ export const Epreuve = () => {
                     <Translate contentKey={`checkprofileApp.Difficulte.${epreuve.difficulte}`} />
                   </td>
                   <td>{epreuve.duree}</td>
+                  <td>{epreuve.nbQuestions}</td>
                   <td>{epreuve.genereParIA ? 'true' : 'false'}</td>
-                  <td>{epreuve.nbInt}</td>
                   <td>{epreuve.publie ? 'true' : 'false'}</td>
                   <td>{epreuve.competence ? <Link to={`/competence/${epreuve.competence.id}`}>{epreuve.competence.id}</Link> : ''}</td>
                   <td className="text-end">

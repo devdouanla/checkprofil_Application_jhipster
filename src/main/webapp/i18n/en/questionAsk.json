@@ -1,0 +1,26 @@
+{
+  "checkprofileApp": {
+    "questionAsk": {
+      "home": {
+        "title": "Question Asks",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Question Ask",
+        "createOrEditLabel": "Create or edit a Question Ask",
+        "notFound": "No Question Asks found"
+      },
+      "created": "A new Question Ask is created with identifier {{ param }}",
+      "updated": "A Question Ask is updated with identifier {{ param }}",
+      "deleted": "A Question Ask is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Question Ask {{ id }}?"
+      },
+      "detail": {
+        "title": "Question Ask"
+      },
+      "id": "ID",
+      "ordre": "Ordre",
+      "question": "Question",
+      "session": "Session"
+    }
+  }
+}

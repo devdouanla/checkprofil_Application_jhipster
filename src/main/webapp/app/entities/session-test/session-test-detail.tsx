@@ -48,6 +48,14 @@ export const SessionTestDetail = () => {
             {sessionTestEntity.dateDebut ? <TextFormat value={sessionTestEntity.dateDebut} type="date" format={APP_DATE_FORMAT} /> : null}
           </dd>
           <dt>
+            <span id="dateFin">
+              <Translate contentKey="checkprofileApp.sessionTest.dateFin">Date Fin</Translate>
+            </span>
+          </dt>
+          <dd>
+            {sessionTestEntity.dateFin ? <TextFormat value={sessionTestEntity.dateFin} type="date" format={APP_DATE_FORMAT} /> : null}
+          </dd>
+          <dt>
             <Translate contentKey="checkprofileApp.sessionTest.resultat">Resultat</Translate>
           </dt>
           <dd>{sessionTestEntity.resultat ? sessionTestEntity.resultat.id : ''}</dd>
@@ -56,9 +64,9 @@ export const SessionTestDetail = () => {
           </dt>
           <dd>{sessionTestEntity.evaluation ? sessionTestEntity.evaluation.id : ''}</dd>
           <dt>
-            <Translate contentKey="checkprofileApp.sessionTest.epreuves">Epreuves</Translate>
+            <Translate contentKey="checkprofileApp.sessionTest.epreuve">Epreuve</Translate>
           </dt>
-          <dd>{sessionTestEntity.epreuves ? sessionTestEntity.epreuves.id : ''}</dd>
+          <dd>{sessionTestEntity.epreuve ? sessionTestEntity.epreuve.id : ''}</dd>
         </dl>
         <Button as={Link as any} to="/session-test" replace variant="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}

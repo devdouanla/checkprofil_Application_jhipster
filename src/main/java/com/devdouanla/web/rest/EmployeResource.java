@@ -160,6 +160,22 @@ public class EmployeResource {
     }
 
     /**
+     * {@code GET  /employes/byManager/:managerId} : get employes under manager via poste.manager.
+     */
+    @GetMapping("/byManager/{managerId}")
+    public ResponseEntity<List<EmployeDTO>> getEmployesByManager(
+        @PathVariable Long managerId,
+        @org.springdoc.core.annotations.ParameterObject Pageable pageable
+    ) {
+        LOG.debug("REST request to get Employes by managerId: {}", managerId);
+        EmployeCriteria criteria = new EmployeCriteria();
+        criteria.posteId().equals(managerId);
+        Page<EmployeDTO> page = employeQueryService.findByCriteria(criteria, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
      * {@code GET  /employes/count} : count all the employes.
      *
      * @param criteria the criteria which the requested entities should match.

@@ -2,8 +2,6 @@ package com.devdouanla.service;
 
 import com.devdouanla.service.dto.CompetenceRequiseDTO;
 
-import liquibase.change.core.LoadDataChange.LOAD_DATA_TYPE;
-
 import java.util.List;
 import java.util.Optional;
 

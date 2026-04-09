@@ -28,9 +28,11 @@ public class CompetenceCriteria implements Serializable, Criteria {
 
     private StringFilter nom;
 
-    private LongFilter epreuvesId;
+    private LongFilter questionsId;
 
     private LongFilter expertsId;
+
+    private LongFilter epreuvesId;
 
     private Boolean distinct;
 
@@ -39,8 +41,9 @@ public class CompetenceCriteria implements Serializable, Criteria {
     public CompetenceCriteria(CompetenceCriteria other) {
         this.id = other.optionalId().map(LongFilter::copy).orElse(null);
         this.nom = other.optionalNom().map(StringFilter::copy).orElse(null);
-        this.epreuvesId = other.optionalEpreuvesId().map(LongFilter::copy).orElse(null);
+        this.questionsId = other.optionalQuestionsId().map(LongFilter::copy).orElse(null);
         this.expertsId = other.optionalExpertsId().map(LongFilter::copy).orElse(null);
+        this.epreuvesId = other.optionalEpreuvesId().map(LongFilter::copy).orElse(null);
         this.distinct = other.distinct;
     }
 
@@ -87,23 +90,23 @@ public class CompetenceCriteria implements Serializable, Criteria {
         this.nom = nom;
     }
 
-    public LongFilter getEpreuvesId() {
-        return epreuvesId;
+    public LongFilter getQuestionsId() {
+        return questionsId;
     }
 
-    public Optional<LongFilter> optionalEpreuvesId() {
-        return Optional.ofNullable(epreuvesId);
+    public Optional<LongFilter> optionalQuestionsId() {
+        return Optional.ofNullable(questionsId);
     }
 
-    public LongFilter epreuvesId() {
-        if (epreuvesId == null) {
-            setEpreuvesId(new LongFilter());
+    public LongFilter questionsId() {
+        if (questionsId == null) {
+            setQuestionsId(new LongFilter());
         }
-        return epreuvesId;
+        return questionsId;
     }
 
-    public void setEpreuvesId(LongFilter epreuvesId) {
-        this.epreuvesId = epreuvesId;
+    public void setQuestionsId(LongFilter questionsId) {
+        this.questionsId = questionsId;
     }
 
     public LongFilter getExpertsId() {
@@ -123,6 +126,25 @@ public class CompetenceCriteria implements Serializable, Criteria {
 
     public void setExpertsId(LongFilter expertsId) {
         this.expertsId = expertsId;
+    }
+
+    public LongFilter getEpreuvesId() {
+        return epreuvesId;
+    }
+
+    public Optional<LongFilter> optionalEpreuvesId() {
+        return Optional.ofNullable(epreuvesId);
+    }
+
+    public LongFilter epreuvesId() {
+        if (epreuvesId == null) {
+            setEpreuvesId(new LongFilter());
+        }
+        return epreuvesId;
+    }
+
+    public void setEpreuvesId(LongFilter epreuvesId) {
+        this.epreuvesId = epreuvesId;
     }
 
     public Boolean getDistinct() {
@@ -156,15 +178,16 @@ public class CompetenceCriteria implements Serializable, Criteria {
         return (
             Objects.equals(id, that.id) &&
             Objects.equals(nom, that.nom) &&
-            Objects.equals(epreuvesId, that.epreuvesId) &&
+            Objects.equals(questionsId, that.questionsId) &&
             Objects.equals(expertsId, that.expertsId) &&
+            Objects.equals(epreuvesId, that.epreuvesId) &&
             Objects.equals(distinct, that.distinct)
         );
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nom, epreuvesId, expertsId, distinct);
+        return Objects.hash(id, nom, questionsId, expertsId, epreuvesId, distinct);
     }
 
     // prettier-ignore
@@ -173,8 +196,9 @@ public class CompetenceCriteria implements Serializable, Criteria {
         return "CompetenceCriteria{" +
             optionalId().map(f -> "id=" + f + ", ").orElse("") +
             optionalNom().map(f -> "nom=" + f + ", ").orElse("") +
-            optionalEpreuvesId().map(f -> "epreuvesId=" + f + ", ").orElse("") +
+            optionalQuestionsId().map(f -> "questionsId=" + f + ", ").orElse("") +
             optionalExpertsId().map(f -> "expertsId=" + f + ", ").orElse("") +
+            optionalEpreuvesId().map(f -> "epreuvesId=" + f + ", ").orElse("") +
             optionalDistinct().map(f -> "distinct=" + f + ", ").orElse("") +
         "}";
     }

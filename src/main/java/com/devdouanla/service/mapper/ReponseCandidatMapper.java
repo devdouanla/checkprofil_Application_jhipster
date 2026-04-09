@@ -1,9 +1,9 @@
 package com.devdouanla.service.mapper;
 
-import com.devdouanla.domain.Question;
+import com.devdouanla.domain.QuestionAsk;
 import com.devdouanla.domain.ReponseCandidat;
 import com.devdouanla.domain.SessionTest;
-import com.devdouanla.service.dto.QuestionDTO;
+import com.devdouanla.service.dto.QuestionAskDTO;
 import com.devdouanla.service.dto.ReponseCandidatDTO;
 import com.devdouanla.service.dto.SessionTestDTO;
 import org.mapstruct.*;
@@ -13,14 +13,14 @@ import org.mapstruct.*;
  */
 @Mapper(componentModel = "spring")
 public interface ReponseCandidatMapper extends EntityMapper<ReponseCandidatDTO, ReponseCandidat> {
-    @Mapping(target = "question", source = "question", qualifiedByName = "questionId")
+    @Mapping(target = "questionAsk", source = "questionAsk", qualifiedByName = "questionAskId")
     @Mapping(target = "session", source = "session", qualifiedByName = "sessionTestId")
     ReponseCandidatDTO toDto(ReponseCandidat s);
 
-    @Named("questionId")
+    @Named("questionAskId")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
-    QuestionDTO toDtoQuestionId(Question question);
+    QuestionAskDTO toDtoQuestionAskId(QuestionAsk questionAsk);
 
     @Named("sessionTestId")
     @BeanMapping(ignoreByDefault = true)

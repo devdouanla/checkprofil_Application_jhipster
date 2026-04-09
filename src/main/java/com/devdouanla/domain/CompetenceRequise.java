@@ -28,7 +28,7 @@ public class CompetenceRequise implements Serializable {
     private Boolean obligatoire;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = { "epreuveses", "expertses" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "questionses", "expertses", "epreuveses" }, allowSetters = true)
     private Competence competence;
 
     @ManyToOne(fetch = FetchType.LAZY)

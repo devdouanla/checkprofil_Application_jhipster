@@ -18,6 +18,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
+import java.util.stream.Collectors;
+import java.util.Objects;
 
 /**
  * REST controller for managing {@link com.devdouanla.domain.Manager}.
@@ -136,10 +138,31 @@ public class ManagerResource {
      * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of Managers in body.
      */
+    /**
+     * {@code GET  /managers} : get all the Managers.
+     *
+     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of Managers in body.
+     */
     @GetMapping("")
     public List<ManagerDTO> getAllManagers(@RequestParam(name = "eagerload", required = false, defaultValue = "true") boolean eagerload) {
         LOG.debug("REST request to get all Managers");
         return managerService.findAll();
+    }
+
+    /**
+     * {@code GET  /managers/byUserId/:userId} : get managers for user ID (Manager is 1:1 with User).
+     */
+    /**
+     * {@code GET  /managers/byUserId/:userId} : get managers for user ID (Manager is 1:1 with User).
+     */
+    @GetMapping("/byUserId/{userId}")
+    public ResponseEntity<List<ManagerDTO>> getManagersByUserId(@PathVariable Long userId) {
+        LOG.debug("REST request to get Managers by userId: {}", userId);
+        List<ManagerDTO> managers = managerService.findAll().stream()
+            .filter(m -> m.getUser() != null && Objects.equals(m.getUser().getId(), userId))
+            .collect(Collectors.toList());
+        return ResponseEntity.ok().body(managers);
     }
 
     /**

@@ -46,6 +46,9 @@ class SessionTestResourceIT {
     private static final Instant DEFAULT_DATE_DEBUT = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_DATE_DEBUT = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
+    private static final Instant DEFAULT_DATE_FIN = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_DATE_FIN = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
     private static final String ENTITY_API_URL = "/api/session-tests";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -78,7 +81,7 @@ class SessionTestResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static SessionTest createEntity() {
-        return new SessionTest().scoreObtenu(DEFAULT_SCORE_OBTENU).dateDebut(DEFAULT_DATE_DEBUT);
+        return new SessionTest().scoreObtenu(DEFAULT_SCORE_OBTENU).dateDebut(DEFAULT_DATE_DEBUT).dateFin(DEFAULT_DATE_FIN);
     }
 
     /**
@@ -88,7 +91,7 @@ class SessionTestResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static SessionTest createUpdatedEntity() {
-        return new SessionTest().scoreObtenu(UPDATED_SCORE_OBTENU).dateDebut(UPDATED_DATE_DEBUT);
+        return new SessionTest().scoreObtenu(UPDATED_SCORE_OBTENU).dateDebut(UPDATED_DATE_DEBUT).dateFin(UPDATED_DATE_FIN);
     }
 
     @BeforeEach
@@ -176,7 +179,8 @@ class SessionTestResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(sessionTest.getId().intValue())))
             .andExpect(jsonPath("$.[*].scoreObtenu").value(hasItem(DEFAULT_SCORE_OBTENU.doubleValue())))
-            .andExpect(jsonPath("$.[*].dateDebut").value(hasItem(DEFAULT_DATE_DEBUT.toString())));
+            .andExpect(jsonPath("$.[*].dateDebut").value(hasItem(DEFAULT_DATE_DEBUT.toString())))
+            .andExpect(jsonPath("$.[*].dateFin").value(hasItem(DEFAULT_DATE_FIN.toString())));
     }
 
     @Test
@@ -192,7 +196,8 @@ class SessionTestResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(sessionTest.getId().intValue()))
             .andExpect(jsonPath("$.scoreObtenu").value(DEFAULT_SCORE_OBTENU.doubleValue()))
-            .andExpect(jsonPath("$.dateDebut").value(DEFAULT_DATE_DEBUT.toString()));
+            .andExpect(jsonPath("$.dateDebut").value(DEFAULT_DATE_DEBUT.toString()))
+            .andExpect(jsonPath("$.dateFin").value(DEFAULT_DATE_FIN.toString()));
     }
 
     @Test
@@ -321,6 +326,36 @@ class SessionTestResourceIT {
 
     @Test
     @Transactional
+    void getAllSessionTestsByDateFinIsEqualToSomething() throws Exception {
+        // Initialize the database
+        insertedSessionTest = sessionTestRepository.saveAndFlush(sessionTest);
+
+        // Get all the sessionTestList where dateFin equals to
+        defaultSessionTestFiltering("dateFin.equals=" + DEFAULT_DATE_FIN, "dateFin.equals=" + UPDATED_DATE_FIN);
+    }
+
+    @Test
+    @Transactional
+    void getAllSessionTestsByDateFinIsInShouldWork() throws Exception {
+        // Initialize the database
+        insertedSessionTest = sessionTestRepository.saveAndFlush(sessionTest);
+
+        // Get all the sessionTestList where dateFin in
+        defaultSessionTestFiltering("dateFin.in=" + DEFAULT_DATE_FIN + "," + UPDATED_DATE_FIN, "dateFin.in=" + UPDATED_DATE_FIN);
+    }
+
+    @Test
+    @Transactional
+    void getAllSessionTestsByDateFinIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        insertedSessionTest = sessionTestRepository.saveAndFlush(sessionTest);
+
+        // Get all the sessionTestList where dateFin is not null
+        defaultSessionTestFiltering("dateFin.specified=true", "dateFin.specified=false");
+    }
+
+    @Test
+    @Transactional
     void getAllSessionTestsByResultatIsEqualToSomething() throws Exception {
         Resultat resultat;
         if (TestUtil.findAll(em, Resultat.class).isEmpty()) {
@@ -365,24 +400,24 @@ class SessionTestResourceIT {
 
     @Test
     @Transactional
-    void getAllSessionTestsByEpreuvesIsEqualToSomething() throws Exception {
-        Epreuve epreuves;
+    void getAllSessionTestsByEpreuveIsEqualToSomething() throws Exception {
+        Epreuve epreuve;
         if (TestUtil.findAll(em, Epreuve.class).isEmpty()) {
             sessionTestRepository.saveAndFlush(sessionTest);
-            epreuves = EpreuveResourceIT.createEntity();
+            epreuve = EpreuveResourceIT.createEntity(em);
         } else {
-            epreuves = TestUtil.findAll(em, Epreuve.class).get(0);
+            epreuve = TestUtil.findAll(em, Epreuve.class).get(0);
         }
-        em.persist(epreuves);
+        em.persist(epreuve);
         em.flush();
-        sessionTest.setEpreuves(epreuves);
+        sessionTest.setEpreuve(epreuve);
         sessionTestRepository.saveAndFlush(sessionTest);
-        Long epreuvesId = epreuves.getId();
-        // Get all the sessionTestList where epreuves equals to epreuvesId
-        defaultSessionTestShouldBeFound("epreuvesId.equals=" + epreuvesId);
+        Long epreuveId = epreuve.getId();
+        // Get all the sessionTestList where epreuve equals to epreuveId
+        defaultSessionTestShouldBeFound("epreuveId.equals=" + epreuveId);
 
-        // Get all the sessionTestList where epreuves equals to (epreuvesId + 1)
-        defaultSessionTestShouldNotBeFound("epreuvesId.equals=" + (epreuvesId + 1));
+        // Get all the sessionTestList where epreuve equals to (epreuveId + 1)
+        defaultSessionTestShouldNotBeFound("epreuveId.equals=" + (epreuveId + 1));
     }
 
     private void defaultSessionTestFiltering(String shouldBeFound, String shouldNotBeFound) throws Exception {
@@ -400,7 +435,8 @@ class SessionTestResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(sessionTest.getId().intValue())))
             .andExpect(jsonPath("$.[*].scoreObtenu").value(hasItem(DEFAULT_SCORE_OBTENU.doubleValue())))
-            .andExpect(jsonPath("$.[*].dateDebut").value(hasItem(DEFAULT_DATE_DEBUT.toString())));
+            .andExpect(jsonPath("$.[*].dateDebut").value(hasItem(DEFAULT_DATE_DEBUT.toString())))
+            .andExpect(jsonPath("$.[*].dateFin").value(hasItem(DEFAULT_DATE_FIN.toString())));
 
         // Check, that the count call also returns 1
         restSessionTestMockMvc
@@ -448,7 +484,7 @@ class SessionTestResourceIT {
         SessionTest updatedSessionTest = sessionTestRepository.findById(sessionTest.getId()).orElseThrow();
         // Disconnect from session so that the updates on updatedSessionTest are not directly saved in db
         em.detach(updatedSessionTest);
-        updatedSessionTest.scoreObtenu(UPDATED_SCORE_OBTENU).dateDebut(UPDATED_DATE_DEBUT);
+        updatedSessionTest.scoreObtenu(UPDATED_SCORE_OBTENU).dateDebut(UPDATED_DATE_DEBUT).dateFin(UPDATED_DATE_FIN);
         SessionTestDTO sessionTestDTO = sessionTestMapper.toDto(updatedSessionTest);
 
         restSessionTestMockMvc
@@ -569,7 +605,7 @@ class SessionTestResourceIT {
         SessionTest partialUpdatedSessionTest = new SessionTest();
         partialUpdatedSessionTest.setId(sessionTest.getId());
 
-        partialUpdatedSessionTest.scoreObtenu(UPDATED_SCORE_OBTENU).dateDebut(UPDATED_DATE_DEBUT);
+        partialUpdatedSessionTest.scoreObtenu(UPDATED_SCORE_OBTENU).dateDebut(UPDATED_DATE_DEBUT).dateFin(UPDATED_DATE_FIN);
 
         restSessionTestMockMvc
             .perform(

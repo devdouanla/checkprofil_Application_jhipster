@@ -1,7 +1,9 @@
 package com.devdouanla.web.rest;
 
 import com.devdouanla.repository.QuestionRepository;
+import com.devdouanla.service.QuestionQueryService;
 import com.devdouanla.service.QuestionService;
+import com.devdouanla.service.criteria.QuestionCriteria;
 import com.devdouanla.service.dto.QuestionDTO;
 import com.devdouanla.web.rest.errors.BadRequestAlertException;
 import jakarta.validation.Valid;
@@ -42,9 +44,16 @@ public class QuestionResource {
 
     private final QuestionRepository questionRepository;
 
-    public QuestionResource(QuestionService questionService, QuestionRepository questionRepository) {
+    private final QuestionQueryService questionQueryService;
+
+    public QuestionResource(
+        QuestionService questionService,
+        QuestionRepository questionRepository,
+        QuestionQueryService questionQueryService
+    ) {
         this.questionService = questionService;
         this.questionRepository = questionRepository;
+        this.questionQueryService = questionQueryService;
     }
 
     /**
@@ -139,14 +148,31 @@ public class QuestionResource {
      * {@code GET  /questions} : get all the Questions.
      *
      * @param pageable the pagination information.
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of Questions in body.
      */
     @GetMapping("")
-    public ResponseEntity<List<QuestionDTO>> getAllQuestions(@org.springdoc.core.annotations.ParameterObject Pageable pageable) {
-        LOG.debug("REST request to get a page of Questions");
-        Page<QuestionDTO> page = questionService.findAll(pageable);
+    public ResponseEntity<List<QuestionDTO>> getAllQuestions(
+        QuestionCriteria criteria,
+        @org.springdoc.core.annotations.ParameterObject Pageable pageable
+    ) {
+        LOG.debug("REST request to get Questions by criteria: {}", criteria);
+
+        Page<QuestionDTO> page = questionQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /questions/count} : count all the questions.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     */
+    @GetMapping("/count")
+    public ResponseEntity<Long> countQuestions(QuestionCriteria criteria) {
+        LOG.debug("REST request to count Questions by criteria: {}", criteria);
+        return ResponseEntity.ok().body(questionQueryService.countByCriteria(criteria));
     }
 
     /**
@@ -160,12 +186,6 @@ public class QuestionResource {
         LOG.debug("REST request to get Question : {}", id);
         Optional<QuestionDTO> questionDTO = questionService.findOne(id);
         return ResponseUtil.wrapOrNotFound(questionDTO);
-    }
-     @GetMapping("/epreuve/{id}")
-    public ResponseEntity<List<QuestionDTO>> getQuestionsByEpreuveId(@PathVariable("id") Long id) {
-        LOG.debug("REST request to get Questions by Epreuve id : {}", id);
-        List<QuestionDTO> questionDTOs = questionService.findByEpreuveId(id);
-        return ResponseEntity.ok().body(questionDTOs);
     }
 
     /**

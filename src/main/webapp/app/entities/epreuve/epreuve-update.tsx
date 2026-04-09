@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Button, Col, Row } from 'react-bootstrap';
+import { Button, Col, FormText, Row } from 'react-bootstrap';
 import { Translate, ValidatedField, ValidatedForm, isNumber, translate } from 'react-jhipster';
 import { Link, useNavigate, useParams } from 'react-router';
 
@@ -53,8 +53,8 @@ export const EpreuveUpdate = () => {
     if (values.duree !== undefined && typeof values.duree !== 'number') {
       values.duree = Number(values.duree);
     }
-    if (values.nbInt !== undefined && typeof values.nbInt !== 'number') {
-      values.nbInt = Number(values.nbInt);
+    if (values.nbQuestions !== undefined && typeof values.nbQuestions !== 'number') {
+      values.nbQuestions = Number(values.nbQuestions);
     }
 
     const entity = {
@@ -149,19 +149,23 @@ export const EpreuveUpdate = () => {
                 }}
               />
               <ValidatedField
+                label={translate('checkprofileApp.epreuve.nbQuestions')}
+                id="epreuve-nbQuestions"
+                name="nbQuestions"
+                data-cy="nbQuestions"
+                type="text"
+                validate={{
+                  required: { value: true, message: translate('entity.validation.required') },
+                  validate: v => isNumber(v) || translate('entity.validation.number'),
+                }}
+              />
+              <ValidatedField
                 label={translate('checkprofileApp.epreuve.genereParIA')}
                 id="epreuve-genereParIA"
                 name="genereParIA"
                 data-cy="genereParIA"
                 check
                 type="checkbox"
-              />
-              <ValidatedField
-                label={translate('checkprofileApp.epreuve.nbInt')}
-                id="epreuve-nbInt"
-                name="nbInt"
-                data-cy="nbInt"
-                type="text"
               />
               <ValidatedField
                 label={translate('checkprofileApp.epreuve.publie')}
@@ -177,6 +181,7 @@ export const EpreuveUpdate = () => {
                 data-cy="competence"
                 label={translate('checkprofileApp.epreuve.competence')}
                 type="select"
+                required
               >
                 <option value="" key="0" />
                 {competences
@@ -187,6 +192,9 @@ export const EpreuveUpdate = () => {
                     ))
                   : null}
               </ValidatedField>
+              <FormText>
+                <Translate contentKey="entity.validation.required">This field is required.</Translate>
+              </FormText>
               <Button as={Link as any} id="cancel-save" data-cy="entityCreateCancelButton" to="/epreuve" replace variant="info">
                 <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;

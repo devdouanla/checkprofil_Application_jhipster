@@ -1,6 +1,6 @@
 package com.devdouanla.domain;
 
-import static com.devdouanla.domain.EpreuveTestSamples.*;
+import static com.devdouanla.domain.CompetenceTestSamples.*;
 import static com.devdouanla.domain.QuestionTestSamples.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -24,14 +24,14 @@ class QuestionTest {
     }
 
     @Test
-    void epreuveTest() {
+    void competenceTest() {
         Question question = getQuestionRandomSampleGenerator();
-        Epreuve epreuveBack = getEpreuveRandomSampleGenerator();
+        Competence competenceBack = getCompetenceRandomSampleGenerator();
 
-        question.setEpreuve(epreuveBack);
-        assertThat(question.getEpreuve()).isEqualTo(epreuveBack);
+        question.setCompetence(competenceBack);
+        assertThat(question.getCompetence()).isEqualTo(competenceBack);
 
-        question.epreuve(null);
-        assertThat(question.getEpreuve()).isNull();
+        question.competence(null);
+        assertThat(question.getCompetence()).isNull();
     }
 }

@@ -74,8 +74,7 @@ public class EpreuveServiceImpl implements EpreuveService {
         LOG.debug("Request to delete Epreuve : {}", id);
         epreuveRepository.deleteById(id);
     }
-
-    @Override
+      @Override
     public List<EpreuveDTO> findByCompetenceId(Long CompetenceId) {
         // TODO Auto-generated method stub
 return epreuveRepository.findByCompetenceId(CompetenceId).stream().map(epreuveMapper::toDto).toList();

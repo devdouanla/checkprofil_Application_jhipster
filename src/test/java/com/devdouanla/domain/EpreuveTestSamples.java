@@ -12,11 +12,11 @@ public class EpreuveTestSamples {
     private static final AtomicInteger intCount = new AtomicInteger(random.nextInt() + (2 * Short.MAX_VALUE));
 
     public static Epreuve getEpreuveSample1() {
-        return new Epreuve().id(1L).titre("titre1").enonce("enonce1").duree(1).nbInt(1);
+        return new Epreuve().id(1L).titre("titre1").enonce("enonce1").duree(1).nbQuestions(1);
     }
 
     public static Epreuve getEpreuveSample2() {
-        return new Epreuve().id(2L).titre("titre2").enonce("enonce2").duree(2).nbInt(2);
+        return new Epreuve().id(2L).titre("titre2").enonce("enonce2").duree(2).nbQuestions(2);
     }
 
     public static Epreuve getEpreuveRandomSampleGenerator() {
@@ -25,6 +25,6 @@ public class EpreuveTestSamples {
             .titre(UUID.randomUUID().toString())
             .enonce(UUID.randomUUID().toString())
             .duree(intCount.incrementAndGet())
-            .nbInt(intCount.incrementAndGet());
+            .nbQuestions(intCount.incrementAndGet());
     }
 }

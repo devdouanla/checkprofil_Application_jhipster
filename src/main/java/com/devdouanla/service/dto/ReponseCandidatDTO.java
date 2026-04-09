@@ -1,5 +1,6 @@
 package com.devdouanla.service.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.time.Instant;
@@ -8,6 +9,7 @@ import java.util.Objects;
 /**
  * A DTO for the {@link com.devdouanla.domain.ReponseCandidat} entity.
  */
+@Schema(description = "ReponseCandidat pointe vers QuestionAsk (la question tirée)\net non plus directement vers Question.")
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class ReponseCandidatDTO implements Serializable {
 
@@ -19,7 +21,7 @@ public class ReponseCandidatDTO implements Serializable {
     @NotNull
     private Instant dateReponse;
 
-    private QuestionDTO question;
+    private QuestionAskDTO questionAsk;
 
     private SessionTestDTO session;
 
@@ -47,12 +49,12 @@ public class ReponseCandidatDTO implements Serializable {
         this.dateReponse = dateReponse;
     }
 
-    public QuestionDTO getQuestion() {
-        return question;
+    public QuestionAskDTO getQuestionAsk() {
+        return questionAsk;
     }
 
-    public void setQuestion(QuestionDTO question) {
-        this.question = question;
+    public void setQuestionAsk(QuestionAskDTO questionAsk) {
+        this.questionAsk = questionAsk;
     }
 
     public SessionTestDTO getSession() {
@@ -91,7 +93,7 @@ public class ReponseCandidatDTO implements Serializable {
             "id=" + getId() +
             ", estCorrecte='" + getEstCorrecte() + "'" +
             ", dateReponse='" + getDateReponse() + "'" +
-            ", question=" + getQuestion() +
+            ", questionAsk=" + getQuestionAsk() +
             ", session=" + getSession() +
             "}";
     }

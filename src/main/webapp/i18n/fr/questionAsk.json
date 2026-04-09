@@ -1,0 +1,26 @@
+{
+  "checkprofileApp": {
+    "questionAsk": {
+      "home": {
+        "title": "QuestionAsks",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Question Ask",
+        "createOrEditLabel": "Créer ou éditer un Question Ask",
+        "notFound": "Aucun Question Ask trouvé"
+      },
+      "created": "Un nouveau Question Ask a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Question Ask avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Question Ask avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Question Ask {{ id }} ?"
+      },
+      "detail": {
+        "title": "Question Ask"
+      },
+      "id": "ID",
+      "ordre": "Ordre",
+      "question": "Question",
+      "session": "Session"
+    }
+  }
+}

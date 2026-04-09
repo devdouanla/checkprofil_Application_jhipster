@@ -5,13 +5,9 @@ import com.devdouanla.repository.QuestionRepository;
 import com.devdouanla.service.QuestionService;
 import com.devdouanla.service.dto.QuestionDTO;
 import com.devdouanla.service.mapper.QuestionMapper;
-
-import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -66,13 +62,6 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<QuestionDTO> findAll(Pageable pageable) {
-        LOG.debug("Request to get all Questions");
-        return questionRepository.findAll(pageable).map(questionMapper::toDto);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
     public Optional<QuestionDTO> findOne(Long id) {
         LOG.debug("Request to get Question : {}", id);
         return questionRepository.findById(id).map(questionMapper::toDto);
@@ -82,11 +71,5 @@ public class QuestionServiceImpl implements QuestionService {
     public void delete(Long id) {
         LOG.debug("Request to delete Question : {}", id);
         questionRepository.deleteById(id);
-    }
-    @Override
-    @Transactional(readOnly = true)
-    public List<QuestionDTO> findByEpreuveId(Long epreuveId) {
-        LOG.debug("Request to get Questions by Epreuve id : {}", epreuveId);
-        return questionRepository.findByEpreuveId(epreuveId).stream().map(questionMapper::toDto).toList();
     }
 }

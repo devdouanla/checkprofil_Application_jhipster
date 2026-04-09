@@ -1,12 +1,14 @@
-import { IEpreuve } from 'app/shared/model/epreuve.model';
+import { ICompetence } from 'app/shared/model/competence.model';
+import { Difficulte } from 'app/shared/model/enumerations/difficulte.model';
 
 export interface IQuestion {
   id?: number;
   enonce?: string;
-  reponseTexte?: string | null;
+  reponseTexte?: string;
   points?: number;
   explication?: string | null;
-  epreuve?: IEpreuve | null;
+  difficulte?: keyof typeof Difficulte;
+  competence?: ICompetence | null;
 }
 
 export const defaultValue: Readonly<IQuestion> = {};

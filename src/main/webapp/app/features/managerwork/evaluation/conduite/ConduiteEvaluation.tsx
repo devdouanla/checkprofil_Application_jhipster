@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Alert, Button, Card, Col, Nav, ProgressBar, Row, Spinner } from 'react-bootstrap';
 import { Link, useNavigate, useParams } from 'react-router';
+import { fetchRandomquestionsByCompetenceAndDifficulty } from '../../api/question.api';
 
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
@@ -25,7 +26,7 @@ export const ManagerworkConduiteEvaluation = () => {
   const {
     currentEvaluation,
     sessionTests,
-    questionsByEpreuve,
+    randomQuestionsBySession,
     conduiteLoading,
     actionLoading,
     progressAnimating,
@@ -46,14 +47,18 @@ export const ManagerworkConduiteEvaluation = () => {
   }, [activeSessionId, sessionTests]);
 
   const activeSession = sessionTests.find(item => item.id === activeSessionId) ?? sessionTests[0];
-  const epreuveId = activeSession?.epreuves?.id || activeSession?.epreuve?.id;
-  const questions = epreuveId ? (questionsByEpreuve[epreuveId] ?? []) : [];
-
-  // TEMP DEBUG (remove after testing)
-  console.warn('ConduiteEvaluation DEBUG:');
-  console.warn('  questionsByEpreuve keys:', Object.keys(questionsByEpreuve));
-  console.warn('  epreuveId:', epreuveId);
-  console.warn('  questions.length:', questions.length);
+  // /const drawnData = activeSessionId ? randomQuestionsBySession[activeSessionId] : undefined;
+  const drawnData = activeSession?.id ? randomQuestionsBySession[activeSession.id] : undefined;
+  const reee = fetchRandomquestionsByCompetenceAndDifficulty();
+  useEffect(() => {
+    if (activeSessionId && !drawnData) {
+      console.warn(`No drawn data found for active session ${activeSessionId}`);
+      console.warn('Available randomQuestionsBySession keys:', Object.keys(randomQuestionsBySession));
+      console.warn('Active session:', reee);
+      console.warn('Active session epreuve:', drawnData);
+    }
+  }, [activeSessionId, drawnData]);
+  const questions = drawnData?.questions ?? [];
 
   useEffect(() => {
     if (!activeSession?.id) {
@@ -75,17 +80,17 @@ export const ManagerworkConduiteEvaluation = () => {
   const average = managerworkComputeAverageScore(sessionTests);
 
   const completedSessionCount = sessionTests.reduce((count, session) => {
-    if (!session.id || !session.epreuves?.id) {
+    if (!session.id) {
       return count;
     }
 
-    const sessionQuestions = questionsByEpreuve[session.epreuves.id] ?? [];
-    if (!sessionQuestions.length) {
+    const sessionDrawn = randomQuestionsBySession[session.id];
+    if (!sessionDrawn?.questions.length) {
       return count;
     }
 
     const answers = answersBySession[session.id] ?? {};
-    const allAnswered = sessionQuestions.every(question => question.id !== undefined && answers[question.id] !== undefined);
+    const allAnswered = sessionDrawn.questions.every(question => question.id !== undefined && answers[question.id] !== undefined);
     return allAnswered ? count + 1 : count;
   }, 0);
 
@@ -212,7 +217,8 @@ export const ManagerworkConduiteEvaluation = () => {
             <ManagerworkSessionTab
               sessionTest={activeSession}
               questions={questions}
-              answers={answersBySession[activeSession.id] ?? {}}
+              drawnData={drawnData}
+              answers={answersBySession[activeSession.id!] ?? {}}
               onAnswerChange={handleAnswerChange}
               saving={actionLoading}
               progressAnimating={progressAnimating}

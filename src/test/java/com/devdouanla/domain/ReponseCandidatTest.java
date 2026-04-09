@@ -1,6 +1,6 @@
 package com.devdouanla.domain;
 
-import static com.devdouanla.domain.QuestionTestSamples.*;
+import static com.devdouanla.domain.QuestionAskTestSamples.*;
 import static com.devdouanla.domain.ReponseCandidatTestSamples.*;
 import static com.devdouanla.domain.SessionTestTestSamples.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -25,15 +25,15 @@ class ReponseCandidatTest {
     }
 
     @Test
-    void questionTest() {
+    void questionAskTest() {
         ReponseCandidat reponseCandidat = getReponseCandidatRandomSampleGenerator();
-        Question questionBack = getQuestionRandomSampleGenerator();
+        QuestionAsk questionAskBack = getQuestionAskRandomSampleGenerator();
 
-        reponseCandidat.setQuestion(questionBack);
-        assertThat(reponseCandidat.getQuestion()).isEqualTo(questionBack);
+        reponseCandidat.setQuestionAsk(questionAskBack);
+        assertThat(reponseCandidat.getQuestionAsk()).isEqualTo(questionAskBack);
 
-        reponseCandidat.question(null);
-        assertThat(reponseCandidat.getQuestion()).isNull();
+        reponseCandidat.questionAsk(null);
+        assertThat(reponseCandidat.getQuestionAsk()).isNull();
     }
 
     @Test

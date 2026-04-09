@@ -19,8 +19,9 @@
       },
       "id": "ID",
       "nom": "Nom",
-      "epreuves": "Epreuves",
-      "experts": "Experts"
+      "questions": "Questions",
+      "experts": "Experts",
+      "epreuves": "Epreuves"
     }
   }
 }

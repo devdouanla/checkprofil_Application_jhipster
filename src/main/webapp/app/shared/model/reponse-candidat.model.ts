@@ -1,13 +1,13 @@
 import dayjs from 'dayjs';
 
-import { IQuestion } from 'app/shared/model/question.model';
+import { IQuestionAsk } from 'app/shared/model/question-ask.model';
 import { ISessionTest } from 'app/shared/model/session-test.model';
 
 export interface IReponseCandidat {
   id?: number;
   estCorrecte?: boolean;
   dateReponse?: dayjs.Dayjs;
-  question?: IQuestion | null;
+  questionAsk?: IQuestionAsk | null;
   session?: ISessionTest | null;
 }
 

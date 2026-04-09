@@ -10,7 +10,7 @@
         Added the entity Question.
     -->
     <changeSet id="20260407175644-1" author="jhipster">
-        <createTable tableName="question">
+        <createTable tableName="question" remarks="Question appartient au pool d&apos;une Compétence.\nSa propre difficulte permet le filtrage lors du tirage.">
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -18,7 +18,7 @@
                 <constraints nullable="false" />
             </column>
             <column name="reponse_texte" type="varchar(255)">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="points" type="integer">
                 <constraints nullable="false" />
@@ -26,7 +26,10 @@
             <column name="explication" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="epreuve_id" type="bigint">
+            <column name="difficulte" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="competence_id" type="bigint">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
@@ -54,6 +57,7 @@
             <column name="reponse_texte" type="string"/>
             <column name="points" type="numeric"/>
             <column name="explication" type="string"/>
+            <column name="difficulte" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

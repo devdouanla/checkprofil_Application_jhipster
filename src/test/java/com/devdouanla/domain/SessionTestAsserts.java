@@ -48,7 +48,8 @@ public class SessionTestAsserts {
         assertThat(actual)
             .as("Verify SessionTest relevant properties")
             .satisfies(a -> assertThat(a.getScoreObtenu()).as("check scoreObtenu").isEqualTo(expected.getScoreObtenu()))
-            .satisfies(a -> assertThat(a.getDateDebut()).as("check dateDebut").isEqualTo(expected.getDateDebut()));
+            .satisfies(a -> assertThat(a.getDateDebut()).as("check dateDebut").isEqualTo(expected.getDateDebut()))
+            .satisfies(a -> assertThat(a.getDateFin()).as("check dateFin").isEqualTo(expected.getDateFin()));
     }
 
     /**
@@ -62,6 +63,6 @@ public class SessionTestAsserts {
             .as("Verify SessionTest relationships")
             .satisfies(a -> assertThat(a.getResultat()).as("check resultat").isEqualTo(expected.getResultat()))
             .satisfies(a -> assertThat(a.getEvaluation()).as("check evaluation").isEqualTo(expected.getEvaluation()))
-            .satisfies(a -> assertThat(a.getEpreuves()).as("check epreuves").isEqualTo(expected.getEpreuves()));
+            .satisfies(a -> assertThat(a.getEpreuve()).as("check epreuve").isEqualTo(expected.getEpreuve()));
     }
 }

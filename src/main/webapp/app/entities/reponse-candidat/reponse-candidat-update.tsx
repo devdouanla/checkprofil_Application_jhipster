@@ -6,7 +6,7 @@ import { Link, useNavigate, useParams } from 'react-router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { useAppDispatch, useAppSelector } from 'app/config/store';
-import { getEntities as getQuestions } from 'app/entities/question/question.reducer';
+import { getEntities as getQuestionAsks } from 'app/entities/question-ask/question-ask.reducer';
 import { getEntities as getSessionTests } from 'app/entities/session-test/session-test.reducer';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
 
@@ -20,7 +20,7 @@ export const ReponseCandidatUpdate = () => {
   const { id } = useParams<'id'>();
   const isNew = id === undefined;
 
-  const questions = useAppSelector(state => state.question.entities);
+  const questionAsks = useAppSelector(state => state.questionAsk.entities);
   const sessionTests = useAppSelector(state => state.sessionTest.entities);
   const reponseCandidatEntity = useAppSelector(state => state.reponseCandidat.entity);
   const loading = useAppSelector(state => state.reponseCandidat.loading);
@@ -38,7 +38,7 @@ export const ReponseCandidatUpdate = () => {
       dispatch(getEntity(id));
     }
 
-    dispatch(getQuestions({}));
+    dispatch(getQuestionAsks({}));
     dispatch(getSessionTests({}));
   }, []);
 
@@ -57,7 +57,7 @@ export const ReponseCandidatUpdate = () => {
     const entity = {
       ...reponseCandidatEntity,
       ...values,
-      question: questions.find(it => it.id.toString() === values.question?.toString()),
+      questionAsk: questionAsks.find(it => it.id.toString() === values.questionAsk?.toString()),
       session: sessionTests.find(it => it.id.toString() === values.session?.toString()),
     };
 
@@ -76,7 +76,7 @@ export const ReponseCandidatUpdate = () => {
       : {
           ...reponseCandidatEntity,
           dateReponse: convertDateTimeFromServer(reponseCandidatEntity.dateReponse),
-          question: reponseCandidatEntity?.question?.id,
+          questionAsk: reponseCandidatEntity?.questionAsk?.id,
           session: reponseCandidatEntity?.session?.id,
         };
 
@@ -125,15 +125,15 @@ export const ReponseCandidatUpdate = () => {
                 }}
               />
               <ValidatedField
-                id="reponse-candidat-question"
-                name="question"
-                data-cy="question"
-                label={translate('checkprofileApp.reponseCandidat.question')}
+                id="reponse-candidat-questionAsk"
+                name="questionAsk"
+                data-cy="questionAsk"
+                label={translate('checkprofileApp.reponseCandidat.questionAsk')}
                 type="select"
               >
                 <option value="" key="0" />
-                {questions
-                  ? questions.map(otherEntity => (
+                {questionAsks
+                  ? questionAsks.map(otherEntity => (
                       <option value={otherEntity.id} key={otherEntity.id}>
                         {otherEntity.id}
                       </option>

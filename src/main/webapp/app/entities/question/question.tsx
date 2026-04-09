@@ -130,8 +130,12 @@ export const Question = () => {
                   <Translate contentKey="checkprofileApp.question.explication">Explication</Translate>{' '}
                   <FontAwesomeIcon icon={getSortIconByFieldName('explication')} />
                 </th>
+                <th className="hand" onClick={sort('difficulte')}>
+                  <Translate contentKey="checkprofileApp.question.difficulte">Difficulte</Translate>{' '}
+                  <FontAwesomeIcon icon={getSortIconByFieldName('difficulte')} />
+                </th>
                 <th>
-                  <Translate contentKey="checkprofileApp.question.epreuve">Epreuve</Translate> <FontAwesomeIcon icon="sort" />
+                  <Translate contentKey="checkprofileApp.question.competence">Competence</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
                 <th />
               </tr>
@@ -148,7 +152,10 @@ export const Question = () => {
                   <td>{question.reponseTexte}</td>
                   <td>{question.points}</td>
                   <td>{question.explication}</td>
-                  <td>{question.epreuve ? <Link to={`/epreuve/${question.epreuve.id}`}>{question.epreuve.id}</Link> : ''}</td>
+                  <td>
+                    <Translate contentKey={`checkprofileApp.Difficulte.${question.difficulte}`} />
+                  </td>
+                  <td>{question.competence ? <Link to={`/competence/${question.competence.id}`}>{question.competence.id}</Link> : ''}</td>
                   <td className="text-end">
                     <div className="btn-group flex-btn-group-container">
                       <Button as={Link as any} to={`/question/${question.id}`} variant="info" size="sm" data-cy="entityDetailsButton">

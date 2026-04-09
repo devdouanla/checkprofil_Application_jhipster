@@ -6,7 +6,8 @@ import { Link, useNavigate, useParams } from 'react-router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { useAppDispatch, useAppSelector } from 'app/config/store';
-import { getEntities as getEpreuves } from 'app/entities/epreuve/epreuve.reducer';
+import { getEntities as getCompetences } from 'app/entities/competence/competence.reducer';
+import { Difficulte } from 'app/shared/model/enumerations/difficulte.model';
 
 import { createEntity, getEntity, reset, updateEntity } from './question.reducer';
 
@@ -18,11 +19,12 @@ export const QuestionUpdate = () => {
   const { id } = useParams<'id'>();
   const isNew = id === undefined;
 
-  const epreuves = useAppSelector(state => state.epreuve.entities);
+  const competences = useAppSelector(state => state.competence.entities);
   const questionEntity = useAppSelector(state => state.question.entity);
   const loading = useAppSelector(state => state.question.loading);
   const updating = useAppSelector(state => state.question.updating);
   const updateSuccess = useAppSelector(state => state.question.updateSuccess);
+  const difficulteValues = Object.keys(Difficulte);
 
   const handleClose = () => {
     navigate(`/question${location.search}`);
@@ -35,7 +37,7 @@ export const QuestionUpdate = () => {
       dispatch(getEntity(id));
     }
 
-    dispatch(getEpreuves({}));
+    dispatch(getCompetences({}));
   }, []);
 
   useEffect(() => {
@@ -55,7 +57,7 @@ export const QuestionUpdate = () => {
     const entity = {
       ...questionEntity,
       ...values,
-      epreuve: epreuves.find(it => it.id.toString() === values.epreuve?.toString()),
+      competence: competences.find(it => it.id.toString() === values.competence?.toString()),
     };
 
     if (isNew) {
@@ -69,8 +71,9 @@ export const QuestionUpdate = () => {
     isNew
       ? {}
       : {
+          difficulte: 'FACILE',
           ...questionEntity,
-          epreuve: questionEntity?.epreuve?.id,
+          competence: questionEntity?.competence?.id,
         };
 
   return (
@@ -114,6 +117,9 @@ export const QuestionUpdate = () => {
                 name="reponseTexte"
                 data-cy="reponseTexte"
                 type="text"
+                validate={{
+                  required: { value: true, message: translate('entity.validation.required') },
+                }}
               />
               <ValidatedField
                 label={translate('checkprofileApp.question.points')}
@@ -134,15 +140,28 @@ export const QuestionUpdate = () => {
                 type="text"
               />
               <ValidatedField
-                id="question-epreuve"
-                name="epreuve"
-                data-cy="epreuve"
-                label={translate('checkprofileApp.question.epreuve')}
+                label={translate('checkprofileApp.question.difficulte')}
+                id="question-difficulte"
+                name="difficulte"
+                data-cy="difficulte"
+                type="select"
+              >
+                {difficulteValues.map(difficulte => (
+                  <option value={difficulte} key={difficulte}>
+                    {translate(`checkprofileApp.Difficulte.${difficulte}`)}
+                  </option>
+                ))}
+              </ValidatedField>
+              <ValidatedField
+                id="question-competence"
+                name="competence"
+                data-cy="competence"
+                label={translate('checkprofileApp.question.competence')}
                 type="select"
               >
                 <option value="" key="0" />
-                {epreuves
-                  ? epreuves.map(otherEntity => (
+                {competences
+                  ? competences.map(otherEntity => (
                       <option value={otherEntity.id} key={otherEntity.id}>
                         {otherEntity.id}
                       </option>

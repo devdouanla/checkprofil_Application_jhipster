@@ -10,7 +10,7 @@
         Added the entity Epreuve.
     -->
     <changeSet id="20260407175643-1" author="jhipster">
-        <createTable tableName="epreuve">
+        <createTable tableName="epreuve" remarks="Une Epreuve définit les CRITÈRES de tirage aléatoire :\n- competence  → le domaine du pool de questions\n- difficulte  → le niveau de difficulté à piocher\n- nbQuestions → combien de questions tirer aléatoirement\nElle ne possède PLUS de collection de questions fixées.">
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -26,17 +26,17 @@
             <column name="duree" type="integer">
                 <constraints nullable="false" />
             </column>
-            <column name="genere_par_ia" type="boolean">
+            <column name="nb_questions" type="integer">
                 <constraints nullable="false" />
             </column>
-            <column name="nb_int" type="integer">
-                <constraints nullable="true" />
+            <column name="genere_par_ia" type="boolean">
+                <constraints nullable="false" />
             </column>
             <column name="publie" type="boolean">
                 <constraints nullable="false" />
             </column>
             <column name="competence_id" type="bigint">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
@@ -63,9 +63,10 @@
             <column name="enonce" type="string"/>
             <column name="difficulte" type="string"/>
             <column name="duree" type="numeric"/>
+            <column name="nb_questions" type="numeric"/>
             <column name="genere_par_ia" type="boolean"/>
-            <column name="nb_int" type="numeric"/>
             <column name="publie" type="boolean"/>
+            <column name="competence_id" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

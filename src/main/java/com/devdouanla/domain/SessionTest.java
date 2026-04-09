@@ -33,6 +33,9 @@ public class SessionTest implements Serializable {
     @Column(name = "date_debut", nullable = false)
     private Instant dateDebut;
 
+    @Column(name = "date_fin")
+    private Instant dateFin;
+
     @JsonIgnoreProperties(value = { "session" }, allowSetters = true)
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(unique = true)
@@ -40,6 +43,10 @@ public class SessionTest implements Serializable {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "session")
     @JsonIgnoreProperties(value = { "question", "session" }, allowSetters = true)
+    private Set<QuestionAsk> questionsAsks = new HashSet<>();
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "session")
+    @JsonIgnoreProperties(value = { "questionAsk", "session" }, allowSetters = true)
     private Set<ReponseCandidat> reponseses = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -47,8 +54,8 @@ public class SessionTest implements Serializable {
     private Evaluation evaluation;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = { "questionses", "sessionTests", "competence" }, allowSetters = true)
-    private Epreuve epreuves;
+    @JsonIgnoreProperties(value = { "sessionses", "competence" }, allowSetters = true)
+    private Epreuve epreuve;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -91,6 +98,19 @@ public class SessionTest implements Serializable {
         this.dateDebut = dateDebut;
     }
 
+    public Instant getDateFin() {
+        return this.dateFin;
+    }
+
+    public SessionTest dateFin(Instant dateFin) {
+        this.setDateFin(dateFin);
+        return this;
+    }
+
+    public void setDateFin(Instant dateFin) {
+        this.dateFin = dateFin;
+    }
+
     public Resultat getResultat() {
         return this.resultat;
     }
@@ -101,6 +121,37 @@ public class SessionTest implements Serializable {
 
     public SessionTest resultat(Resultat resultat) {
         this.setResultat(resultat);
+        return this;
+    }
+
+    public Set<QuestionAsk> getQuestionsAsks() {
+        return this.questionsAsks;
+    }
+
+    public void setQuestionsAsks(Set<QuestionAsk> questionAsks) {
+        if (this.questionsAsks != null) {
+            this.questionsAsks.forEach(i -> i.setSession(null));
+        }
+        if (questionAsks != null) {
+            questionAsks.forEach(i -> i.setSession(this));
+        }
+        this.questionsAsks = questionAsks;
+    }
+
+    public SessionTest questionsAsks(Set<QuestionAsk> questionAsks) {
+        this.setQuestionsAsks(questionAsks);
+        return this;
+    }
+
+    public SessionTest addQuestionsAsk(QuestionAsk questionAsk) {
+        this.questionsAsks.add(questionAsk);
+        questionAsk.setSession(this);
+        return this;
+    }
+
+    public SessionTest removeQuestionsAsk(QuestionAsk questionAsk) {
+        this.questionsAsks.remove(questionAsk);
+        questionAsk.setSession(null);
         return this;
     }
 
@@ -148,16 +199,16 @@ public class SessionTest implements Serializable {
         return this;
     }
 
-    public Epreuve getEpreuves() {
-        return this.epreuves;
+    public Epreuve getEpreuve() {
+        return this.epreuve;
     }
 
-    public void setEpreuves(Epreuve epreuve) {
-        this.epreuves = epreuve;
+    public void setEpreuve(Epreuve epreuve) {
+        this.epreuve = epreuve;
     }
 
-    public SessionTest epreuves(Epreuve epreuve) {
-        this.setEpreuves(epreuve);
+    public SessionTest epreuve(Epreuve epreuve) {
+        this.setEpreuve(epreuve);
         return this;
     }
 
@@ -187,6 +238,7 @@ public class SessionTest implements Serializable {
             "id=" + getId() +
             ", scoreObtenu=" + getScoreObtenu() +
             ", dateDebut='" + getDateDebut() + "'" +
+            ", dateFin='" + getDateFin() + "'" +
             "}";
     }
 }

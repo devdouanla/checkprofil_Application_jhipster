@@ -20,7 +20,8 @@
         "evaluation": "Evaluation",
         "sessionTest": "Session Test",
         "resultat": "Resultat",
-        "reponseCandidat": "Reponse Candidat"
+        "reponseCandidat": "Reponse Candidat",
+        "questionAsk": "Question Ask"
       },
       "account": {
         "main": "Compte",

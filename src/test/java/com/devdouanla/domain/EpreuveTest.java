@@ -2,7 +2,6 @@ package com.devdouanla.domain;
 
 import static com.devdouanla.domain.CompetenceTestSamples.*;
 import static com.devdouanla.domain.EpreuveTestSamples.*;
-import static com.devdouanla.domain.QuestionTestSamples.*;
 import static com.devdouanla.domain.SessionTestTestSamples.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -28,47 +27,25 @@ class EpreuveTest {
     }
 
     @Test
-    void questionsTest() {
-        Epreuve epreuve = getEpreuveRandomSampleGenerator();
-        Question questionBack = getQuestionRandomSampleGenerator();
-
-        epreuve.addQuestions(questionBack);
-        assertThat(epreuve.getQuestionses()).containsOnly(questionBack);
-        assertThat(questionBack.getEpreuve()).isEqualTo(epreuve);
-
-        epreuve.removeQuestions(questionBack);
-        assertThat(epreuve.getQuestionses()).doesNotContain(questionBack);
-        assertThat(questionBack.getEpreuve()).isNull();
-
-        epreuve.questionses(new HashSet<>(Set.of(questionBack)));
-        assertThat(epreuve.getQuestionses()).containsOnly(questionBack);
-        assertThat(questionBack.getEpreuve()).isEqualTo(epreuve);
-
-        epreuve.setQuestionses(new HashSet<>());
-        assertThat(epreuve.getQuestionses()).doesNotContain(questionBack);
-        assertThat(questionBack.getEpreuve()).isNull();
-    }
-
-    @Test
-    void sessionTestTest() {
+    void sessionsTest() {
         Epreuve epreuve = getEpreuveRandomSampleGenerator();
         SessionTest sessionTestBack = getSessionTestRandomSampleGenerator();
 
-        epreuve.addSessionTest(sessionTestBack);
-        assertThat(epreuve.getSessionTests()).containsOnly(sessionTestBack);
-        assertThat(sessionTestBack.getEpreuves()).isEqualTo(epreuve);
+        epreuve.addSessions(sessionTestBack);
+        assertThat(epreuve.getSessionses()).containsOnly(sessionTestBack);
+        assertThat(sessionTestBack.getEpreuve()).isEqualTo(epreuve);
 
-        epreuve.removeSessionTest(sessionTestBack);
-        assertThat(epreuve.getSessionTests()).doesNotContain(sessionTestBack);
-        assertThat(sessionTestBack.getEpreuves()).isNull();
+        epreuve.removeSessions(sessionTestBack);
+        assertThat(epreuve.getSessionses()).doesNotContain(sessionTestBack);
+        assertThat(sessionTestBack.getEpreuve()).isNull();
 
-        epreuve.sessionTests(new HashSet<>(Set.of(sessionTestBack)));
-        assertThat(epreuve.getSessionTests()).containsOnly(sessionTestBack);
-        assertThat(sessionTestBack.getEpreuves()).isEqualTo(epreuve);
+        epreuve.sessionses(new HashSet<>(Set.of(sessionTestBack)));
+        assertThat(epreuve.getSessionses()).containsOnly(sessionTestBack);
+        assertThat(sessionTestBack.getEpreuve()).isEqualTo(epreuve);
 
-        epreuve.setSessionTests(new HashSet<>());
-        assertThat(epreuve.getSessionTests()).doesNotContain(sessionTestBack);
-        assertThat(sessionTestBack.getEpreuves()).isNull();
+        epreuve.setSessionses(new HashSet<>());
+        assertThat(epreuve.getSessionses()).doesNotContain(sessionTestBack);
+        assertThat(sessionTestBack.getEpreuve()).isNull();
     }
 
     @Test

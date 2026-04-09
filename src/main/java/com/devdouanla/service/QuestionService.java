@@ -1,11 +1,7 @@
 package com.devdouanla.service;
 
 import com.devdouanla.service.dto.QuestionDTO;
-
-import java.util.List;
 import java.util.Optional;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 /**
  * Service Interface for managing {@link com.devdouanla.domain.Question}.
@@ -36,14 +32,6 @@ public interface QuestionService {
     Optional<QuestionDTO> partialUpdate(QuestionDTO questionDTO);
 
     /**
-     * Get all the questions.
-     *
-     * @param pageable the pagination information.
-     * @return the list of entities.
-     */
-    Page<QuestionDTO> findAll(Pageable pageable);
-
-    /**
      * Get the "id" question.
      *
      * @param id the id of the entity.
@@ -57,6 +45,4 @@ public interface QuestionService {
      * @param id the id of the entity.
      */
     void delete(Long id);
-
-    List<QuestionDTO> findByEpreuveId(Long epreuveId);
 }

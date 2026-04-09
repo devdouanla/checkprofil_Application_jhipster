@@ -22,7 +22,8 @@
       "reponseTexte": "Reponse Texte",
       "points": "Points",
       "explication": "Explication",
-      "epreuve": "Epreuve"
+      "difficulte": "Difficulte",
+      "competence": "Competence"
     }
   }
 }

@@ -49,12 +49,12 @@ class EpreuveResourceIT {
     private static final Integer UPDATED_DUREE = 2;
     private static final Integer SMALLER_DUREE = 1 - 1;
 
+    private static final Integer DEFAULT_NB_QUESTIONS = 1;
+    private static final Integer UPDATED_NB_QUESTIONS = 2;
+    private static final Integer SMALLER_NB_QUESTIONS = 1 - 1;
+
     private static final Boolean DEFAULT_GENERE_PAR_IA = false;
     private static final Boolean UPDATED_GENERE_PAR_IA = true;
-
-    private static final Integer DEFAULT_NB_INT = 1;
-    private static final Integer UPDATED_NB_INT = 2;
-    private static final Integer SMALLER_NB_INT = 1 - 1;
 
     private static final Boolean DEFAULT_PUBLIE = false;
     private static final Boolean UPDATED_PUBLIE = true;
@@ -90,15 +90,26 @@ class EpreuveResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static Epreuve createEntity() {
-        return new Epreuve()
+    public static Epreuve createEntity(EntityManager em) {
+        Epreuve epreuve = new Epreuve()
             .titre(DEFAULT_TITRE)
             .enonce(DEFAULT_ENONCE)
             .difficulte(DEFAULT_DIFFICULTE)
             .duree(DEFAULT_DUREE)
+            .nbQuestions(DEFAULT_NB_QUESTIONS)
             .genereParIA(DEFAULT_GENERE_PAR_IA)
-            .nbInt(DEFAULT_NB_INT)
             .publie(DEFAULT_PUBLIE);
+        // Add required entity
+        Competence competence;
+        if (TestUtil.findAll(em, Competence.class).isEmpty()) {
+            competence = CompetenceResourceIT.createEntity();
+            em.persist(competence);
+            em.flush();
+        } else {
+            competence = TestUtil.findAll(em, Competence.class).get(0);
+        }
+        epreuve.setCompetence(competence);
+        return epreuve;
     }
 
     /**
@@ -107,20 +118,31 @@ class EpreuveResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static Epreuve createUpdatedEntity() {
-        return new Epreuve()
+    public static Epreuve createUpdatedEntity(EntityManager em) {
+        Epreuve updatedEpreuve = new Epreuve()
             .titre(UPDATED_TITRE)
             .enonce(UPDATED_ENONCE)
             .difficulte(UPDATED_DIFFICULTE)
             .duree(UPDATED_DUREE)
+            .nbQuestions(UPDATED_NB_QUESTIONS)
             .genereParIA(UPDATED_GENERE_PAR_IA)
-            .nbInt(UPDATED_NB_INT)
             .publie(UPDATED_PUBLIE);
+        // Add required entity
+        Competence competence;
+        if (TestUtil.findAll(em, Competence.class).isEmpty()) {
+            competence = CompetenceResourceIT.createUpdatedEntity();
+            em.persist(competence);
+            em.flush();
+        } else {
+            competence = TestUtil.findAll(em, Competence.class).get(0);
+        }
+        updatedEpreuve.setCompetence(competence);
+        return updatedEpreuve;
     }
 
     @BeforeEach
     void initTest() {
-        epreuve = createEntity();
+        epreuve = createEntity(em);
     }
 
     @AfterEach
@@ -243,6 +265,23 @@ class EpreuveResourceIT {
 
     @Test
     @Transactional
+    void checkNbQuestionsIsRequired() throws Exception {
+        long databaseSizeBeforeTest = getRepositoryCount();
+        // set the field null
+        epreuve.setNbQuestions(null);
+
+        // Create the Epreuve, which fails.
+        EpreuveDTO epreuveDTO = epreuveMapper.toDto(epreuve);
+
+        restEpreuveMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(epreuveDTO)))
+            .andExpect(status().isBadRequest());
+
+        assertSameRepositoryCount(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     void checkGenereParIAIsRequired() throws Exception {
         long databaseSizeBeforeTest = getRepositoryCount();
         // set the field null
@@ -291,8 +330,8 @@ class EpreuveResourceIT {
             .andExpect(jsonPath("$.[*].enonce").value(hasItem(DEFAULT_ENONCE)))
             .andExpect(jsonPath("$.[*].difficulte").value(hasItem(DEFAULT_DIFFICULTE.toString())))
             .andExpect(jsonPath("$.[*].duree").value(hasItem(DEFAULT_DUREE)))
+            .andExpect(jsonPath("$.[*].nbQuestions").value(hasItem(DEFAULT_NB_QUESTIONS)))
             .andExpect(jsonPath("$.[*].genereParIA").value(hasItem(DEFAULT_GENERE_PAR_IA)))
-            .andExpect(jsonPath("$.[*].nbInt").value(hasItem(DEFAULT_NB_INT)))
             .andExpect(jsonPath("$.[*].publie").value(hasItem(DEFAULT_PUBLIE)));
     }
 
@@ -312,8 +351,8 @@ class EpreuveResourceIT {
             .andExpect(jsonPath("$.enonce").value(DEFAULT_ENONCE))
             .andExpect(jsonPath("$.difficulte").value(DEFAULT_DIFFICULTE.toString()))
             .andExpect(jsonPath("$.duree").value(DEFAULT_DUREE))
+            .andExpect(jsonPath("$.nbQuestions").value(DEFAULT_NB_QUESTIONS))
             .andExpect(jsonPath("$.genereParIA").value(DEFAULT_GENERE_PAR_IA))
-            .andExpect(jsonPath("$.nbInt").value(DEFAULT_NB_INT))
             .andExpect(jsonPath("$.publie").value(DEFAULT_PUBLIE));
     }
 
@@ -534,6 +573,85 @@ class EpreuveResourceIT {
 
     @Test
     @Transactional
+    void getAllEpreuvesByNbQuestionsIsEqualToSomething() throws Exception {
+        // Initialize the database
+        insertedEpreuve = epreuveRepository.saveAndFlush(epreuve);
+
+        // Get all the epreuveList where nbQuestions equals to
+        defaultEpreuveFiltering("nbQuestions.equals=" + DEFAULT_NB_QUESTIONS, "nbQuestions.equals=" + UPDATED_NB_QUESTIONS);
+    }
+
+    @Test
+    @Transactional
+    void getAllEpreuvesByNbQuestionsIsInShouldWork() throws Exception {
+        // Initialize the database
+        insertedEpreuve = epreuveRepository.saveAndFlush(epreuve);
+
+        // Get all the epreuveList where nbQuestions in
+        defaultEpreuveFiltering(
+            "nbQuestions.in=" + DEFAULT_NB_QUESTIONS + "," + UPDATED_NB_QUESTIONS,
+            "nbQuestions.in=" + UPDATED_NB_QUESTIONS
+        );
+    }
+
+    @Test
+    @Transactional
+    void getAllEpreuvesByNbQuestionsIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        insertedEpreuve = epreuveRepository.saveAndFlush(epreuve);
+
+        // Get all the epreuveList where nbQuestions is not null
+        defaultEpreuveFiltering("nbQuestions.specified=true", "nbQuestions.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllEpreuvesByNbQuestionsIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        insertedEpreuve = epreuveRepository.saveAndFlush(epreuve);
+
+        // Get all the epreuveList where nbQuestions is greater than or equal to
+        defaultEpreuveFiltering(
+            "nbQuestions.greaterThanOrEqual=" + DEFAULT_NB_QUESTIONS,
+            "nbQuestions.greaterThanOrEqual=" + UPDATED_NB_QUESTIONS
+        );
+    }
+
+    @Test
+    @Transactional
+    void getAllEpreuvesByNbQuestionsIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        insertedEpreuve = epreuveRepository.saveAndFlush(epreuve);
+
+        // Get all the epreuveList where nbQuestions is less than or equal to
+        defaultEpreuveFiltering(
+            "nbQuestions.lessThanOrEqual=" + DEFAULT_NB_QUESTIONS,
+            "nbQuestions.lessThanOrEqual=" + SMALLER_NB_QUESTIONS
+        );
+    }
+
+    @Test
+    @Transactional
+    void getAllEpreuvesByNbQuestionsIsLessThanSomething() throws Exception {
+        // Initialize the database
+        insertedEpreuve = epreuveRepository.saveAndFlush(epreuve);
+
+        // Get all the epreuveList where nbQuestions is less than
+        defaultEpreuveFiltering("nbQuestions.lessThan=" + UPDATED_NB_QUESTIONS, "nbQuestions.lessThan=" + DEFAULT_NB_QUESTIONS);
+    }
+
+    @Test
+    @Transactional
+    void getAllEpreuvesByNbQuestionsIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        insertedEpreuve = epreuveRepository.saveAndFlush(epreuve);
+
+        // Get all the epreuveList where nbQuestions is greater than
+        defaultEpreuveFiltering("nbQuestions.greaterThan=" + SMALLER_NB_QUESTIONS, "nbQuestions.greaterThan=" + DEFAULT_NB_QUESTIONS);
+    }
+
+    @Test
+    @Transactional
     void getAllEpreuvesByGenereParIAIsEqualToSomething() throws Exception {
         // Initialize the database
         insertedEpreuve = epreuveRepository.saveAndFlush(epreuve);
@@ -563,76 +681,6 @@ class EpreuveResourceIT {
 
         // Get all the epreuveList where genereParIA is not null
         defaultEpreuveFiltering("genereParIA.specified=true", "genereParIA.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllEpreuvesByNbIntIsEqualToSomething() throws Exception {
-        // Initialize the database
-        insertedEpreuve = epreuveRepository.saveAndFlush(epreuve);
-
-        // Get all the epreuveList where nbInt equals to
-        defaultEpreuveFiltering("nbInt.equals=" + DEFAULT_NB_INT, "nbInt.equals=" + UPDATED_NB_INT);
-    }
-
-    @Test
-    @Transactional
-    void getAllEpreuvesByNbIntIsInShouldWork() throws Exception {
-        // Initialize the database
-        insertedEpreuve = epreuveRepository.saveAndFlush(epreuve);
-
-        // Get all the epreuveList where nbInt in
-        defaultEpreuveFiltering("nbInt.in=" + DEFAULT_NB_INT + "," + UPDATED_NB_INT, "nbInt.in=" + UPDATED_NB_INT);
-    }
-
-    @Test
-    @Transactional
-    void getAllEpreuvesByNbIntIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        insertedEpreuve = epreuveRepository.saveAndFlush(epreuve);
-
-        // Get all the epreuveList where nbInt is not null
-        defaultEpreuveFiltering("nbInt.specified=true", "nbInt.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllEpreuvesByNbIntIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        insertedEpreuve = epreuveRepository.saveAndFlush(epreuve);
-
-        // Get all the epreuveList where nbInt is greater than or equal to
-        defaultEpreuveFiltering("nbInt.greaterThanOrEqual=" + DEFAULT_NB_INT, "nbInt.greaterThanOrEqual=" + UPDATED_NB_INT);
-    }
-
-    @Test
-    @Transactional
-    void getAllEpreuvesByNbIntIsLessThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        insertedEpreuve = epreuveRepository.saveAndFlush(epreuve);
-
-        // Get all the epreuveList where nbInt is less than or equal to
-        defaultEpreuveFiltering("nbInt.lessThanOrEqual=" + DEFAULT_NB_INT, "nbInt.lessThanOrEqual=" + SMALLER_NB_INT);
-    }
-
-    @Test
-    @Transactional
-    void getAllEpreuvesByNbIntIsLessThanSomething() throws Exception {
-        // Initialize the database
-        insertedEpreuve = epreuveRepository.saveAndFlush(epreuve);
-
-        // Get all the epreuveList where nbInt is less than
-        defaultEpreuveFiltering("nbInt.lessThan=" + UPDATED_NB_INT, "nbInt.lessThan=" + DEFAULT_NB_INT);
-    }
-
-    @Test
-    @Transactional
-    void getAllEpreuvesByNbIntIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        insertedEpreuve = epreuveRepository.saveAndFlush(epreuve);
-
-        // Get all the epreuveList where nbInt is greater than
-        defaultEpreuveFiltering("nbInt.greaterThan=" + SMALLER_NB_INT, "nbInt.greaterThan=" + DEFAULT_NB_INT);
     }
 
     @Test
@@ -705,8 +753,8 @@ class EpreuveResourceIT {
             .andExpect(jsonPath("$.[*].enonce").value(hasItem(DEFAULT_ENONCE)))
             .andExpect(jsonPath("$.[*].difficulte").value(hasItem(DEFAULT_DIFFICULTE.toString())))
             .andExpect(jsonPath("$.[*].duree").value(hasItem(DEFAULT_DUREE)))
+            .andExpect(jsonPath("$.[*].nbQuestions").value(hasItem(DEFAULT_NB_QUESTIONS)))
             .andExpect(jsonPath("$.[*].genereParIA").value(hasItem(DEFAULT_GENERE_PAR_IA)))
-            .andExpect(jsonPath("$.[*].nbInt").value(hasItem(DEFAULT_NB_INT)))
             .andExpect(jsonPath("$.[*].publie").value(hasItem(DEFAULT_PUBLIE)));
 
         // Check, that the count call also returns 1
@@ -760,8 +808,8 @@ class EpreuveResourceIT {
             .enonce(UPDATED_ENONCE)
             .difficulte(UPDATED_DIFFICULTE)
             .duree(UPDATED_DUREE)
+            .nbQuestions(UPDATED_NB_QUESTIONS)
             .genereParIA(UPDATED_GENERE_PAR_IA)
-            .nbInt(UPDATED_NB_INT)
             .publie(UPDATED_PUBLIE);
         EpreuveDTO epreuveDTO = epreuveMapper.toDto(updatedEpreuve);
 
@@ -852,8 +900,8 @@ class EpreuveResourceIT {
             .titre(UPDATED_TITRE)
             .enonce(UPDATED_ENONCE)
             .difficulte(UPDATED_DIFFICULTE)
-            .genereParIA(UPDATED_GENERE_PAR_IA)
-            .nbInt(UPDATED_NB_INT);
+            .nbQuestions(UPDATED_NB_QUESTIONS)
+            .genereParIA(UPDATED_GENERE_PAR_IA);
 
         restEpreuveMockMvc
             .perform(
@@ -886,8 +934,8 @@ class EpreuveResourceIT {
             .enonce(UPDATED_ENONCE)
             .difficulte(UPDATED_DIFFICULTE)
             .duree(UPDATED_DUREE)
+            .nbQuestions(UPDATED_NB_QUESTIONS)
             .genereParIA(UPDATED_GENERE_PAR_IA)
-            .nbInt(UPDATED_NB_INT)
             .publie(UPDATED_PUBLIE);
 
         restEpreuveMockMvc

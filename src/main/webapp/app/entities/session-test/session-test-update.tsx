@@ -59,13 +59,14 @@ export const SessionTestUpdate = () => {
       values.scoreObtenu = Number(values.scoreObtenu);
     }
     values.dateDebut = convertDateTimeToServer(values.dateDebut);
+    values.dateFin = convertDateTimeToServer(values.dateFin);
 
     const entity = {
       ...sessionTestEntity,
       ...values,
       resultat: resultats.find(it => it.id.toString() === values.resultat?.toString()),
       evaluation: evaluations.find(it => it.id.toString() === values.evaluation?.toString()),
-      epreuves: epreuves.find(it => it.id.toString() === values.epreuves?.toString()),
+      epreuve: epreuves.find(it => it.id.toString() === values.epreuve?.toString()),
     };
 
     if (isNew) {
@@ -79,13 +80,15 @@ export const SessionTestUpdate = () => {
     isNew
       ? {
           dateDebut: displayDefaultDateTime(),
+          dateFin: displayDefaultDateTime(),
         }
       : {
           ...sessionTestEntity,
           dateDebut: convertDateTimeFromServer(sessionTestEntity.dateDebut),
+          dateFin: convertDateTimeFromServer(sessionTestEntity.dateFin),
           resultat: sessionTestEntity?.resultat?.id,
           evaluation: sessionTestEntity?.evaluation?.id,
-          epreuves: sessionTestEntity?.epreuves?.id,
+          epreuve: sessionTestEntity?.epreuve?.id,
         };
 
   return (
@@ -132,6 +135,14 @@ export const SessionTestUpdate = () => {
                 }}
               />
               <ValidatedField
+                label={translate('checkprofileApp.sessionTest.dateFin')}
+                id="session-test-dateFin"
+                name="dateFin"
+                data-cy="dateFin"
+                type="datetime-local"
+                placeholder="YYYY-MM-DD HH:mm"
+              />
+              <ValidatedField
                 id="session-test-resultat"
                 name="resultat"
                 data-cy="resultat"
@@ -164,10 +175,10 @@ export const SessionTestUpdate = () => {
                   : null}
               </ValidatedField>
               <ValidatedField
-                id="session-test-epreuves"
-                name="epreuves"
-                data-cy="epreuves"
-                label={translate('checkprofileApp.sessionTest.epreuves')}
+                id="session-test-epreuve"
+                name="epreuve"
+                data-cy="epreuve"
+                label={translate('checkprofileApp.sessionTest.epreuve')}
                 type="select"
               >
                 <option value="" key="0" />
